@@ -16,6 +16,8 @@ datasource db {
 model mst_muscle_category {
   id    Int     @default(autoincrement()) @id
   name  String
+
+  muscle_trainings  muscle_training[]
 }
 
 model muscle_training {
@@ -25,4 +27,8 @@ model muscle_training {
   count          Int
   create_date    DateTime   @default(now())
   update_date    DateTime   @default(now()) @updatedAt
+
+  mst_muscle_category  mst_muscle_category?   @relation(fields: [category_id], references: [id], onDelete: Cascade)
+
+  @@index([category_id])
 }
