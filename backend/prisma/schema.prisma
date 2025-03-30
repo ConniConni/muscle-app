@@ -21,8 +21,8 @@ model mst_muscle_category {
 model muscle_training {
   id             Int        @default(autoincrement()) @id
   category_id    Int
-  date           DateTime
+  date           DateTime   @db.Date
   count          Int
-  create_date    DateTime
-  update_date    DateTime
+  create_date    DateTime   @default(now())
+  update_date    DateTime   @default(now()) @updatedAt
 }
