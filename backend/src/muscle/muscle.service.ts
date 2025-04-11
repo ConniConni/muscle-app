@@ -6,6 +6,10 @@ import { PrismaService } from 'src/prisma.service';
 export class MuscleService {
   constructor(private prisma: PrismaService) {}
 
+  findAll(): any[] {
+    return this.prisma.muscle_training.findMany();
+  }
+
   async create(createMuscleDto: CreateMuscleDto) {
     const user = await this.prisma.muscle_training.create({
       data: {
