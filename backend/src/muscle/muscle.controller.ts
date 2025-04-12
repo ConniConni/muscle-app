@@ -11,6 +11,11 @@ export class MuscleController {
     return await this.muscleService.findAll();
   }
 
+  @Get()
+  async find(trainingId: number) {
+    return await this.muscleService.find(trainingId);
+  }
+
   @Post()
   async create(@Body() createMuscleDto: CreateMuscleDto) {
     return await this.muscleService.create(createMuscleDto);
