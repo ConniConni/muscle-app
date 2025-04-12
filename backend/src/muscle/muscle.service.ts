@@ -20,13 +20,13 @@ export class MuscleService {
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
-    const user = await this.prisma.muscle_training.create({
+    const training = await this.prisma.muscle_training.create({
       data: {
         category_id: createMuscleDto.category_id,
         date: new Date(createMuscleDto.date),
         count: createMuscleDto.count,
       },
     });
-    return user;
+    return training;
   }
 }
