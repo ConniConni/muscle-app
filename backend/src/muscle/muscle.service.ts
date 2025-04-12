@@ -11,6 +11,14 @@ export class MuscleService {
     return users;
   }
 
+  async find(trainingId: number) {
+    const user = await this.prisma.muscle_training.findUnique({
+      where: {
+        id: trainingId,
+      },
+    });
+  }
+
   async create(createMuscleDto: CreateMuscleDto) {
     const user = await this.prisma.muscle_training.create({
       data: {
