@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { MuscleService } from './muscle.service';
 import { CreateMuscleDto } from './dto/create-muscle.dto';
 
@@ -11,9 +11,9 @@ export class MuscleController {
     return await this.muscleService.findAll();
   }
 
-  @Get()
-  async find(trainingId: number) {
-    return await this.muscleService.find(trainingId);
+  @Get(':category_id')
+  async findOne(@Param('category_id') trainingId: number) {
+    return await this.muscleService.findOne(+trainingId);
   }
 
   @Post()

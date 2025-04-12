@@ -11,7 +11,7 @@ export class MuscleService {
     return users;
   }
 
-  async find(trainingId: number) {
+  async findOne(trainingId: number) {
     const training = await this.prisma.muscle_training.findMany({
       where: {
         category_id: trainingId,
