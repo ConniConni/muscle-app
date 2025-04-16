@@ -13,3 +13,29 @@ body {
     color-scheme: dark;
   }
 }
+
+thead {
+  background-color: #2c5e77;
+  color: #fff;
+}
+
+tbody {
+  background-color: #e4f0f5;
+}
+table {
+  width: 20%; /* テーブル全体が親要素に幅を占めるようにする */
+  table-layout: fixed; /* テーブルのレイアウトを固定 */
+  border-collapse: collapse; /* ボーダーの重なりを消す */
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: black;
+}
+
+th {
+  overflow: hidden; /* セルの内容がはみ出た場合、隠す */
+  text-overflow: ellipsis; /* はみ出たテキストは省略記号 (...) を表示 */
+  white-space: nowrap; /* テキストが改行されないようにする */
+}
