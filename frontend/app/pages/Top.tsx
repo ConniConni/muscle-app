@@ -1,7 +1,6 @@
 import { useState } from "react";
-type Muscles = {
-  src: Muscle[];
-};
+import List from "./components/List";
+
 type Muscle = {
   id: number;
   category_id: number;
@@ -23,31 +22,7 @@ export function Top() {
     <div className="top">
       <h1>筋トレ実績</h1>
       <button onClick={getMuscle}>一覧取得</button>
-      <div>
-        {muscle.map((c) => {
-          const date = new Date(c.date);
-          const formattedDate = date.toLocaleDateString("ja-JP");
-
-          return (
-            <table key={c.id}>
-              <thead>
-                <tr>
-                  <th className="muscle-header">種目ID</th>
-                  <th className="muscle-header">実施日</th>
-                  <th className="muscle-header">回数</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th className="muscle-cell">{c.category_id}</th>
-                  <th className="muscle-cell">{formattedDate}</th>
-                  <th className="muscle-cell">{c.count}</th>
-                </tr>
-              </tbody>
-            </table>
-          );
-        })}
-      </div>
+      <List muscle={muscle} />
     </div>
   );
 }
