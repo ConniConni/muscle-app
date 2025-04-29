@@ -7,8 +7,18 @@ export class MuscleService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    const users = await this.prisma.muscle_training.findMany();
-    return users;
+    const result = await this.prisma.$queryRaw`
+    SELECT
+      mt.id,
+      mt.date,
+      mt.count,
+      mmc.name
+    FROM muscle_training as mt
+    LEFT JOIN
+      mst_muscle_category as mmc
+    ON mt.category_id = mmc.id
+    `;
+    return result;
   }
 
   async findOne(trainingId: number) {
