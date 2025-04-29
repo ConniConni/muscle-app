@@ -7,10 +7,6 @@ export class MuscleController {
   constructor(private readonly muscleService: MuscleService) {}
 
   @Get()
-  async findMstAll() {
-    return await this.muscleService.findAll();
-  }
-  @Get()
   async findAll() {
     return await this.muscleService.findAll();
   }
