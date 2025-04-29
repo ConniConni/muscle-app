@@ -6,6 +6,11 @@ import { PrismaService } from 'src/prisma.service';
 export class MuscleService {
   constructor(private prisma: PrismaService) {}
 
+  async findMstAll() {
+    const users = await this.prisma.mst_muscle_category.findMany();
+    return users;
+  }
+
   async findAll() {
     const users = await this.prisma.muscle_training.findMany();
     return users;
