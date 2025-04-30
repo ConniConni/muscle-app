@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Result from "./components/Result";
+import TrainingList from "./components/TrainingList";
 import type { MuscleType } from "~/type/type";
 
 export function Top() {
@@ -17,7 +17,7 @@ export function Top() {
     <div className="top">
       <h1>筋トレ実績</h1>
       <button onClick={getMuscle}>一覧取得</button>
-      <Result muscle={muscle} />
+      <TrainingList muscle={muscle} />
     </div>
   );
 }
