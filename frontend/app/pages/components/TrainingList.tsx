@@ -1,4 +1,4 @@
-import type { MuscleType } from "~/type/type";
+import type { MuscleType } from "~/type/muscle_type";
 
 const TrainingList = ({ muscle }: { muscle: MuscleType[] }) => {
   return (

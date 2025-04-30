@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
-import type { MuscleType } from "~/type/type";
+import type { MuscleType } from "~/type/muscle_type";
 
 export function Top() {
   const [muscle, setMuscle] = useState<MuscleType[]>([]);
