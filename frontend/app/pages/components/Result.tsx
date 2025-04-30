@@ -1,11 +1,6 @@
-type Muscle = {
-  id: number;
-  name: string;
-  date: Date;
-  count: number;
-};
+import type { MuscleType } from "~/type/type";
 
-const Result = ({ muscle }: { muscle: Muscle[] }) => {
+const Result = ({ muscle }: { muscle: MuscleType[] }) => {
   return (
     <div>
       <table>
