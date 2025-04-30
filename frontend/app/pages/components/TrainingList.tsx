@@ -1,6 +1,6 @@
 import type { MuscleType } from "~/type/type";
 
-const Result = ({ muscle }: { muscle: MuscleType[] }) => {
+const TrainingList = ({ muscle }: { muscle: MuscleType[] }) => {
   return (
     <div>
       <table>
@@ -29,4 +29,4 @@ const Result = ({ muscle }: { muscle: MuscleType[] }) => {
     </div>
   );
 };
-export default Result;
+export default TrainingList;
