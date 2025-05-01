@@ -10,12 +10,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return (
-    <h1>テスト</h1>
-    // <BrowserRouter>
-    //   <Routes>
-    //     <ReactRoute index element={<Top />} />
-    //   </Routes>
-    // </BrowserRouter>
-  );
+  return <Top />;
 }
