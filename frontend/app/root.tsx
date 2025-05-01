@@ -42,7 +42,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  // return <Outlet />;
+  return <h1>テスト２</h1>;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
