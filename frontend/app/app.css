@@ -37,3 +37,9 @@ th,
 tr {
   padding: 1rem;
 }
+
+input,
+select {
+  border: 1px solid black;
+  padding: 5px;
+}
