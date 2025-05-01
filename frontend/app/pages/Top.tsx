@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
 import type { MuscleType } from "~/type/muscle_type";
+import Button from "./components/Button";
 
 export function Top() {
   const [muscle, setMuscle] = useState<MuscleType[]>([]);
@@ -16,7 +17,7 @@ export function Top() {
   return (
     <div className="top">
       <h1>筋トレ実績</h1>
-      <button onClick={getMuscle}>一覧取得</button>
+      <Button onClick={getMuscle} buttonName="一覧取得" />
       <TrainingList muscle={muscle} />
     </div>
   );
