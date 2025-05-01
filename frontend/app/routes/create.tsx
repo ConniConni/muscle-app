@@ -6,14 +6,23 @@ export function meta({}: Route.MetaArgs) {
     { name: "description", content: "筋トレ登録" },
   ];
 }
-// 関数を
+// 1 podtapiにデータを送る関数を定義する
+// 2 console.logで入力した値が取れるか確認
+// 3 fetch postのやり方で fetch APIで受け取り、postに送る
+
+const createTraining = (formData: any) => {
+  const categoryId = formData.get("category_id");
+  const date = formData.get("date");
+  const count = formData.get("count");
+  console.log(categoryId, date, count);
+};
 
 export default function Create() {
   return (
     <div>
       <h1>新規登録ぺージ</h1>
       {/* SPAの時はreactはonSubmitを使用する */}
-      <form onSubmit={() => {}}>
+      <form action={createTraining}>
         <div>
           <select name="category_id">
             <option value="1">腹筋</option>
