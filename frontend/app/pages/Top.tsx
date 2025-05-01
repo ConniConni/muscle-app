@@ -17,7 +17,12 @@ export function Top() {
   return (
     <div className="top">
       <h1>筋トレ実績</h1>
-      <Button onClick={getMuscle} buttonName="一覧取得" />
+      <div>
+        <Button onClick={() => {}} buttonName="新規登録" />
+      </div>
+      <div>
+        <Button onClick={getMuscle} buttonName="一覧取得" />
+      </div>
       <TrainingList muscle={muscle} />
     </div>
   );
