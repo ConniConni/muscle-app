@@ -29,6 +29,8 @@ export default function Create() {
           count: +count!,
         }),
       });
+      alert("登録が完了しました。");
+      backTopPage();
     } else {
       const alertMessage: string[] = [];
       if (!categoryId) {
