@@ -38,7 +38,7 @@ export default function Create() {
       if (!count) {
         alertMessage.push("回数を入力してください");
       }
-      alert(alertMessage);
+      alert(alertMessage.join("\n"));
     }
   };
 
