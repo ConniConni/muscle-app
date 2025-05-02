@@ -1,4 +1,6 @@
+import Button from "~/pages/components/Button";
 import type { Route } from "../+types/root";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -42,6 +44,11 @@ export default function Create() {
     }
   };
 
+  const navigate = useNavigate();
+  const backTopPage = () => {
+    navigate("/");
+  };
+
   return (
     <div>
       <h1>新規登録ぺージ</h1>
@@ -62,6 +69,7 @@ export default function Create() {
         </div>
         <button type="submit">登録</button>
       </form>
+      <Button onClick={backTopPage} buttonName="戻る" />
     </div>
   );
 }
