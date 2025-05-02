@@ -10,11 +10,30 @@ export function meta({}: Route.MetaArgs) {
 // 2 console.logで入力した値が取れるか確認
 // 3 fetch postのやり方で fetch APIで受け取り、postに送る
 
-const createTraining = (formData: any) => {
-  const categoryId = formData.get("category_id");
-  const date = formData.get("date");
-  const count = formData.get("count");
-  console.log(categoryId, date, count);
+const createTraining = async (formData: FormData) => {
+  if (
+    formData.get("category_id") &&
+    formData.get("date") &&
+    formData.get("count")
+  ) {
+    const categoryId = formData.get("category_id");
+    const date = formData.get("date");
+    const count = formData.get("count");
+
+    await fetch("http://localhost:3000/muscle/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        category_id: +categoryId!,
+        date: date,
+        count: +count!,
+      }),
+    });
+  } else {
+    return;
+  }
 };
 
 export default function Create() {
