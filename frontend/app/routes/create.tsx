@@ -10,33 +10,38 @@ export function meta({}: Route.MetaArgs) {
 // 2 console.logで入力した値が取れるか確認
 // 3 fetch postのやり方で fetch APIで受け取り、postに送る
 
-const createTraining = async (formData: FormData) => {
-  if (
-    formData.get("category_id") &&
-    formData.get("date") &&
-    formData.get("count")
-  ) {
+export default function Create() {
+  const createTraining = async (formData: FormData) => {
     const categoryId = formData.get("category_id");
     const date = formData.get("date");
     const count = formData.get("count");
+    if (categoryId && date && count) {
+      await fetch("http://localhost:3000/muscle/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category_id: +categoryId!,
+          date: date,
+          count: +count!,
+        }),
+      });
+    } else {
+      const alertMessage: string[] = [];
+      if (!categoryId) {
+        alertMessage.push("トレーニングを選択してください");
+      }
+      if (!date) {
+        alertMessage.push("実施日を選択してください");
+      }
+      if (!count) {
+        alertMessage.push("回数を入力してください");
+      }
+      alert(alertMessage);
+    }
+  };
 
-    await fetch("http://localhost:3000/muscle/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        category_id: +categoryId!,
-        date: date,
-        count: +count!,
-      }),
-    });
-  } else {
-    return;
-  }
-};
-
-export default function Create() {
   return (
     <div>
       <h1>新規登録ぺージ</h1>
