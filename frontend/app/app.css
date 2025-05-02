@@ -43,3 +43,10 @@ select {
   border: 1px solid black;
   padding: 5px;
 }
+
+button {
+  background: lightgrey;
+  border-radius: 10px;
+  max-width: 250px;
+  padding: 5px;
+}
