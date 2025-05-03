@@ -1,18 +1,18 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
-import type { MuscleType } from "~/type/muscle_type";
+import type { TrainingRecode } from "~/type/training_recode_type";
 import Button from "./components/Button";
 import { useNavigate } from "react-router";
 
 export function Top() {
   // useNavigateを定義 useNavigateは
   const navigate = useNavigate();
-  const [muscle, setMuscle] = useState<MuscleType[]>([]);
+  const [trainingRecode, setTrainingRecode] = useState<TrainingRecode[]>([]);
 
-  const getMuscle = async () => {
+  const getTrainingRecode = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
     const result = await response.json();
-    setMuscle(result);
+    setTrainingRecode(result);
 
     console.log(result, "test");
   };
@@ -28,9 +28,9 @@ export function Top() {
         <Button onClick={navigateToCreatePage} buttonName="新規登録" />
       </div>
       <div>
-        <Button onClick={getMuscle} buttonName="一覧取得" />
+        <Button onClick={getTrainingRecode} buttonName="一覧取得" />
       </div>
-      <TrainingList muscle={muscle} />
+      <TrainingList trainingRecode={trainingRecode} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export type MuscleType = {
+export type TrainingRecode = {
   id: number;
   name: string;
   date: Date;
