@@ -1,6 +1,6 @@
-import type { MuscleType } from "~/type/muscle_type";
+import type { TrainingRecode } from "~/type/training_recode_type";
 
-const TrainingList = ({ muscle }: { muscle: MuscleType[] }) => {
+const TrainingList = ({ muscle }: { muscle: TrainingRecode[] }) => {
   return (
     <div>
       <table>
