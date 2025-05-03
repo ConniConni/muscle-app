@@ -9,7 +9,7 @@ export function Top() {
   const navigate = useNavigate();
   const [trainingRecode, setTrainingRecode] = useState<TrainingRecode[]>([]);
 
-  const getMuscle = async () => {
+  const getTrainingRecode = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
     const result = await response.json();
     setTrainingRecode(result);
@@ -28,7 +28,7 @@ export function Top() {
         <Button onClick={navigateToCreatePage} buttonName="新規登録" />
       </div>
       <div>
-        <Button onClick={getMuscle} buttonName="一覧取得" />
+        <Button onClick={getTrainingRecode} buttonName="一覧取得" />
       </div>
       <TrainingList trainingRecode={trainingRecode} />
     </div>
