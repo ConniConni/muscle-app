@@ -7,12 +7,12 @@ import { useNavigate } from "react-router";
 export function Top() {
   // useNavigateを定義 useNavigateは
   const navigate = useNavigate();
-  const [muscle, setMuscle] = useState<TrainingRecode[]>([]);
+  const [trainingRecode, setTrainingRecode] = useState<TrainingRecode[]>([]);
 
   const getMuscle = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
     const result = await response.json();
-    setMuscle(result);
+    setTrainingRecode(result);
 
     console.log(result, "test");
   };
@@ -30,7 +30,7 @@ export function Top() {
       <div>
         <Button onClick={getMuscle} buttonName="一覧取得" />
       </div>
-      <TrainingList muscle={muscle} />
+      <TrainingList trainingRecode={trainingRecode} />
     </div>
   );
 }
