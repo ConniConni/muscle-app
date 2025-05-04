@@ -38,13 +38,14 @@ export class MuscleService {
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
-    const training = await this.prisma.muscle_training.create({
-      data: {
-        category_id: createMuscleDto.category_id,
-        date: new Date(createMuscleDto.date),
-        count: createMuscleDto.count,
-      },
-    });
+    const training = await this.prisma.$queryRaw`
+        INSERT INTO muscle_training (category_id,date,count) VALUES
+        (
+        ${createMuscleDto.category_id},
+        ${new Date(createMuscleDto.date)},
+        ${createMuscleDto.count}
+        );
+        `;
     return training;
   }
 }
