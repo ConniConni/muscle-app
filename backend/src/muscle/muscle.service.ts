@@ -22,12 +22,19 @@ export class MuscleService {
   }
 
   async findOne(trainingId: number) {
-    const training = await this.prisma.muscle_training.findMany({
-      where: {
-        id: trainingId,
-      },
-    });
-    return training;
+    const result = await this.prisma.$queryRaw`
+    SELECT
+      mt.id,
+      mmt.name,
+      -- mt.category_id,
+      mt.date,
+      mt.count
+    FROM muscle_training as mt
+    INNER JOIN mst_muscle_category as mmt
+    ON mmt.id = mt.category_id
+    WHERE mt.category_id = 1;
+    `;
+    return result;
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
