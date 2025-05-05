@@ -30,6 +30,11 @@ export function Top() {
       </div>
       <div>
         <Button onClick={() => {}} buttonName="絞り込み" />
+        <select name="category_id">
+          <option value="1">腹筋</option>
+          <option value="2">腕立て</option>
+          <option value="3">背筋</option>
+        </select>
       </div>
       <TrainingList trainingRecode={trainingRecode} />
     </div>
