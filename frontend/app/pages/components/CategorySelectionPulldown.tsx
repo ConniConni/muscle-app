@@ -1,3 +1,8 @@
+/*
+課題1. setFilerValの型をanyから修正する
+課題2. プルダウンをハードコーディングからmst_muscle_categoryから取得できるようにする
+*/
+
 const CategorySelectionPulldown = ({ setFilterVal }: any) => {
   return (
     <select name="category_id" onChange={(e) => setFilterVal(e.target.value)}>
