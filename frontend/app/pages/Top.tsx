@@ -1,8 +1,10 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
+import MstSelectionPulldown from "./components/CategorySelectionPulldown";
 import type { TrainingRecode } from "~/type/training_recode_type";
 import Button from "./components/Button";
 import { useNavigate } from "react-router";
+import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
 
 export function Top() {
   // useNavigateを定義 useNavigateは
@@ -21,6 +23,10 @@ export function Top() {
     navigate("/create");
   };
 
+  const getSelectCategoryId = () => {
+    return;
+  };
+
   return (
     <div className="top">
       <h1>筋トレ実績</h1>
@@ -29,12 +35,8 @@ export function Top() {
         <Button onClick={getTrainingRecode} buttonName="一覧取得" />
       </div>
       <div>
-        <Button onClick={() => {}} buttonName="絞り込み" />
-        <select name="category_id">
-          <option value="1">腹筋</option>
-          <option value="2">腕立て</option>
-          <option value="3">背筋</option>
-        </select>
+        <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
+        <CategorySelectionPulldown />
       </div>
       <TrainingList trainingRecode={trainingRecode} />
     </div>
