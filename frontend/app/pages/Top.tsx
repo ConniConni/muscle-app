@@ -24,8 +24,12 @@ export function Top() {
     navigate("/create");
   };
 
-  const getSelectCategoryId = () => {
-    return;
+  const getSelectCategoryId = async () => {
+    const response = await fetch(
+      `http://localhost:3000/muscle/category_id=${filterVal}`
+    );
+    const result = await response.json();
+    setTrainingRecode(result);
   };
 
   return (
