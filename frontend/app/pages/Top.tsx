@@ -10,6 +10,7 @@ export function Top() {
   // useNavigateを定義 useNavigateは
   const navigate = useNavigate();
   const [trainingRecode, setTrainingRecode] = useState<TrainingRecode[]>([]);
+  const [filterVal, setFilterVal] = useState<number>(1);
 
   const getTrainingRecode = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
@@ -36,7 +37,7 @@ export function Top() {
       </div>
       <div>
         <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
-        <CategorySelectionPulldown />
+        <CategorySelectionPulldown setFilterVal={setFilterVal} />
       </div>
       <TrainingList trainingRecode={trainingRecode} />
     </div>
