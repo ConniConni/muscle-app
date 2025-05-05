@@ -26,9 +26,10 @@ export function Top() {
       <h1>筋トレ実績</h1>
       <div>
         <Button onClick={navigateToCreatePage} buttonName="新規登録" />
+        <Button onClick={getTrainingRecode} buttonName="一覧取得" />
       </div>
       <div>
-        <Button onClick={getTrainingRecode} buttonName="一覧取得" />
+        <Button onClick={() => {}} buttonName="絞り込み" />
       </div>
       <TrainingList trainingRecode={trainingRecode} />
     </div>
