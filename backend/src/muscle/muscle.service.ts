@@ -21,7 +21,7 @@ export class MuscleService {
     return result;
   }
 
-  async findOne(trainingId: number) {
+  async findAllByCategoryId(categoryId: number) {
     const result = await this.prisma.$queryRaw`
     SELECT
       mt.id,
@@ -31,7 +31,7 @@ export class MuscleService {
     FROM muscle_training as mt
     INNER JOIN mst_muscle_category as mmt
     ON mmt.id = mt.category_id
-    WHERE mt.category_id = ${trainingId};
+    WHERE mt.category_id = ${+categoryId};
     `;
     return result;
   }

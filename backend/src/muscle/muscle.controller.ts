@@ -12,8 +12,8 @@ export class MuscleController {
   }
 
   @Get(':category_id')
-  async findOne(@Param('category_id') categoryId: number) {
-    return await this.muscleService.findOne(+categoryId);
+  async findAllByCategoryId(@Param('category_id') categoryId: number) {
+    return await this.muscleService.findAllByCategoryId(+categoryId);
   }
 
   @Post()
