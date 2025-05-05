@@ -21,23 +21,30 @@ export class MuscleService {
     return result;
   }
 
-  async findOne(trainingId: number) {
-    const training = await this.prisma.muscle_training.findMany({
-      where: {
-        id: trainingId,
-      },
-    });
-    return training;
+  async findAllByCategoryId(categoryId: number) {
+    const result = await this.prisma.$queryRaw`
+    SELECT
+      mt.id,
+      mmt.name,
+      mt.date,
+      mt.count
+    FROM muscle_training as mt
+    INNER JOIN mst_muscle_category as mmt
+    ON mmt.id = mt.category_id
+    WHERE mt.category_id = ${+categoryId};
+    `;
+    return result;
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
-    const training = await this.prisma.muscle_training.create({
-      data: {
-        category_id: createMuscleDto.category_id,
-        date: new Date(createMuscleDto.date),
-        count: createMuscleDto.count,
-      },
-    });
+    const training = await this.prisma.$executeRaw`
+        INSERT INTO muscle_training (category_id,date,count) VALUES
+        (
+        ${createMuscleDto.category_id},
+        ${new Date(createMuscleDto.date)},
+        ${createMuscleDto.count}
+        );
+        `;
     return training;
   }
 }
