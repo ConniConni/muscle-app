@@ -26,19 +26,18 @@ export class MuscleService {
     SELECT
       mt.id,
       mmt.name,
-      -- mt.category_id,
       mt.date,
       mt.count
     FROM muscle_training as mt
     INNER JOIN mst_muscle_category as mmt
     ON mmt.id = mt.category_id
-    WHERE mt.category_id = 1;
+    WHERE mt.category_id = ${trainingId};
     `;
     return result;
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
-    const training = await this.prisma.$queryRaw`
+    const training = await this.prisma.$executeRaw`
         INSERT INTO muscle_training (category_id,date,count) VALUES
         (
         ${createMuscleDto.category_id},

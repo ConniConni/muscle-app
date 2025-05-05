@@ -11,9 +11,9 @@ export class MuscleController {
     return await this.muscleService.findAll();
   }
 
-  @Get(':training_id')
-  async findOne(@Param('training_id') trainingId: number) {
-    return await this.muscleService.findOne(+trainingId);
+  @Get(':category_id')
+  async findOne(@Param('category_id') categoryId: number) {
+    return await this.muscleService.findOne(+categoryId);
   }
 
   @Post()
