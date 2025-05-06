@@ -4,13 +4,11 @@
 */
 import React from "react";
 type CategorySelectionPulldownProps = {
-  setFilterVal: React.Dispatch<React.SetStateAction<number>>; // setFilterVal の型を定義
-  test: string;
+  setFilterVal: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const CategorySelectionPulldown = ({
   setFilterVal,
-  test,
 }: CategorySelectionPulldownProps) => {
   return (
     <select name="category_id" onChange={(e) => setFilterVal(+e.target.value)}>
