@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
 import MstSelectionPulldown from "./components/CategorySelectionPulldown";
-import type { TrainingRecode } from "~/type/training_recode_type";
+import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./components/Button";
 import { useNavigate } from "react-router";
 import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
@@ -9,13 +9,13 @@ import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
 export function Top() {
   // useNavigateを定義 useNavigateは
   const navigate = useNavigate();
-  const [trainingRecode, setTrainingRecode] = useState<TrainingRecode[]>([]);
+  const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
   const [filterVal, setFilterVal] = useState<number>(1);
 
-  const getTrainingRecode = async () => {
+  const getTrainingRecord = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
     const result = await response.json();
-    setTrainingRecode(result);
+    setTrainingRecord(result);
 
     console.log(result, "test");
   };
@@ -29,7 +29,7 @@ export function Top() {
       `http://localhost:3000/muscle/category_id=${filterVal}`
     );
     const result = await response.json();
-    setTrainingRecode(result);
+    setTrainingRecord(result);
   };
 
   return (
@@ -37,13 +37,13 @@ export function Top() {
       <h1>筋トレ実績</h1>
       <div>
         <Button onClick={navigateToCreatePage} buttonName="新規登録" />
-        <Button onClick={getTrainingRecode} buttonName="一覧取得" />
+        <Button onClick={getTrainingRecord} buttonName="一覧取得" />
       </div>
       <div>
         <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
         <CategorySelectionPulldown setFilterVal={setFilterVal} />
       </div>
-      <TrainingList trainingRecode={trainingRecode} />
+      <TrainingList trainingRecord={trainingRecord} />
     </div>
   );
 }
