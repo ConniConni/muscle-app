@@ -1,10 +1,10 @@
 import type { TrainingRecode } from "~/type/training_recode_type";
 
-const TrainingList = ({
-  trainingRecode,
-}: {
+type TrainingRecodeProps = {
   trainingRecode: TrainingRecode[];
-}) => {
+};
+
+const TrainingList = ({ trainingRecode }: TrainingRecodeProps) => {
   return (
     <div>
       <table>
