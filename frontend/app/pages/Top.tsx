@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TrainingList from "./components/TrainingList";
-import MstSelectionPulldown from "./components/CategorySelectionPulldown";
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./components/Button";
 import { useNavigate } from "react-router";
