@@ -48,6 +48,17 @@ export class MuscleService {
     return training;
   }
 
+  async update(id: number, createMuscleDto: CreateMuscleDto) {
+    const updateResult = await this.prisma.$executeRaw`
+      UPDATE muscle_training SET
+      category_id = ${createMuscleDto.category_id},
+      date = ${new Date(createMuscleDto.date)},
+      count = ${createMuscleDto.count}
+      WHERE id = ${id};;
+    `;
+    return updateResult;
+  }
+
   async delete(id: number) {
     await this.prisma.$executeRaw`
     DELETE FROM muscle_training WHERE id = ${id};
