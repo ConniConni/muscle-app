@@ -47,4 +47,11 @@ export class MuscleService {
         `;
     return training;
   }
+
+  async delete(categoryId: number) {
+    const result = await this.prisma.$executeRaw`
+    DELETE FROM muscle_training WHERE category_id = ${categoryId};
+    `;
+    return;
+  }
 }
