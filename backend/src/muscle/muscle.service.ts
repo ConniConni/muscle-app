@@ -17,6 +17,7 @@ export class MuscleService {
     LEFT JOIN
       mst_muscle_category as mmc
     ON mt.category_id = mmc.id
+    ORDER BY mt.date;
     `;
     return result;
   }
@@ -31,7 +32,8 @@ export class MuscleService {
     FROM muscle_training as mt
     INNER JOIN mst_muscle_category as mmt
     ON mmt.id = mt.category_id
-    WHERE mt.category_id = ${+categoryId};
+    WHERE mt.category_id = ${+categoryId}
+    ORDER BY mt.date;
     `;
     return result;
   }
@@ -54,7 +56,7 @@ export class MuscleService {
       category_id = ${createMuscleDto.category_id},
       date = ${new Date(createMuscleDto.date)},
       count = ${createMuscleDto.count}
-      WHERE id = ${id};;
+      WHERE id = ${id};
     `;
     return updateResult;
   }
