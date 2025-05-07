@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Patch,
+} from '@nestjs/common';
 import { MuscleService } from './muscle.service';
 import { CreateMuscleDto } from './dto/create-muscle.dto';
 
@@ -19,6 +27,14 @@ export class MuscleController {
   @Post()
   async create(@Body() createMuscleDto: CreateMuscleDto) {
     return await this.muscleService.create(createMuscleDto);
+  }
+
+  @Patch('id=:id')
+  async update(
+    @Param('id') id: number,
+    @Body() createMuscleDto: CreateMuscleDto,
+  ) {
+    return await this.muscleService.update(+id, createMuscleDto);
   }
 
   @Delete('id=:id')
