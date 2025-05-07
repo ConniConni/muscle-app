@@ -21,8 +21,8 @@ export class MuscleController {
     return await this.muscleService.create(createMuscleDto);
   }
 
-  @Delete()
-  async delete(@Param('category_id') categoryId: number) {
-    return await this.muscleService.delete(categoryId);
+  @Delete('id=:id')
+  async delete(@Param('id') id: number) {
+    return await this.muscleService.delete(+id);
   }
 }
