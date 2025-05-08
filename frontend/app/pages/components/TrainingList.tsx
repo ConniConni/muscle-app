@@ -6,6 +6,14 @@ type TrainingRecordProps = {
 };
 
 const TrainingList = ({ trainingRecord }: TrainingRecordProps) => {
+  const TrainingListDelete = async (id: number) => {
+    const response = await fetch(`http://localhost:3000/muscle/id=${id}`, {
+      method: `DELETE`,
+    });
+    if (response.ok) {
+      alert("削除が完了しました。");
+    }
+  };
   return (
     <div>
       <table>
@@ -28,7 +36,10 @@ const TrainingList = ({ trainingRecord }: TrainingRecordProps) => {
                 <th className="training-record-cell">{formattedDate}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
-                  <Button onClick={() => {}} buttonName="削除" />
+                  <Button
+                    onClick={() => TrainingListDelete(c.id)}
+                    buttonName="削除"
+                  />
                 </th>
               </tr>
             );
