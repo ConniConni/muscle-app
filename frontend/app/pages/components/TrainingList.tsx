@@ -3,15 +3,20 @@ import Button from "./Button";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
+  getTrainingRecord: () => void;
 };
 
-const TrainingList = ({ trainingRecord }: TrainingRecordProps) => {
+const TrainingList = ({
+  trainingRecord,
+  getTrainingRecord,
+}: TrainingRecordProps) => {
   const TrainingListDelete = async (id: number) => {
     const response = await fetch(`http://localhost:3000/muscle/id=${id}`, {
       method: `DELETE`,
     });
     if (response.ok) {
       alert("削除が完了しました。");
+      getTrainingRecord();
     }
   };
   return (
