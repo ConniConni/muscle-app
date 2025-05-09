@@ -41,6 +41,7 @@ const TrainingList = ({
                 <th className="training-record-cell">{formattedDate}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
+                  <Button onClick={() => {}} buttonName="編集" />
                   <Button
                     onClick={() => TrainingListDelete(c.id)}
                     buttonName="削除"
