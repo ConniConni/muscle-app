@@ -12,9 +12,6 @@ export function meta({}: Route.MetaArgs) {
     },
   ];
 }
-// 1 podtapiにデータを送る関数を定義する
-// 2 console.logで入力した値が取れるか確認
-// 3 fetch postのやり方で fetch APIで受け取り、postに送る
 
 export default function Create() {
   const createTraining = async (formData: FormData) => {
