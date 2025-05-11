@@ -24,6 +24,11 @@ export class MuscleController {
     return await this.muscleService.findAllByCategoryId(categoryId);
   }
 
+  @Get('id=:id')
+  async findAllById(@Param('id') id: number) {
+    return await this.muscleService.findAllById(id);
+  }
+
   @Post()
   async create(@Body() createMuscleDto: CreateMuscleDto) {
     return await this.muscleService.create(createMuscleDto);
