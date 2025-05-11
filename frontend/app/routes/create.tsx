@@ -1,12 +1,11 @@
 import Button from "~/pages/components/Button";
 import type { Route } from "../+types/root";
 import { useNavigate } from "react-router";
+import Title from "~/pages/components/title";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "筋トレ管理アプリ" },
-    { name: "description", content: "筋トレ登録" },
-  ];
+  const titleProps = Title();
+  return [titleProps];
 }
 // 1 podtapiにデータを送る関数を定義する
 // 2 console.logで入力した値が取れるか確認
