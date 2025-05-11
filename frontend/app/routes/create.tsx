@@ -1,11 +1,16 @@
 import Button from "~/pages/components/Button";
 import type { Route } from "../+types/root";
 import { useNavigate } from "react-router";
-import Title from "~/pages/components/title";
+import Title from "~/utils/Title";
 
 export function meta({}: Route.MetaArgs) {
-  const titleProps = Title();
-  return [titleProps];
+  return [
+    {
+      title: Title.title,
+      description: Title.description,
+      content: Title.content,
+    },
+  ];
 }
 // 1 podtapiにデータを送る関数を定義する
 // 2 console.logで入力した値が取れるか確認
