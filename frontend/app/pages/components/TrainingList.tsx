@@ -1,5 +1,6 @@
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./Button";
+import { useNavigate } from "react-router";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
@@ -18,6 +19,10 @@ const TrainingList = ({
       alert("削除が完了しました。");
       getTrainingRecord();
     }
+  };
+  const navigate = useNavigate();
+  const navigateToUpdatePage = (id: number) => {
+    navigate(`/update/${id}`);
   };
   return (
     <div>
@@ -41,6 +46,10 @@ const TrainingList = ({
                 <th className="training-record-cell">{formattedDate}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
+                  <Button
+                    onClick={() => navigateToUpdatePage(c.id)}
+                    buttonName="編集"
+                  />
                   <Button
                     onClick={() => TrainingListDelete(c.id)}
                     buttonName="削除"
