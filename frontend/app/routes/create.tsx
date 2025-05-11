@@ -2,6 +2,7 @@ import Button from "~/pages/components/Button";
 import type { Route } from "../+types/root";
 import { useNavigate } from "react-router";
 import Title from "~/utils/Title";
+import InputForm from "~/pages/components/InputForm";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,9 +13,6 @@ export function meta({}: Route.MetaArgs) {
     },
   ];
 }
-// 1 podtapiにデータを送る関数を定義する
-// 2 console.logで入力した値が取れるか確認
-// 3 fetch postのやり方で fetch APIで受け取り、postに送る
 
 export default function Create() {
   const createTraining = async (formData: FormData) => {
@@ -57,24 +55,7 @@ export default function Create() {
 
   return (
     <div>
-      <h1>新規登録ぺージ</h1>
-      {/* SPAの時はreactはonSubmitを使用する */}
-      <form action={createTraining}>
-        <div>
-          <select name="category_id">
-            <option value="1">腹筋</option>
-            <option value="2">腕立て</option>
-            <option value="3">背筋</option>
-          </select>
-        </div>
-        <div>
-          <input type="date" name="date" />
-        </div>
-        <div>
-          <input type="number" name="count" placeholder="10" />
-        </div>
-        <button type="submit">登録</button>
-      </form>
+      <InputForm onClick={createTraining} actionName="登録" />
       <Button onClick={backTopPage} buttonName="戻る" />
     </div>
   );
