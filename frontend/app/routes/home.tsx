@@ -1,11 +1,10 @@
 import { Top } from "~/pages/Top";
+import Title from "~/pages/components/title";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "筋トレ管理アプリ" },
-    { name: "description", content: "筋トレ管理" },
-  ];
+  const titleProps = Title();
+  return [titleProps];
 }
 
 export default function Home() {
