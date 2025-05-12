@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type { TrainingRecord } from "~/type/training_record_type";
+import type { TrainingData } from "~/type/training_data_type";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -9,9 +9,9 @@ type Props = {
 
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
-  const [trainingRecord, setTrainingRecord] = useState<TrainingRecord>({
+  const [trainingData, setTrainingData] = useState<TrainingData>({
     id: 0,
-    name: "",
+    category_id: 0,
     date: new Date(),
     count: 0,
   });
@@ -21,17 +21,17 @@ const InputForm = (props: Props) => {
       const response = await fetch(`http://localhost:3000/muscle/id=${id}`);
       const result = await response.json();
       console.log("api取得結果:", result);
-      setTrainingRecord({ ...result });
+      setTrainingData({ ...result });
     })();
   }, []);
   useEffect(() => {
-    console.log("stateの値:", trainingRecord);
-  }, [trainingRecord]);
+    console.log("stateの値:", trainingData);
+  }, [trainingData]);
 
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCount = +e.target.value;
-    setTrainingRecord({
-      ...trainingRecord,
+    setTrainingData({
+      ...trainingData,
       count: newCount,
     });
   };
@@ -54,7 +54,7 @@ const InputForm = (props: Props) => {
           <input
             type="number"
             name="count"
-            value={trainingRecord.count}
+            value={trainingData.count}
             onChange={handleCountChange}
           />
         </div>
