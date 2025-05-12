@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import type { TrainingRecord } from "~/type/training_record_type";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -8,14 +9,24 @@ type Props = {
 
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
+  const [trainingRecord, setTrainingRecord] = useState<TrainingRecord>({
+    id: 0,
+    name: "",
+    date: new Date(),
+    count: 0,
+  });
 
   useEffect(() => {
     (async () => {
       const response = await fetch(`http://localhost:3000/muscle/id=${id}`);
       const result = await response.json();
-      console.log(result);
+      console.log("api取得結果:", result);
+      setTrainingRecord({ ...result });
     })();
   }, []);
+  useEffect(() => {
+    console.log("stateの値:", trainingRecord);
+  }, [trainingRecord]);
 
   return (
     <div>
