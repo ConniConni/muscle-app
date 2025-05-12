@@ -43,7 +43,12 @@ const InputForm = (props: Props) => {
           <input type="date" name="date" />
         </div>
         <div>
-          <input type="number" name="count" />
+          <input
+            type="number"
+            name="count"
+            value={trainingRecord.count}
+            onChange={() => {}}
+          />
         </div>
         <button type="submit">{props.actionName}</button>
       </form>
