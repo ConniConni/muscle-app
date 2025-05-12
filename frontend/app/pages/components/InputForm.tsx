@@ -28,6 +28,14 @@ const InputForm = (props: Props) => {
     console.log("stateの値:", trainingRecord);
   }, [trainingRecord]);
 
+  const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCount = +e.target.value;
+    setTrainingRecord({
+      ...trainingRecord,
+      count: newCount,
+    });
+  };
+
   return (
     <div>
       <h1>{props.actionName}ぺージ</h1>
@@ -47,7 +55,7 @@ const InputForm = (props: Props) => {
             type="number"
             name="count"
             value={trainingRecord.count}
-            onChange={() => {}}
+            onChange={handleCountChange}
           />
         </div>
         <button type="submit">{props.actionName}</button>
