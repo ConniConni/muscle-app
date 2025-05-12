@@ -1,9 +1,22 @@
+import { useEffect } from "react";
+import { useParams } from "react-router";
+
 type Props = {
   onClick: (formDate: FormData) => void;
   actionName: string;
 };
 
 const InputForm = (props: Props) => {
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`http://localhost:3000/muscle/id=${id}`);
+      const result = await response.json();
+      console.log(result);
+    })();
+  }, []);
+
   return (
     <div>
       <h1>{props.actionName}ぺージ</h1>
