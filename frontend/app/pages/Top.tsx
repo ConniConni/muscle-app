@@ -3,7 +3,7 @@ import TrainingList from "./components/TrainingList";
 import Button from "./components/Button";
 import { useNavigate } from "react-router";
 import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
-import type { TrainingRecord } from "~/type/training_record_type copy";
+import type { TrainingRecord } from "~/type/training_record_type";
 
 export function Top() {
   // useNavigateを定義 useNavigateは

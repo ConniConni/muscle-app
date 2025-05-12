@@ -21,26 +21,35 @@ const InputForm = (props: Props) => {
       const response = await fetch(`http://localhost:3000/muscle/id=${id}`);
       const result = await response.json();
       console.log("api取得結果:", result);
-      setTrainingData({ ...result });
+      setTrainingData({ ...result, date: new Date(result.date) });
     })();
   }, []);
   useEffect(() => {
     console.log("stateの値:", trainingData);
   }, [trainingData]);
 
-  const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCount = +e.target.value;
-    setTrainingData({
-      ...trainingData,
-      count: newCount,
-    });
-  };
-
   const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategoryId = +e.target.value;
     setTrainingData({
       ...trainingData,
       category_id: newCategoryId,
+    });
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDateStr = e.target.value;
+    const newDate = new Date(newDateStr);
+    setTrainingData({
+      ...trainingData,
+      date: newDate,
+    });
+  };
+
+  const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCount = +e.target.value;
+    setTrainingData({
+      ...trainingData,
+      count: newCount,
     });
   };
 
@@ -60,7 +69,12 @@ const InputForm = (props: Props) => {
           </select>
         </div>
         <div>
-          <input type="date" name="date" />
+          <input
+            type="date"
+            name="date"
+            value={trainingData.date.toISOString().split("T")[0]}
+            onChange={handleDateChange}
+          />
         </div>
         <div>
           <input
