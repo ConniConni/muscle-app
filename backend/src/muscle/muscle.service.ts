@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMuscleDto } from './dto/create-muscle.dto';
 import { PrismaService } from 'src/prisma.service';
+import { TrainingData } from 'src/types';
 
 @Injectable()
 export class MuscleService {
@@ -39,7 +40,7 @@ export class MuscleService {
   }
 
   async findAllById(id: number) {
-    const result = await this.prisma.$queryRaw`
+    const result = await this.prisma.$queryRaw<TrainingData[]>`
     SELECT
       mt.id,
       mmt.name,
@@ -50,7 +51,7 @@ export class MuscleService {
     ON mmt.id = mt.category_id
     WHERE mt.id = ${+id}
     `;
-    return result;
+    return result[0];
   }
 
   async create(createMuscleDto: CreateMuscleDto) {
