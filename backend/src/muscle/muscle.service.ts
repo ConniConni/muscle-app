@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMuscleDto } from './dto/create-muscle.dto';
 import { PrismaService } from 'src/prisma.service';
+import { TrainingData } from 'src/types';
 
-type TrainingData = {
-  id: number;
-  date: Date;
-  count: number;
-  name: string;
-};
 @Injectable()
 export class MuscleService {
   constructor(private prisma: PrismaService) {}
