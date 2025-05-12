@@ -36,12 +36,24 @@ const InputForm = (props: Props) => {
     });
   };
 
+  const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCategoryId = +e.target.value;
+    setTrainingData({
+      ...trainingData,
+      category_id: newCategoryId,
+    });
+  };
+
   return (
     <div>
       <h1>{props.actionName}ぺージ</h1>
       <form action={props.onClick}>
         <div>
-          <select name="category_id">
+          <select
+            name="category_id"
+            value={trainingData.category_id}
+            onChange={handleCategoryIdChange}
+          >
             <option value="1">腹筋</option>
             <option value="2">腕立て</option>
             <option value="3">背筋</option>
