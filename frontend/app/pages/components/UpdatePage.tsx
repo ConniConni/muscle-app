@@ -12,7 +12,7 @@ const UpdatePage = () => {
     const date = formData.get("date");
     const count = formData.get("count");
     if (categoryId && date && count) {
-      await fetch(`http://localhost:3000/muscle/id=${idNumber}`, {
+      await fetch(`http://localhost:3000/muscle/${idNumber}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
