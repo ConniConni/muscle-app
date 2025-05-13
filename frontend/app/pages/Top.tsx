@@ -24,7 +24,9 @@ export function Top() {
   };
 
   const getSelectCategoryId = async () => {
-    const response = await fetch(`http://localhost:3000/muscle/${filterVal}`);
+    const response = await fetch(
+      `http://localhost:3000/muscle/category/${filterVal}`
+    );
     const result = await response.json();
     setTrainingRecord(result);
   };
