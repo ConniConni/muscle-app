@@ -11,7 +11,7 @@ export class MstMuscleCategoryService {
         mmc.id,
         mmc.name
       FROM mst_muscle_category as mmc
-      ORDER BY mmc.id;
+      ORDER BY mmc.id ASC;
       `;
     return result;
   }
