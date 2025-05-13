@@ -19,12 +19,12 @@ export class MuscleController {
     return await this.muscleService.findAll();
   }
 
-  @Get(':category_id')
+  @Get('category_id/:category_id')
   async findAllByCategoryId(@Param('category_id') categoryId: number) {
     return await this.muscleService.findAllByCategoryId(categoryId);
   }
 
-  @Get(':id')
+  @Get('id/:id')
   async findAllById(@Param('id') id: number) {
     return await this.muscleService.findAllById(id);
   }
@@ -34,7 +34,7 @@ export class MuscleController {
     return await this.muscleService.create(createMuscleDto);
   }
 
-  @Patch(':id')
+  @Patch('id/:id')
   async update(
     @Param('id') id: number,
     @Body() createMuscleDto: CreateMuscleDto,
@@ -42,7 +42,7 @@ export class MuscleController {
     return await this.muscleService.update(+id, createMuscleDto);
   }
 
-  @Delete(':id')
+  @Delete('id/:id')
   async delete(@Param('id') id: number) {
     return await this.muscleService.delete(+id);
   }
