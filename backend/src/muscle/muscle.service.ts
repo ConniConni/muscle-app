@@ -13,11 +13,11 @@ export class MuscleService {
       mt.id,
       mt.date,
       mt.count,
-      mmc.name
+      mmt.name
     FROM muscle_training as mt
     LEFT JOIN
-      mst_muscle_category as mmc
-    ON mt.category_id = mmc.id
+      mst_muscle_category as mmt
+    ON mt.category_id = mmt.id
     ORDER BY mt.date;
     `;
     return result;
@@ -43,12 +43,10 @@ export class MuscleService {
     const result = await this.prisma.$queryRaw<TrainingData[]>`
     SELECT
       mt.id,
-      mmt.name,
+      mt.category_id,
       mt.date,
       mt.count
     FROM muscle_training as mt
-    INNER JOIN mst_muscle_category as mmt
-    ON mmt.id = mt.category_id
     WHERE mt.id = ${+id}
     `;
     return result[0];
