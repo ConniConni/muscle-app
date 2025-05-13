@@ -18,7 +18,7 @@ const InputForm = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`http://localhost:3000/muscle/id=${id}`);
+      const response = await fetch(`http://localhost:3000/muscle/id/${id}`);
       const result = await response.json();
       console.log("api取得結果:", result);
       setTrainingData({ ...result, date: new Date(result.date) });
