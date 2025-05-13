@@ -16,6 +16,10 @@ const CategorySelectionPulldown = ({
   setFilterVal,
 }: CategorySelectionPulldownProps) => {
   const [trainingName, setTrainingName] = useState<MstMuscleCategory[]>([]);
+  const getMstMuscleCategory = async () => {
+    const response = await fetch(`http://localhost:3000/mst-muscle-category`);
+    const result = response.json();
+  };
 
   return (
     <select name="category_id" onChange={(e) => setFilterVal(+e.target.value)}>
