@@ -39,7 +39,7 @@ export default function Update() {
         <tbody>
           {trainingCategory.map((trainingName) => {
             return (
-              <tr key={trainingName.name}>
+              <tr key={trainingName.id}>
                 <th>{trainingName.name}</th>
               </tr>
             );
