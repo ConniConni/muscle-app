@@ -23,6 +23,11 @@ const ManageMstPage = () => {
   return (
     <div>
       <h1>トレーニング種目マスタ</h1>
+      <input
+        type="text"
+        value={newTraining}
+        onChange={(e) => setNewTraining(e.target.value)}
+      />
       <Button onClick={() => {}} buttonName="マスタ追加" />
       <table>
         <thead>
