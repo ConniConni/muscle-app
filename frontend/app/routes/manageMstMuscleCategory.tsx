@@ -27,5 +27,25 @@ export default function Update() {
     getMstMuscleCategory();
   }, []);
 
-  return <h1>テスト</h1>;
+  return (
+    <div>
+      <h1>トレーニング種目マスタ</h1>
+      <table>
+        <thead>
+          <tr>
+            <th className="training-name">種目名</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainingCategory.map((trainingName) => {
+            return (
+              <tr key={trainingName.name}>
+                <th>{trainingName.name}</th>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 }
