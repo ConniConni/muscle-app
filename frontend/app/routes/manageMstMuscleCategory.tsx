@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
 import type { TrainingCategory } from "~/type/training_category_type";
+import Button from "~/pages/components/Button";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,6 +31,7 @@ export default function Update() {
   return (
     <div>
       <h1>トレーニング種目マスタ</h1>
+      <Button onClick={() => {}} buttonName="マスタ追加" />
       <table>
         <thead>
           <tr>
