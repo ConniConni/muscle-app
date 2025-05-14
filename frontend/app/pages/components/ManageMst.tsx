@@ -6,6 +6,7 @@ const ManageMstPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
     []
   );
+  const [newTraining, setNewTraining] = useState<string>("");
   const getMstMuscleCategory = async () => {
     const response = await fetch("http://localhost:3000/mst-muscle-category");
     const result = await response.json();
@@ -15,6 +16,9 @@ const ManageMstPage = () => {
   useEffect(() => {
     getMstMuscleCategory();
   }, []);
+
+  // マスタ登録フォーム作成
+  // マスタ追加クリックイベント
 
   return (
     <div>
