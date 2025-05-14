@@ -31,8 +31,6 @@ const ManageMstPage = () => {
       });
     }
   };
-  // マスタ登録フォーム作成
-  // マスタ追加クリックイベント
 
   return (
     <div>
