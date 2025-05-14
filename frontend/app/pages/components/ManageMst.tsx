@@ -17,6 +17,20 @@ const ManageMstPage = () => {
     getMstMuscleCategory();
   }, []);
 
+  const createNewTraining = async () => {
+    console.log(newTraining);
+    if (newTraining.length > 0) {
+      await fetch(`http://localhost:3000/mst-muscle-category`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newTraining,
+        }),
+      });
+    }
+  };
   // マスタ登録フォーム作成
   // マスタ追加クリックイベント
 
@@ -28,7 +42,7 @@ const ManageMstPage = () => {
         value={newTraining}
         onChange={(e) => setNewTraining(e.target.value)}
       />
-      <Button onClick={() => {}} buttonName="マスタ追加" />
+      <Button onClick={createNewTraining} buttonName="マスタ追加" />
       <table>
         <thead>
           <tr>
