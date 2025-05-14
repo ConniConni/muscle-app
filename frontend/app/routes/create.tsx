@@ -1,6 +1,6 @@
+import PostTrainingDataPage from "~/pages/components/postTrainingDataPage";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
-import PostTrainingDataPage from "~/pages/components/postTrainingDataPage";
 
 export function meta({}: Route.MetaArgs) {
   return [

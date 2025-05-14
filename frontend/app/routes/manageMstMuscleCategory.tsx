@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
-import ManageMstPage from "~/pages/components/ManageMst";
+import ManageMstTrainingPage from "~/pages/components/ManageMstTrainingPage";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,5 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Update() {
-  return <ManageMstPage />;
+  return <ManageMstTrainingPage />;
 }

@@ -3,7 +3,7 @@ import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
 
-const ManageMstPage = () => {
+const ManageMstTrainingPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
     []
   );
@@ -32,7 +32,10 @@ const ManageMstPage = () => {
           name: newTraining,
         }),
       });
-    }
+      alert("マスタへの追加が完了しました。");
+      setNewTraining("");
+      getMstMuscleCategory();
+    } else alert("入力画面には1文字以上の文字を入力してください");
   };
 
   const backTopPage = () => {
@@ -72,4 +75,4 @@ const ManageMstPage = () => {
     </div>
   );
 };
-export default ManageMstPage;
+export default ManageMstTrainingPage;
