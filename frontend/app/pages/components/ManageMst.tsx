@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
+import { useNavigate } from "react-router";
 
 const ManageMstPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
     []
   );
   const [newTraining, setNewTraining] = useState<string>("");
+  const navigate = useNavigate();
+
   const getMstMuscleCategory = async () => {
     const response = await fetch("http://localhost:3000/mst-muscle-category");
     const result = await response.json();
@@ -32,15 +35,24 @@ const ManageMstPage = () => {
     }
   };
 
+  const backTopPage = () => {
+    navigate("/");
+  };
+
   return (
     <div>
       <h1>トレーニング種目マスタ</h1>
-      <input
-        type="text"
-        value={newTraining}
-        onChange={(e) => setNewTraining(e.target.value)}
-      />
-      <Button onClick={createNewTraining} buttonName="マスタ追加" />
+      <div>
+        <input
+          type="text"
+          value={newTraining}
+          onChange={(e) => setNewTraining(e.target.value)}
+        />
+        <Button onClick={createNewTraining} buttonName="マスタ追加" />
+      </div>
+      <div>
+        <Button onClick={backTopPage} buttonName="戻る" />
+      </div>
       <table>
         <thead>
           <tr>
