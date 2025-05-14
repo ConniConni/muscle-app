@@ -33,14 +33,14 @@ export default function Update() {
       <table>
         <thead>
           <tr>
-            <th className="training-name">種目名</th>
+            <th className="training-name-header">種目名</th>
           </tr>
         </thead>
         <tbody>
           {trainingCategory.map((trainingName) => {
             return (
               <tr key={trainingName.id}>
-                <th>{trainingName.name}</th>
+                <th className="training-name-record">{trainingName.name}</th>
               </tr>
             );
           })}
