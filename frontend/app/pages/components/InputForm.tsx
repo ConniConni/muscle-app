@@ -48,7 +48,8 @@ const InputForm = (props: Props) => {
   };
 
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCount = +e.target.value;
+    const newCountStr = e.target.value;
+    const newCount = newCountStr === "" ? 0 : +newCountStr;
     setTrainingData({
       ...trainingData,
       count: newCount,
@@ -82,7 +83,7 @@ const InputForm = (props: Props) => {
           <input
             type="number"
             name="count"
-            value={trainingData.count}
+            value={trainingData.count || ""}
             onChange={handleCountChange}
           />
         </div>
