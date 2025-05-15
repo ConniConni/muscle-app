@@ -8,7 +8,7 @@ export class CreateMuscleDto {
 
   @IsNotEmpty()
   @IsDate()
-  @Type(() => Date)
+  @Type(() => Date) //受け取った値をDate型に変換
   date: Date;
 
   @IsNotEmpty()
