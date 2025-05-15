@@ -9,7 +9,7 @@ export function Top() {
   // useNavigateを定義 useNavigateは
   const navigate = useNavigate();
   const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
-  const [filterVal, setFilterVal] = useState<number>(1);
+  const [filterVal, setFilterVal] = useState<number>(0);
 
   const getTrainingRecord = async () => {
     const response = await fetch("http://localhost:3000/muscle/");
