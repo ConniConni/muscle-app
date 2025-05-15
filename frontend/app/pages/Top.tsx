@@ -24,11 +24,13 @@ export function Top() {
   };
 
   const getSelectCategoryId = async () => {
-    const response = await fetch(
-      `http://localhost:3000/muscle/category/${filterVal}`
-    );
-    const result = await response.json();
-    setTrainingRecord(result);
+    if (filterVal != 0) {
+      const response = await fetch(
+        `http://localhost:3000/muscle/category/${filterVal}`
+      );
+      const result = await response.json();
+      setTrainingRecord(result);
+    }
   };
 
   const navigateToManageMstMuscleCategoryPage = async () => {
