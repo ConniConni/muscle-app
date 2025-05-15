@@ -18,10 +18,12 @@ const InputForm = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`http://localhost:3000/muscle/id/${id}`);
-      const result = await response.json();
-      console.log("api取得結果:", result);
-      setTrainingData({ ...result, date: new Date(result.date) });
+      if (id) {
+        const response = await fetch(`http://localhost:3000/muscle/id/${id}`);
+        const result = await response.json();
+        console.log("api取得結果:", result);
+        setTrainingData({ ...result, date: new Date(result.date) });
+      }
     })();
   }, []);
   useEffect(() => {
@@ -29,7 +31,8 @@ const InputForm = (props: Props) => {
   }, [trainingData]);
 
   const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCategoryId = +e.target.value;
+    const newCategoryIdStr = e.target.value;
+    const newCategoryId = newCategoryIdStr === "" ? 0 : +newCategoryIdStr;
     setTrainingData({
       ...trainingData,
       category_id: newCategoryId,
@@ -46,7 +49,8 @@ const InputForm = (props: Props) => {
   };
 
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCount = +e.target.value;
+    const newCountStr = e.target.value;
+    const newCount = newCountStr === "" ? 0 : +newCountStr;
     setTrainingData({
       ...trainingData,
       count: newCount,
@@ -60,9 +64,10 @@ const InputForm = (props: Props) => {
         <div>
           <select
             name="category_id"
-            value={trainingData.category_id}
+            value={trainingData.category_id || ""}
             onChange={handleCategoryIdChange}
           >
+            <option value="">選択してください</option>
             <option value="1">腹筋</option>
             <option value="2">腕立て</option>
             <option value="3">背筋</option>
@@ -80,7 +85,7 @@ const InputForm = (props: Props) => {
           <input
             type="number"
             name="count"
-            value={trainingData.count}
+            value={trainingData.count || ""}
             onChange={handleCountChange}
           />
         </div>

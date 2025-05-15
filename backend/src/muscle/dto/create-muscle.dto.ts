@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsDate } from 'class-validator';
 
 export class CreateMuscleDto {
@@ -7,6 +8,7 @@ export class CreateMuscleDto {
 
   @IsNotEmpty()
   @IsDate()
+  @Type(() => Date) //受け取った値をDate型に変換
   date: Date;
 
   @IsNotEmpty()

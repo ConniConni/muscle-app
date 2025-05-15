@@ -25,6 +25,7 @@ const CategorySelectionPulldown = ({
 
   return (
     <select name="category_id" onChange={(e) => setFilterVal(+e.target.value)}>
+      <option value="">選択してください</option>
       {trainingName.map((category) => (
         <option key={category.id} value={category.id}>
           {category.name}
