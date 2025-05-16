@@ -6,9 +6,26 @@ const Sidebar = () => {
   const backTopPage = () => {
     navigate("/");
   };
+  const navigateToCreatePage = () => {
+    navigate("/create");
+  };
+  const navigateToManageMstMuscleCategoryPage = () => {
+    navigate("/manage-mst-muscle-category");
+  };
   return (
     <aside className="sidebar">
-      <Button onClick={backTopPage} buttonName="筋トレ実績へ" />
+      <div className="sidebar-content">
+        <Button onClick={backTopPage} buttonName="筋トレ実績へ" />
+      </div>
+      <div className="sidebar-content">
+        <Button onClick={navigateToCreatePage} buttonName="新規登録" />
+      </div>
+      <div className="sidebar-content">
+        <Button
+          onClick={navigateToManageMstMuscleCategoryPage}
+          buttonName="種目管理"
+        />
+      </div>
     </aside>
   );
 };

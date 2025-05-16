@@ -71,7 +71,7 @@ header {
 }
 
 .sidebar {
-  width: 10%;
+  width: 15%;
   background-color: whitesmoke;
   color: black;
   display: flex;
@@ -79,8 +79,15 @@ header {
   border-right: 1px black solid;
 }
 
+.sidebar-content {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 20px 10px;
+}
+
 .content {
-  width: 90%;
+  width: 85%;
   background-color: white;
   color: black;
   margin: 20px;
