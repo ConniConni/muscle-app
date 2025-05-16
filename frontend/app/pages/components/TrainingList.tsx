@@ -22,7 +22,7 @@ const TrainingList = ({
     }
   };
 
-  const rowsPerPage = 10; // 1ページあたりの行数を設置
+  const rowsPerPage = 5; // 1ページあたりの行数を設置
   const [currentPage, setCurrentPage] = useState(1); // 現在のページを管理するための状態
 
   const startRowIndex = (currentPage - 1) * rowsPerPage;
