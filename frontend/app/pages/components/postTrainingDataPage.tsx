@@ -43,10 +43,15 @@ const PostTrainingDataPage = () => {
   };
 
   return (
-    <div>
+    <div className="layout">
       <Header />
-      <InputForm onClick={createTraining} actionName="登録" />
-      <Button onClick={backTopPage} buttonName="戻る" />
+      <div className="main-content">
+        <div className="sidebar"></div>
+        <div className="content">
+          <InputForm onClick={createTraining} actionName="登録" />
+          <Button onClick={backTopPage} buttonName="戻る" />
+        </div>
+      </div>
     </div>
   );
 };
