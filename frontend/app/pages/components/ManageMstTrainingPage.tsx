@@ -105,13 +105,17 @@ const ManageMstTrainingPage = () => {
             </tbody>
           </table>
           <div className="pagination">
-            <button onClick={handlePrev} disabled={currentPage === 1}>
-              前
-            </button>
+            <Button
+              onClick={handlePrev}
+              buttonName="前"
+              disabled={currentPage === 1}
+            ></Button>
             <span>{`${currentPage} / ${totalPages}`}</span>
-            <button onClick={handleNext} disabled={currentPage === totalPages}>
-              次
-            </button>
+            <Button
+              onClick={handleNext}
+              buttonName="次"
+              disabled={currentPage === totalPages}
+            />
           </div>
         </div>
       </div>

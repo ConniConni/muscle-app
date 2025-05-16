@@ -1,6 +1,7 @@
 type Props = {
   onClick: () => void;
   buttonName: string;
+  disabled?: boolean;
 };
 
 const Button = (props: Props) => {
