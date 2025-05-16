@@ -59,3 +59,12 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  background-color: white;
+  color: black;
+  display: flex;
+  border-right: 1px black solid;
+}
