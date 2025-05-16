@@ -97,3 +97,7 @@ header {
   color: black;
   margin: 20px;
 }
+
+.pagination {
+  margin: 10px 15px;
+}

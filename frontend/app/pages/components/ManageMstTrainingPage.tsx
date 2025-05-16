@@ -38,6 +38,39 @@ const ManageMstTrainingPage = () => {
     } else alert("入力画面には1文字以上の文字を入力してください");
   };
 
+  // 5ページ単位のページネーション
+  const rowsPerPage = 5; // 1ページあたりの行数を設置
+  const [currentPage, setCurrentPage] = useState(1); // 現在のページを管理するための状態
+
+  // 表示するデータのインデックスを計算
+  /* メモ
+    1ページ目は trainingCategory.slice(0,5)で1~5個目のデータを
+    2ページ目は trainingCategory.slice(5,10)で6~10個目のデータを
+    currentDataに格納
+  */
+  const startRowIndex = (currentPage - 1) * rowsPerPage;
+  const currentData = trainingCategory.slice(
+    startRowIndex,
+    startRowIndex + rowsPerPage
+  );
+
+  // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
+  const totalPages = Math.ceil(trainingCategory.length / rowsPerPage);
+
+  // 次のページへ進む
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // 次のページへ戻る
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="layout">
       <Header />
@@ -60,9 +93,9 @@ const ManageMstTrainingPage = () => {
               </tr>
             </thead>
             <tbody>
-              {trainingCategory.map((trainingName) => {
+              {currentData.map((trainingName, index) => {
                 return (
-                  <tr key={trainingName.id}>
+                  <tr key={index}>
                     <th className="training-name-record">
                       {trainingName.name}
                     </th>
@@ -71,6 +104,15 @@ const ManageMstTrainingPage = () => {
               })}
             </tbody>
           </table>
+          <div className="pagination">
+            <button onClick={handlePrev} disabled={currentPage === 1}>
+              前
+            </button>
+            <span>{`${currentPage} / ${totalPages}`}</span>
+            <button onClick={handleNext} disabled={currentPage === totalPages}>
+              次
+            </button>
+          </div>
         </div>
       </div>
     </div>
