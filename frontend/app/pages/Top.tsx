@@ -4,6 +4,7 @@ import Button from "./components/Button";
 import { useNavigate } from "react-router";
 import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
 import type { TrainingRecord } from "~/type/training_record_type";
+import Header from "./components/Header";
 
 export function Top() {
   // useNavigateを定義 useNavigateは
@@ -39,6 +40,7 @@ export function Top() {
 
   return (
     <div className="top">
+      <Header />
       <h1>筋トレ実績</h1>
       <div>
         <Button onClick={navigateToCreatePage} buttonName="新規登録" />
