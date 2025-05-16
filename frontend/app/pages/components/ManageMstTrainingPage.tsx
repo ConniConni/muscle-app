@@ -3,6 +3,7 @@ import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const ManageMstTrainingPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
@@ -47,7 +48,7 @@ const ManageMstTrainingPage = () => {
     <div className="layout">
       <Header />
       <div className="main-content">
-        <aside className="sidebar"></aside>
+        <Sidebar />
         <div className="content">
           <h1>トレーニング種目マスタ</h1>
           <div>
