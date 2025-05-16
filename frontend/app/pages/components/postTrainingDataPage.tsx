@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import InputForm from "./InputForm";
-import Button from "./Button";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
@@ -50,7 +49,6 @@ const PostTrainingDataPage = () => {
         <Sidebar />
         <div className="content">
           <InputForm onClick={createTraining} actionName="登録" />
-          <Button onClick={backTopPage} buttonName="戻る" />
         </div>
       </div>
     </div>

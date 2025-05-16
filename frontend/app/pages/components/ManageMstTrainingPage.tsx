@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
-import { useNavigate } from "react-router";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
@@ -10,7 +9,6 @@ const ManageMstTrainingPage = () => {
     []
   );
   const [newTraining, setNewTraining] = useState<string>("");
-  const navigate = useNavigate();
 
   const getMstMuscleCategory = async () => {
     const response = await fetch("http://localhost:3000/mst-muscle-category");
@@ -40,10 +38,6 @@ const ManageMstTrainingPage = () => {
     } else alert("入力画面には1文字以上の文字を入力してください");
   };
 
-  const backTopPage = () => {
-    navigate("/");
-  };
-
   return (
     <div className="layout">
       <Header />
@@ -58,9 +52,6 @@ const ManageMstTrainingPage = () => {
               onChange={(e) => setNewTraining(e.target.value)}
             />
             <Button onClick={createNewTraining} buttonName="マスタ追加" />
-          </div>
-          <div>
-            <Button onClick={backTopPage} buttonName="戻る" />
           </div>
           <table>
             <thead>

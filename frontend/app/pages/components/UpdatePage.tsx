@@ -1,4 +1,3 @@
-import Button from "~/pages/components/Button";
 import InputForm from "./InputForm";
 import { useNavigate, useParams } from "react-router";
 import Header from "./Header";
@@ -53,7 +52,6 @@ const UpdatePage = () => {
         <Sidebar />
         <div className="content">
           <InputForm onClick={updateTraining} actionName="更新" />
-          <Button onClick={backTopPage} buttonName="戻る" />
         </div>
       </div>
     </div>
