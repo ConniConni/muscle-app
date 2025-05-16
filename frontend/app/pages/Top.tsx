@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TrainingList from "./components/TrainingList";
 import Button from "./components/Button";
 import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
@@ -27,6 +27,15 @@ export function Top() {
       setTrainingRecord(result);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`http://localhost:3000/muscle/`);
+      const result = await response.json();
+      console.log("api取得結果:", result);
+      setTrainingRecord(result);
+    })();
+  }, []);
 
   return (
     <div className="layout">
