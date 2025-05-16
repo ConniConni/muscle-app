@@ -44,36 +44,43 @@ const ManageMstTrainingPage = () => {
   };
 
   return (
-    <div>
+    <div className="layout">
       <Header />
-      <h1>トレーニング種目マスタ</h1>
-      <div>
-        <input
-          type="text"
-          value={newTraining}
-          onChange={(e) => setNewTraining(e.target.value)}
-        />
-        <Button onClick={createNewTraining} buttonName="マスタ追加" />
-      </div>
-      <div>
-        <Button onClick={backTopPage} buttonName="戻る" />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th className="training-name-header">種目名</th>
-          </tr>
-        </thead>
-        <tbody>
-          {trainingCategory.map((trainingName) => {
-            return (
-              <tr key={trainingName.id}>
-                <th className="training-name-record">{trainingName.name}</th>
+      <div className="main-content">
+        <aside className="sidebar"></aside>
+        <div className="content">
+          <h1>トレーニング種目マスタ</h1>
+          <div>
+            <input
+              type="text"
+              value={newTraining}
+              onChange={(e) => setNewTraining(e.target.value)}
+            />
+            <Button onClick={createNewTraining} buttonName="マスタ追加" />
+          </div>
+          <div>
+            <Button onClick={backTopPage} buttonName="戻る" />
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th className="training-name-header">種目名</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {trainingCategory.map((trainingName) => {
+                return (
+                  <tr key={trainingName.id}>
+                    <th className="training-name-record">
+                      {trainingName.name}
+                    </th>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
