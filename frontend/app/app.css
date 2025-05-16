@@ -50,3 +50,54 @@ button {
   max-width: 250px;
   padding: 5px;
 }
+
+button:hover {
+  background: darkgray;
+  color: white;
+}
+
+header {
+  width: 100%;
+  height: 10vh;
+  background-color: black;
+  color: white;
+  padding: 15px 20px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 15%;
+  background-color: whitesmoke;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px black solid;
+}
+
+.sidebar-content {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 20px 10px;
+}
+
+.content {
+  width: 85%;
+  background-color: white;
+  color: black;
+  margin: 20px;
+}
+
+.pagination {
+  margin: 10px 15px;
+}

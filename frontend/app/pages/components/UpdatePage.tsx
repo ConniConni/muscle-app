@@ -1,6 +1,7 @@
-import Button from "~/pages/components/Button";
 import InputForm from "./InputForm";
 import { useNavigate, useParams } from "react-router";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const UpdatePage = () => {
   // URL から id を取得
@@ -45,9 +46,14 @@ const UpdatePage = () => {
   };
 
   return (
-    <div>
-      <InputForm onClick={updateTraining} actionName="更新" />
-      <Button onClick={backTopPage} buttonName="戻る" />
+    <div className="layout">
+      <Header />
+      <div className="main-content">
+        <Sidebar />
+        <div className="content">
+          <InputForm onClick={updateTraining} actionName="更新" />
+        </div>
+      </div>
     </div>
   );
 };

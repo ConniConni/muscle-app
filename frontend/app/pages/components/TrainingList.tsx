@@ -1,6 +1,7 @@
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
@@ -20,6 +21,31 @@ const TrainingList = ({
       getTrainingRecord();
     }
   };
+
+  const rowsPerPage = 10; // 1ページあたりの行数を設置
+  const [currentPage, setCurrentPage] = useState(1); // 現在のページを管理するための状態
+
+  const startRowIndex = (currentPage - 1) * rowsPerPage;
+  const currentData = trainingRecord.slice(
+    startRowIndex,
+    startRowIndex + rowsPerPage
+  );
+  // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
+  const totalPages = Math.ceil(trainingRecord.length / rowsPerPage);
+  // 次のページへ進む
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // 次のページへ戻る
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const navigate = useNavigate();
   const navigateToUpdatePage = (id: number) => {
     navigate(`/update/${id}`);
@@ -36,12 +62,12 @@ const TrainingList = ({
           </tr>
         </thead>
         <tbody>
-          {trainingRecord.map((c) => {
+          {currentData.map((c, index) => {
             const date = new Date(c.date);
             const formattedDate = date.toLocaleDateString("ja-JP");
 
             return (
-              <tr key={c.id}>
+              <tr key={index}>
                 <th className="training-record-cell">{c.name}</th>
                 <th className="training-record-cell">{formattedDate}</th>
                 <th className="training-record-cell">{c.count}</th>
@@ -60,6 +86,19 @@ const TrainingList = ({
           })}
         </tbody>
       </table>
+      <div className="pagination">
+        <Button
+          onClick={handlePrev}
+          buttonName="前"
+          disabled={currentPage === 1}
+        ></Button>
+        <span>{`${currentPage} / ${totalPages}`}</span>
+        <Button
+          onClick={handleNext}
+          buttonName="次"
+          disabled={currentPage === totalPages}
+        />
+      </div>
     </div>
   );
 };
