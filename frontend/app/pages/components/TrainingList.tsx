@@ -1,16 +1,19 @@
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
-import { useState } from "react";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
+  currentPage: number;
   getTrainingRecord: () => void;
+  setCurrentPage: (page: number) => void;
 };
 
 const TrainingList = ({
   trainingRecord,
+  currentPage,
   getTrainingRecord,
+  setCurrentPage,
 }: TrainingRecordProps) => {
   const TrainingListDelete = async (id: number) => {
     const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
@@ -23,7 +26,6 @@ const TrainingList = ({
   };
 
   const rowsPerPage = 5; // 1ページあたりの行数を設置
-  const [currentPage, setCurrentPage] = useState(1); // 現在のページを管理するための状態
 
   const startRowIndex = (currentPage - 1) * rowsPerPage;
   const currentData = trainingRecord.slice(

@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 
 export function Top() {
   const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterVal, setFilterVal] = useState<number>(0);
 
   const getTrainingRecord = async () => {
@@ -25,6 +26,7 @@ export function Top() {
       );
       const result = await response.json();
       setTrainingRecord(result);
+      setCurrentPage(1);
     }
   };
 
@@ -53,7 +55,9 @@ export function Top() {
           </div>
           <TrainingList
             trainingRecord={trainingRecord}
+            currentPage={currentPage}
             getTrainingRecord={getTrainingRecord}
+            setCurrentPage={setCurrentPage}
           />
         </div>
       </div>
