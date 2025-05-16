@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import InputForm from "./InputForm";
 import Button from "./Button";
+import Header from "./Header";
 
 const PostTrainingDataPage = () => {
   const createTraining = async (formData: FormData) => {
@@ -43,6 +44,7 @@ const PostTrainingDataPage = () => {
 
   return (
     <div>
+      <Header />
       <InputForm onClick={createTraining} actionName="登録" />
       <Button onClick={backTopPage} buttonName="戻る" />
     </div>

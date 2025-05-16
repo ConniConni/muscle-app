@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
+import Header from "./Header";
 
 const ManageMstTrainingPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
@@ -44,6 +45,7 @@ const ManageMstTrainingPage = () => {
 
   return (
     <div>
+      <Header />
       <h1>トレーニング種目マスタ</h1>
       <div>
         <input
