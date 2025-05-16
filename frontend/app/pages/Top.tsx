@@ -40,26 +40,30 @@ export function Top() {
   };
 
   return (
-    <div className="top">
+    <div className="layout">
       <Header />
-      <Sidebar />
-      <h1>筋トレ実績</h1>
-      <div>
-        <Button onClick={navigateToCreatePage} buttonName="新規登録" />
-        <Button onClick={getTrainingRecord} buttonName="一覧取得" />
-        <Button
-          onClick={navigateToManageMstMuscleCategoryPage}
-          buttonName="種目管理"
-        />
+      <div className="main-content">
+        <Sidebar />
+        <div className="top">
+          <h1>筋トレ実績</h1>
+          <div>
+            <Button onClick={navigateToCreatePage} buttonName="新規登録" />
+            <Button onClick={getTrainingRecord} buttonName="一覧取得" />
+            <Button
+              onClick={navigateToManageMstMuscleCategoryPage}
+              buttonName="種目管理"
+            />
+          </div>
+          <div>
+            <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
+            <CategorySelectionPulldown setFilterVal={setFilterVal} />
+          </div>
+          <TrainingList
+            trainingRecord={trainingRecord}
+            getTrainingRecord={getTrainingRecord}
+          />
+        </div>
       </div>
-      <div>
-        <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
-        <CategorySelectionPulldown setFilterVal={setFilterVal} />
-      </div>
-      <TrainingList
-        trainingRecord={trainingRecord}
-        getTrainingRecord={getTrainingRecord}
-      />
     </div>
   );
 }

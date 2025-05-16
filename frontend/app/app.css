@@ -52,19 +52,36 @@ button {
 }
 
 header {
+  width: 100%;
+  height: 10vh;
   background-color: black;
   color: white;
-  padding: 10px 20px;
+  padding: 15px 20px;
+}
+
+.layout {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
 }
 
 .sidebar {
-  width: 20%;
-  height: 100vh;
-  background-color: white;
+  width: 10%;
+  background-color: whitesmoke;
   color: black;
   display: flex;
+  flex-direction: column;
   border-right: 1px black solid;
+}
+
+.top {
+  width: 90%;
+  background-color: white;
+  color: black;
+  margin: 20px;
 }
