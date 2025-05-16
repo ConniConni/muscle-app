@@ -30,8 +30,12 @@ const TrainingList = ({
     startRowIndex,
     startRowIndex + rowsPerPage
   );
-  // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
-  const totalPages = Math.ceil(trainingRecord.length / rowsPerPage);
+  // 総ページ数を計算 (trainingRecordの要素数を5で割り、切り上げる)
+  // ただし、trainingRecordの要素数が0の時は１をセット
+  const totalPages =
+    trainingRecord.length === 0
+      ? 1
+      : Math.ceil(trainingRecord.length / rowsPerPage);
   // 次のページへ進む
   const handleNext = () => {
     if (currentPage < totalPages) {
