@@ -44,7 +44,7 @@ export function Top() {
       <Header />
       <div className="main-content">
         <Sidebar />
-        <div className="top">
+        <div className="content">
           <h1>筋トレ実績</h1>
           <div>
             <Button onClick={navigateToCreatePage} buttonName="新規登録" />
