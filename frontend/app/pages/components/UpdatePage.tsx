@@ -46,10 +46,15 @@ const UpdatePage = () => {
   };
 
   return (
-    <div>
+    <div className="layout">
       <Header />
-      <InputForm onClick={updateTraining} actionName="更新" />
-      <Button onClick={backTopPage} buttonName="戻る" />
+      <div className="main-content">
+        <div className="sidebar"></div>
+        <div className="content">
+          <InputForm onClick={updateTraining} actionName="更新" />
+          <Button onClick={backTopPage} buttonName="戻る" />
+        </div>
+      </div>
     </div>
   );
 };
