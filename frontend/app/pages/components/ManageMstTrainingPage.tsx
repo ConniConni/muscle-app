@@ -55,7 +55,10 @@ const ManageMstTrainingPage = () => {
   );
 
   // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
-  const totalPages = Math.ceil(trainingCategory.length / rowsPerPage);
+  const totalPages =
+    trainingCategory.length === 0
+      ? 1
+      : Math.ceil(trainingCategory.length / rowsPerPage);
 
   // 次のページへ進む
   const handleNext = () => {

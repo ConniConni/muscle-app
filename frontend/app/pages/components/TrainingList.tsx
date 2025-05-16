@@ -22,7 +22,7 @@ const TrainingList = ({
     }
   };
 
-  const rowsPerPage = 10; // 1ページあたりの行数を設置
+  const rowsPerPage = 5; // 1ページあたりの行数を設置
   const [currentPage, setCurrentPage] = useState(1); // 現在のページを管理するための状態
 
   const startRowIndex = (currentPage - 1) * rowsPerPage;
@@ -30,8 +30,12 @@ const TrainingList = ({
     startRowIndex,
     startRowIndex + rowsPerPage
   );
-  // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
-  const totalPages = Math.ceil(trainingRecord.length / rowsPerPage);
+  // 総ページ数を計算 (trainingRecordの要素数を5で割り、切り上げる)
+  // ただし、trainingRecordの要素数が0の時は１をセット
+  const totalPages =
+    trainingRecord.length === 0
+      ? 1
+      : Math.ceil(trainingRecord.length / rowsPerPage);
   // 次のページへ進む
   const handleNext = () => {
     if (currentPage < totalPages) {
