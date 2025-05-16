@@ -7,7 +7,6 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 
 export function Top() {
-  // useNavigateを定義 useNavigateは
   const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
   const [filterVal, setFilterVal] = useState<number>(0);
 
@@ -36,6 +35,9 @@ export function Top() {
         <Sidebar />
         <div className="content">
           <h1>筋トレ実績</h1>
+          <div>
+            <Button onClick={getTrainingRecord} buttonName="一覧取得" />
+          </div>
           <div>
             <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
             <CategorySelectionPulldown setFilterVal={setFilterVal} />
