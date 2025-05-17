@@ -31,12 +31,22 @@ export function Top() {
 
   const getSelectCategoryId = async () => {
     if (filterVal != 0) {
-      const response = await fetch(
-        `http://localhost:3000/muscle/category/${filterVal}`
-      );
-      const result = await response.json();
-      setTrainingRecord(result);
-      setCurrentPage(1);
+      try {
+        const response = await fetch(
+          `http://localhost:3000/muscle/category/${filterVal}`
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+          );
+        }
+        const result = await response.json();
+        setTrainingRecord(result);
+        setCurrentPage(1);
+      } catch (error: any) {
+        alert(`絞り込みに失敗しました。${error.message}`);
+      }
     }
   };
 
