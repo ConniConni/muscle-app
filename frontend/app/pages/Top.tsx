@@ -12,11 +12,21 @@ export function Top() {
   const [filterVal, setFilterVal] = useState<number>(0);
 
   const getTrainingRecord = async () => {
-    const response = await fetch("http://localhost:3000/muscle/");
-    const result = await response.json();
-    setTrainingRecord(result);
+    try {
+      const response = await fetch("http://localhost:3000/muscle/");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+        );
+      }
+      const result = await response.json();
+      setTrainingRecord(result);
 
-    console.log(result, "test");
+      console.log(result, "test");
+    } catch (error: any) {
+      alert(`一覧取得に失敗しました。\n\n${error.message}`);
+    }
   };
 
   const getSelectCategoryId = async () => {
