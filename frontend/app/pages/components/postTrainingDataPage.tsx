@@ -30,7 +30,7 @@ const PostTrainingDataPage = () => {
         alert("登録が完了しました。");
         backTopPage();
       } catch (error: any) {
-        alert(`${error.message}`);
+        alert(`データの登録に失敗しました。\n\n${error.message}`);
       }
     } else {
       const alertMessage: string[] = [];
