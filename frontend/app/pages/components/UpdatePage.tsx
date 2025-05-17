@@ -34,7 +34,7 @@ const UpdatePage = () => {
         alert("更新が完了しました。");
         backTopPage();
       } catch (error: any) {
-        alert(error.message);
+        alert(`データの更新に失敗しました。\n\n${error.message}`);
       }
     } else {
       const alertMessage: string[] = [];
