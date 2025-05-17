@@ -9,19 +9,29 @@ const PostTrainingDataPage = () => {
     const date = formData.get("date");
     const count = formData.get("count");
     if (categoryId && date && count) {
-      await fetch("http://localhost:3000/muscle/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          category_id: +categoryId!,
-          date: date,
-          count: +count!,
-        }),
-      });
-      alert("登録が完了しました。");
-      backTopPage();
+      try {
+        const response = await fetch("http://localhost:3000/muscle/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            category_id: +categoryId!,
+            date: date,
+            count: +count!,
+          }),
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP ${errorData.statusCode} エラー\n${errorData.message} `
+          );
+        }
+        alert("登録が完了しました。");
+        backTopPage();
+      } catch (error: any) {
+        alert(`${error.message}`);
+      }
     } else {
       const alertMessage: string[] = [];
       if (!categoryId) {
