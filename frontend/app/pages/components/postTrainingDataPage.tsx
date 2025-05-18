@@ -58,7 +58,14 @@ const PostTrainingDataPage = () => {
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <InputForm onClick={createTraining} actionName="登録" />
+          <InputForm
+            onClick={createTraining}
+            actionName="登録"
+            color="white"
+            background="seagreen"
+            hoverColor="seagreen"
+            hoverBackground="white"
+          />
         </div>
       </div>
     </div>

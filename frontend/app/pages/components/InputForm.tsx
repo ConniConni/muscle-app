@@ -6,6 +6,10 @@ import Button from "./Button";
 type Props = {
   onClick: (formDate: FormData) => void;
   actionName: string;
+  color: string;
+  background: string;
+  hoverColor: string;
+  hoverBackground: string;
 };
 
 const InputForm = (props: Props) => {
@@ -91,7 +95,14 @@ const InputForm = (props: Props) => {
             onChange={handleCountChange}
           />
         </div>
-        <Button type="submit" buttonName={props.actionName} />
+        <Button
+          type="submit"
+          buttonName={props.actionName}
+          color={props.color}
+          background={props.background}
+          hoverColor={props.hoverColor}
+          hoverBackground={props.hoverBackground}
+        />
       </form>
     </div>
   );
