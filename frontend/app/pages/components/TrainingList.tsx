@@ -81,6 +81,10 @@ const TrainingList = ({
                   <Button
                     onClick={() => navigateToUpdatePage(c.id)}
                     buttonName="編集"
+                    color="white"
+                    background="royalblue"
+                    hoverColor="royalblue"
+                    hoverBackground="white"
                   />
                   <Button
                     onClick={() => TrainingListDelete(c.id)}
