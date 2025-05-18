@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsDate } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsDate, IsInt, Min } from 'class-validator';
 
 export class CreateMuscleDto {
   @IsNotEmpty()
@@ -12,6 +12,7 @@ export class CreateMuscleDto {
   date: Date;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
+  @Min(0)
   count: number;
 }
