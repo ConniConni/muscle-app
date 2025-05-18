@@ -1,6 +1,7 @@
 type Props = {
-  onClick: () => void;
   buttonName: string;
+  type?: "button" | "submit";
+  onClick?: () => void;
   disabled?: boolean;
   background?: string;
 };
@@ -9,6 +10,7 @@ const Button = (prop: Props) => {
   return (
     <button
       onClick={prop.onClick}
+      type={prop.type || "button"}
       style={{
         background: prop.background || "lightgrey",
         borderRadius: "10px",

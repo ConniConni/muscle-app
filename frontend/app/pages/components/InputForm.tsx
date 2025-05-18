@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { TrainingData } from "~/type/training_data_type";
+import Button from "./Button";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -90,7 +91,7 @@ const InputForm = (props: Props) => {
             onChange={handleCountChange}
           />
         </div>
-        <button type="submit">{props.actionName}</button>
+        <Button type="submit" buttonName={props.actionName} />
       </form>
     </div>
   );
