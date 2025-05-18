@@ -46,7 +46,7 @@ const ManageMstTrainingPage = () => {
             }),
           }
         );
-        if (!response.ok) {
+        if (response.status != 201) {
           const errorData = await response.json();
           throw new Error(
             `HTTP ${errorData.statusCode} エラー\n${errorData.message}`

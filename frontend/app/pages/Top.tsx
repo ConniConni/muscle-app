@@ -14,7 +14,7 @@ export function Top() {
   const getTrainingRecord = async () => {
     try {
       const response = await fetch("http://localhost:3000/muscle/");
-      if (!response.ok) {
+      if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
           `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
@@ -33,7 +33,7 @@ export function Top() {
         const response = await fetch(
           `http://localhost:3000/muscle/category/${filterVal}`
         );
-        if (!response.ok) {
+        if (response.status != 200) {
           const errorData = await response.json();
           throw new Error(
             `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
