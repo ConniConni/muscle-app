@@ -24,6 +24,7 @@ const Button = (prop: Props) => {
         background: isHovered
           ? prop.hoverBackground || "darkgray"
           : prop.background || "lightgrey",
+        border: `solid 1px ${prop.background || "lightgrey"}`,
         borderRadius: "10px",
         maxWidth: "250px",
         padding: "5px",

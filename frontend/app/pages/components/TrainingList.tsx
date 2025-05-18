@@ -85,6 +85,10 @@ const TrainingList = ({
                   <Button
                     onClick={() => TrainingListDelete(c.id)}
                     buttonName="削除"
+                    color="white"
+                    background="tomato"
+                    hoverColor="tomato"
+                    hoverBackground="white"
                   />
                 </th>
               </tr>
