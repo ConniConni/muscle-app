@@ -12,21 +12,39 @@ export function Top() {
   const [filterVal, setFilterVal] = useState<number>(0);
 
   const getTrainingRecord = async () => {
-    const response = await fetch("http://localhost:3000/muscle/");
-    const result = await response.json();
-    setTrainingRecord(result);
-
-    console.log(result, "test");
+    try {
+      const response = await fetch("http://localhost:3000/muscle/");
+      if (response.status != 200) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+        );
+      }
+      const result = await response.json();
+      setTrainingRecord(result);
+    } catch (error: any) {
+      alert(`一覧取得に失敗しました。\n\n${error.message}`);
+    }
   };
 
   const getSelectCategoryId = async () => {
     if (filterVal != 0) {
-      const response = await fetch(
-        `http://localhost:3000/muscle/category/${filterVal}`
-      );
-      const result = await response.json();
-      setTrainingRecord(result);
-      setCurrentPage(1);
+      try {
+        const response = await fetch(
+          `http://localhost:3000/muscle/category/${filterVal}`
+        );
+        if (response.status != 200) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+          );
+        }
+        const result = await response.json();
+        setTrainingRecord(result);
+        setCurrentPage(1);
+      } catch (error: any) {
+        alert(`絞り込みに失敗しました。${error.message}`);
+      }
     }
   };
 

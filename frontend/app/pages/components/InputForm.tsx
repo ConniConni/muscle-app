@@ -84,6 +84,7 @@ const InputForm = (props: Props) => {
         <div>
           <input
             type="number"
+            min="0"
             name="count"
             value={trainingData.count || ""}
             onChange={handleCountChange}

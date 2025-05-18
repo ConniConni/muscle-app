@@ -11,10 +11,20 @@ const ManageMstTrainingPage = () => {
   const [newTraining, setNewTraining] = useState<string>("");
 
   const getMstMuscleCategory = async () => {
-    const response = await fetch("http://localhost:3000/mst-muscle-category");
-    const result = await response.json();
-    setTrainingCategory(result);
-    console.log(result);
+    try {
+      const response = await fetch("http://localhost:3000/mst-muscle-category");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+        );
+      }
+      const result = await response.json();
+      setTrainingCategory(result);
+      console.log(result);
+    } catch (error: any) {
+      alert(`マスタ一覧の取得に失敗しました。\n\n${error.message}`);
+    }
   };
   useEffect(() => {
     getMstMuscleCategory();
@@ -23,18 +33,31 @@ const ManageMstTrainingPage = () => {
   const createNewTraining = async () => {
     console.log(newTraining);
     if (newTraining.length > 0) {
-      await fetch(`http://localhost:3000/mst-muscle-category`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: newTraining,
-        }),
-      });
-      alert("マスタへの追加が完了しました。");
-      setNewTraining("");
-      getMstMuscleCategory();
+      try {
+        const response = await fetch(
+          `http://localhost:3000/mst-muscle-category`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: newTraining,
+            }),
+          }
+        );
+        if (response.status != 201) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+          );
+        }
+        alert("マスタへの追加が完了しました。");
+        setNewTraining("");
+        getMstMuscleCategory();
+      } catch (error: any) {
+        alert(`マスタ追加に失敗しました。\n\n${error.message}`);
+      }
     } else alert("入力画面には1文字以上の文字を入力してください");
   };
 

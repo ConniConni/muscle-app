@@ -12,19 +12,30 @@ const UpdatePage = () => {
     const date = formData.get("date");
     const count = formData.get("count");
     if (categoryId && date && count) {
-      await fetch(`http://localhost:3000/muscle/id/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          category_id: +categoryId!,
-          date: date,
-          count: +count!,
-        }),
-      });
-      alert("更新が完了しました。");
-      backTopPage();
+      try {
+        const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            category_id: +categoryId!,
+            date: date,
+            count: +count!,
+          }),
+        });
+
+        if (response.status != 200) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP ${errorData.statusCode} エラー \n${errorData.message}`
+          );
+        }
+        alert("更新が完了しました。");
+        backTopPage();
+      } catch (error: any) {
+        alert(`データの更新に失敗しました。\n\n${error.message}`);
+      }
     } else {
       const alertMessage: string[] = [];
       if (!categoryId) {
