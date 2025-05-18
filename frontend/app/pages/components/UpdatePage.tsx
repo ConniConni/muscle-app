@@ -62,7 +62,14 @@ const UpdatePage = () => {
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <InputForm onClick={updateTraining} actionName="更新" />
+          <InputForm
+            onClick={updateTraining}
+            actionName="更新"
+            color="white"
+            background="royalblue"
+            hoverColor="royalblue"
+            hoverBackground="white"
+          />
         </div>
       </div>
     </div>
