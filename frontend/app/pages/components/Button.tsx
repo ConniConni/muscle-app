@@ -27,6 +27,7 @@ const Button = (prop: Props) => {
         borderRadius: "10px",
         maxWidth: "250px",
         padding: "5px",
+        margin: "1px",
       }}
     >
       {prop.buttonName}
