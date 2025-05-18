@@ -13,6 +13,6 @@ export class CreateMuscleDto {
 
   @IsNotEmpty()
   @IsInt()
-  @Min(0)
+  @Min(1)
   count: number;
 }
