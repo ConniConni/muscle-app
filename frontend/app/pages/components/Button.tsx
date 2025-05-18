@@ -2,15 +2,9 @@ type Props = {
   onClick: () => void;
   buttonName: string;
   disabled?: boolean;
-  color?: string;
 };
 
-const Button = ({
-  disabled = true,
-  onClick,
-  buttonName,
-  color = "red",
-}: Props) => {
-  return <button onClick={onClick}>{buttonName}</button>;
+const Button = (prop: Props) => {
+  return <button onClick={prop.onClick}>{prop.buttonName}</button>;
 };
 export default Button;
