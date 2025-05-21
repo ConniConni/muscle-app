@@ -3,10 +3,12 @@ import { useNavigate, useParams } from "react-router";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
+// 筋トレ記録更新画面を生成する関数コンポーネント
 const UpdatePage = () => {
   // URL から id を取得
   const { id } = useParams<{ id: string }>();
 
+  // 筋トレ記録更新処理呼び出し
   const updateTraining = async (formData: FormData) => {
     const categoryId = formData.get("category_id");
     const date = formData.get("date");
@@ -62,7 +64,14 @@ const UpdatePage = () => {
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <InputForm onClick={updateTraining} actionName="更新" />
+          <InputForm
+            onClick={updateTraining}
+            actionName="更新"
+            color="white"
+            background="royalblue"
+            hoverColor="royalblue"
+            hoverBackground="white"
+          />
         </div>
       </div>
     </div>
