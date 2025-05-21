@@ -9,12 +9,14 @@ type TrainingRecordProps = {
   setCurrentPage: (page: number) => void;
 };
 
+// 筋トレ実績一覧を生成する関数コンポーネント
 const TrainingList = ({
   trainingRecord,
   currentPage,
   getTrainingRecord,
   setCurrentPage,
 }: TrainingRecordProps) => {
+  // 削除処理呼び出し
   const TrainingListDelete = async (id: number) => {
     const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
       method: `DELETE`,

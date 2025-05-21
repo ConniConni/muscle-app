@@ -8,6 +8,7 @@ type MstMuscleCategory = {
   name: string;
 };
 
+// 種目選択のプルダウンを生成する関数コンポーネント
 const CategorySelectionPulldown = ({
   setFilterVal,
 }: CategorySelectionPulldownProps) => {

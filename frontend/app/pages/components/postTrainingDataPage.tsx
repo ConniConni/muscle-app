@@ -3,11 +3,13 @@ import InputForm from "./InputForm";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
+// 筋トレ実績登録画面を生成する関数コンポーネント
 const PostTrainingDataPage = () => {
   const createTraining = async (formData: FormData) => {
     const categoryId = formData.get("category_id");
     const date = formData.get("date");
     const count = formData.get("count");
+    // 筋トレ実績登録処理呼び出し
     if (categoryId && date && count) {
       try {
         const response = await fetch("http://localhost:3000/muscle/", {

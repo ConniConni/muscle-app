@@ -1,14 +1,18 @@
 import { useNavigate } from "react-router";
 import Button from "./Button";
 
+// サイドバーを生成する関数コンポーネント
 const Sidebar = () => {
   const navigate = useNavigate();
+  // トップ画面に戻る
   const backTopPage = () => {
     navigate("/");
   };
+  // 登録画面に遷移
   const navigateToCreatePage = () => {
     navigate("/create");
   };
+  // マスタ登録画面に遷移
   const navigateToManageMstMuscleCategoryPage = () => {
     navigate("/manage-mst-muscle-category");
   };

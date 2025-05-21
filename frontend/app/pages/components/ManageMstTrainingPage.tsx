@@ -4,6 +4,7 @@ import Button from "./Button";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
+// 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ManageMstTrainingPage = () => {
   const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
     []

@@ -6,11 +6,13 @@ import type { TrainingRecord } from "~/type/training_record_type";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 
+// トップページを生成する関数コンポーネント
 export function Top() {
   const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterVal, setFilterVal] = useState<number>(0);
 
+  // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
     try {
       const response = await fetch("http://localhost:3000/muscle/");
@@ -27,6 +29,7 @@ export function Top() {
     }
   };
 
+  // 絞り込み表示処理呼び出し
   const getSelectCategoryId = async () => {
     if (filterVal != 0) {
       try {

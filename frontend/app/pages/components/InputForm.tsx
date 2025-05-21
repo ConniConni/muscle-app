@@ -12,6 +12,7 @@ type Props = {
   hoverBackground: string;
 };
 
+// 入力フォームを生成する関数コンポーネント
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const [trainingData, setTrainingData] = useState<TrainingData>({
@@ -21,6 +22,7 @@ const InputForm = (props: Props) => {
     count: 0,
   });
 
+  // 編集の際はidに紐づく筋トレ実績を取得する
   useEffect(() => {
     (async () => {
       if (id) {
@@ -35,6 +37,7 @@ const InputForm = (props: Props) => {
     console.log("stateの値:", trainingData);
   }, [trainingData]);
 
+  // 種目の変更状態を管理するハンドラー
   const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategoryIdStr = e.target.value;
     const newCategoryId = newCategoryIdStr === "" ? 0 : +newCategoryIdStr;
@@ -44,6 +47,7 @@ const InputForm = (props: Props) => {
     });
   };
 
+  // 日付の変更状態を管理するハンドラー
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDateStr = e.target.value;
     const newDate = new Date(newDateStr);
@@ -53,6 +57,7 @@ const InputForm = (props: Props) => {
     });
   };
 
+  // 回数の変更状態を管理するハンドラー
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCountStr = e.target.value;
     const newCount = newCountStr === "" ? 0 : +newCountStr;

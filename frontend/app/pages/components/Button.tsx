@@ -11,6 +11,7 @@ type Props = {
   hoverColor?: string;
 };
 
+// ボタンを生成する関数コンポーネント
 const Button = (prop: Props) => {
   const [isHovered, setIsHovered] = useState<Boolean>(false);
   return (
