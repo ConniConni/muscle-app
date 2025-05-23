@@ -11,7 +11,7 @@ export class MstMuscleCategoryService {
       SELECT
         mmc.id,
         mmc.name
-      FROM mst_muscle_category as mmc
+      FROM mst_muscle_categories as mmc
       ORDER BY mmc.id ASC;
       `;
     return result;
@@ -19,7 +19,7 @@ export class MstMuscleCategoryService {
 
   async create(mstMuscleCategoryDto: CreateMstMuscleCategoryDto) {
     const result = await this.prisma.$executeRaw`
-    INSERT INTO mst_muscle_category (name) VALUES (
+    INSERT INTO mst_muscle_categories (name) VALUES (
     ${mstMuscleCategoryDto.name}
     )
     `;

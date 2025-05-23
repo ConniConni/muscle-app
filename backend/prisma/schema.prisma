@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model mst_muscle_category {
+model mst_muscle_categories {
   id    Int     @default(autoincrement()) @id
   name  String
 
@@ -28,7 +28,7 @@ model muscle_training {
   create_date    DateTime   @default(now())
   update_date    DateTime   @default(now()) @updatedAt
 
-  mst_muscle_category  mst_muscle_category?   @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  mst_muscle_categories  mst_muscle_categories?   @relation(fields: [category_id], references: [id], onDelete: Cascade)
 
   @@index([category_id])
 }

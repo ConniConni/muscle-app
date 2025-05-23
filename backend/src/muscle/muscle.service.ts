@@ -16,7 +16,7 @@ export class MuscleService {
       mmt.name
     FROM muscle_training as mt
     LEFT JOIN
-      mst_muscle_category as mmt
+      mst_muscle_categories as mmt
     ON mt.category_id = mmt.id
     ORDER BY mt.date;
     `;
@@ -31,7 +31,7 @@ export class MuscleService {
       mt.date,
       mt.count
     FROM muscle_training as mt
-    INNER JOIN mst_muscle_category as mmt
+    INNER JOIN mst_muscle_categories as mmt
     ON mmt.id = mt.category_id
     WHERE mt.category_id = ${+categoryId}
     ORDER BY mt.date;
