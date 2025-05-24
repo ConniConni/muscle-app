@@ -15,7 +15,7 @@ datasource db {
 
 model ExerciseCategory {
   id        Int    @id @default(autoincrement())
-  target_id Int
+  targetId  Int    @map("target_id")
   name      String
 
   TrainingRecords TrainingRecord[]
