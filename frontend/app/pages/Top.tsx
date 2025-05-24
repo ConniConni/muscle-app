@@ -15,7 +15,7 @@ export function Top() {
   // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
     try {
-      const response = await fetch("http://localhost:3000/muscle/");
+      const response = await fetch("http://localhost:3000/training-record/");
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
@@ -34,7 +34,7 @@ export function Top() {
     if (filterVal != 0) {
       try {
         const response = await fetch(
-          `http://localhost:3000/muscle/category/${filterVal}`
+          `http://localhost:3000/training-record/category/${filterVal}`
         );
         if (response.status != 200) {
           const errorData = await response.json();
@@ -53,7 +53,7 @@ export function Top() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`http://localhost:3000/muscle/`);
+      const response = await fetch(`http://localhost:3000/training-record/`);
       const result = await response.json();
       console.log("api取得結果:", result);
       setTrainingRecord(result);

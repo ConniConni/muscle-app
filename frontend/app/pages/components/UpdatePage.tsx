@@ -15,17 +15,20 @@ const UpdatePage = () => {
     const count = formData.get("count");
     if (categoryId && date && count) {
       try {
-        const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            category_id: +categoryId!,
-            date: date,
-            count: +count!,
-          }),
-        });
+        const response = await fetch(
+          `http://localhost:3000/training-record/id/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              category_id: +categoryId!,
+              date: date,
+              count: +count!,
+            }),
+          }
+        );
 
         if (response.status != 200) {
           const errorData = await response.json();

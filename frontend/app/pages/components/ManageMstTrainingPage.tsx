@@ -13,7 +13,7 @@ const ManageMstTrainingPage = () => {
 
   const getMstMuscleCategory = async () => {
     try {
-      const response = await fetch("http://localhost:3000/mst-muscle-category");
+      const response = await fetch("http://localhost:3000/exercise-category");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -36,7 +36,7 @@ const ManageMstTrainingPage = () => {
     if (newTraining.length > 0) {
       try {
         const response = await fetch(
-          `http://localhost:3000/mst-muscle-category`,
+          `http://localhost:3000/exercise-category`,
           {
             method: "POST",
             headers: {

@@ -12,7 +12,7 @@ const PostTrainingDataPage = () => {
     // 筋トレ実績登録処理呼び出し
     if (categoryId && date && count) {
       try {
-        const response = await fetch("http://localhost:3000/muscle/", {
+        const response = await fetch("http://localhost:3000/training-record/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -18,9 +18,12 @@ const TrainingList = ({
 }: TrainingRecordProps) => {
   // 削除処理呼び出し
   const TrainingListDelete = async (id: number) => {
-    const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
-      method: `DELETE`,
-    });
+    const response = await fetch(
+      `http://localhost:3000/training-record/id/${id}`,
+      {
+        method: `DELETE`,
+      }
+    );
     if (response.ok) {
       alert("削除が完了しました。");
       getTrainingRecord();

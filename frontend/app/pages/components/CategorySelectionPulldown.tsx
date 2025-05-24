@@ -14,7 +14,7 @@ const CategorySelectionPulldown = ({
 }: CategorySelectionPulldownProps) => {
   const [trainingName, setTrainingName] = useState<MstMuscleCategory[]>([]);
   const getMstMuscleCategory = async () => {
-    const response = await fetch(`http://localhost:3000/mst-muscle-category`);
+    const response = await fetch(`http://localhost:3000/exercise-category`);
     const result = await response.json();
     setTrainingName(result);
     console.log("マスタ取得結果", result);
