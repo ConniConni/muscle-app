@@ -72,7 +72,10 @@ export function Top() {
           </div>
           <div>
             <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
-            <ExerciseSelectionPulldown setFilterVal={setFilterVal} />
+            <ExerciseSelectionPulldown
+              filterVal={filterVal}
+              setFilterVal={setFilterVal}
+            />
           </div>
           <TrainingList
             trainingRecord={trainingRecord}

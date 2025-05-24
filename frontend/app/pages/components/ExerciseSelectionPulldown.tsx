@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 type ExerciseSelectionPulldownProps = {
+  filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -10,6 +11,7 @@ type ExerciseCategory = {
 
 // 種目選択のプルダウンを生成する関数コンポーネント
 const ExerciseSelectionPulldown = ({
+  filterVal,
   setFilterVal,
 }: ExerciseSelectionPulldownProps) => {
   const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
@@ -18,6 +20,7 @@ const ExerciseSelectionPulldown = ({
     const result = await response.json();
     setTrainingName(result);
     console.log("マスタ取得結果", result);
+    console.log("filterVal:", filterVal);
   };
 
   useEffect(() => {
@@ -25,7 +28,11 @@ const ExerciseSelectionPulldown = ({
   }, []);
 
   return (
-    <select name="exercise_id" onChange={(e) => setFilterVal(+e.target.value)}>
+    <select
+      name="exercise_id"
+      value={filterVal}
+      onChange={(e) => setFilterVal(+e.target.value)}
+    >
       <option value="">選択してください</option>
       {trainingName.map((exercise) => (
         <option key={exercise.id} value={exercise.id}>

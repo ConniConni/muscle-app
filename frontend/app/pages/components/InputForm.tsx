@@ -39,18 +39,9 @@ const InputForm = (props: Props) => {
     })();
   }, []);
   useEffect(() => {
+    setFilterVal(trainingData.exercise_id);
     console.log("stateの値:", trainingData);
   }, [trainingData]);
-
-  // 種目の変更状態を管理するハンドラー
-  const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCategoryIdStr = e.target.value;
-    const newCategoryId = newCategoryIdStr === "" ? 0 : +newCategoryIdStr;
-    setTrainingData({
-      ...trainingData,
-      exercise_id: newCategoryId,
-    });
-  };
 
   // 日付の変更状態を管理するハンドラー
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +79,10 @@ const InputForm = (props: Props) => {
       <form action={props.onClick}>
         <div>
           <span>種目 </span>
-          <ExerciseSelectionPulldown setFilterVal={setFilterVal} />
+          <ExerciseSelectionPulldown
+            filterVal={filterVal}
+            setFilterVal={setFilterVal}
+          />
         </div>
         <div>
           <span>日付 </span>
