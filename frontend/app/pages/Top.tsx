@@ -24,7 +24,6 @@ export function Top() {
       }
       const result = await response.json();
       setTrainingRecord(result);
-      console.log("trainingRecord:", result);
     } catch (error: any) {
       alert(`一覧取得に失敗しました。\n\n${error.message}`);
     }
