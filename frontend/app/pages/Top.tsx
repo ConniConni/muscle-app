@@ -5,6 +5,7 @@ import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
 import type { TrainingRecord } from "~/type/training_record_type";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import { API_BASE_URL } from "../config";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -15,7 +16,7 @@ export function Top() {
   // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
     try {
-      const response = await fetch("http://localhost:3000/training-record/");
+      const response = await fetch(`${API_BASE_URL}/training-record/`);
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
