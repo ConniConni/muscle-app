@@ -130,5 +130,5 @@ npx prisma migrate dev --name <修正内容を記述>
 4. prisma client も再生成
 
 ```cmd
-npx prisma format
+npx prisma generate
 ```
