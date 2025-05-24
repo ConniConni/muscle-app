@@ -1,10 +1,13 @@
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsDate, IsPositive } from 'class-validator';
 
-export class CreateMuscleDto {
+export class CreateTrainingRecordDto {
   @IsNotEmpty()
   @IsNumber()
   category_id: number;
+
+  @IsNotEmpty()
+  weight: number | string;
 
   @IsNotEmpty()
   @IsDate()
