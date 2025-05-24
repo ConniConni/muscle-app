@@ -68,7 +68,8 @@ const TrainingList = ({
           <tr>
             <th className="training-record-header">種目名</th>
             <th className="training-record-header">実施日</th>
-            <th className="training-record-header">回数</th>
+            <th className="training-record-header">重量(kg)</th>
+            <th className="training-record-header">回数(回)</th>
             <th className="training-record-header">編集・削除</th>
           </tr>
         </thead>
@@ -81,6 +82,7 @@ const TrainingList = ({
               <tr key={index}>
                 <th className="training-record-cell">{c.name}</th>
                 <th className="training-record-cell">{formattedDate}</th>
+                <th className="training-record-cell">{c.weight}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Button

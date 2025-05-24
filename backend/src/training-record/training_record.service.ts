@@ -12,6 +12,7 @@ export class TrainingRecordService {
     SELECT
       tr.id,
       tr.date,
+      tr.weight,
       tr.count,
       ec.name
     FROM training_records as tr
