@@ -40,7 +40,7 @@ export class TrainingRecordService {
     return result;
   }
 
-  async findAllById(id: number) {
+  async findById(id: number) {
     const result = await this.prisma.$queryRaw<TrainingData[]>`
     SELECT
       tr.id,
@@ -73,7 +73,7 @@ export class TrainingRecordService {
       exercise_id = ${createTrainingRecordDto.exercise_id},
       date = ${new Date(createTrainingRecordDto.date)},
       weight =${createTrainingRecordDto.weight},
-      count = ${createTrainingRecordDto.count},
+      count = ${createTrainingRecordDto.count}
       WHERE id = ${id};
     `;
     return updateResult;
