@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MuscleModule } from './muscle/muscle.module';
 import { PrismaService } from './prisma.service';
-import { MstMuscleCategoryModule } from './mst-muscle-category/mst-muscle-category.module';
+import { ExerciseCategoryModule } from './exercise-category/exercise-category.module';
 
 @Module({
-  imports: [MuscleModule, MstMuscleCategoryModule],
+  imports: [MuscleModule, ExerciseCategoryModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

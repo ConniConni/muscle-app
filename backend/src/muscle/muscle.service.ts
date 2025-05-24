@@ -10,15 +10,15 @@ export class MuscleService {
   async findAll() {
     const result = await this.prisma.$queryRaw`
     SELECT
-      mt.id,
-      mt.date,
-      mt.count,
-      mmt.name
-    FROM muscle_training as mt
+      tr.id,
+      tr.date,
+      tr.count,
+      ec.name
+    FROM training_records as tr
     LEFT JOIN
-      mst_muscle_categories as mmt
-    ON mt.category_id = mmt.id
-    ORDER BY mt.date;
+      exercise_categories as ec
+    ON tr.category_id = ec.id
+    ORDER BY tr.date;
     `;
     return result;
   }

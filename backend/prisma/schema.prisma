@@ -14,24 +14,25 @@ datasource db {
 }
 
 model ExerciseCategory {
-  id             Int        @default(autoincrement()) @id
-  target_id      Int
-  name           String
+  id        Int    @id @default(autoincrement())
+  target_id Int
+  name      String
 
-  TrainingRecords  TrainingRecord[]
+  TrainingRecords TrainingRecord[]
+
   @@map("exercise_categories")
 }
 
 model TrainingRecord {
-  id             Int        @default(autoincrement()) @id
-  categoryId     Int        @map("category_id")
-  date           DateTime   @db.Date
-  weight         Int
-  count          Int
-  create_date    DateTime   @default(now())
-  update_date    DateTime   @default(now()) @updatedAt
+  id          Int      @id @default(autoincrement())
+  categoryId  Int      @map("category_id")
+  date        DateTime @db.Date
+  weight      Int
+  count       Int
+  create_date DateTime @default(now())
+  update_date DateTime @default(now()) @updatedAt
 
-  exerciseCategories  ExerciseCategory?   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  exerciseCategories ExerciseCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@index([categoryId])
   @@map("training_records")

@@ -19,9 +19,11 @@ export class ExerciseCategoryService {
 
   async create(exerciseCategoryDto: ExerciseCategoryDto) {
     const result = await this.prisma.$executeRaw`
-    INSERT INTO exercise_categories (name) VALUES (
-    ${exerciseCategoryDto.name}
-    )
-    `;
+      INSERT INTO exercise_categories (target_id, name)
+      VALUES (
+        ${exerciseCategoryDto.target_id},
+        ${exerciseCategoryDto.name}
+      )
+      `;
   }
 }

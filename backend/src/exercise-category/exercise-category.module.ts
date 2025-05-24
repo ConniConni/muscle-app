@@ -7,4 +7,4 @@ import { ExerciseCategoryController } from './exercise-category.controller';
   controllers: [ExerciseCategoryController],
   providers: [ExerciseCategoryService, PrismaService],
 })
-export class MstMuscleCategoryModule {}
+export class ExerciseCategoryModule {}
