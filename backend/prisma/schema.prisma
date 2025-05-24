@@ -14,10 +14,10 @@ datasource db {
 }
 
 model ExerciseCategory {
-  id       Int     @id @default(autoincrement())
-  targetId Int     @map("target_id")
-  name     String
-  isActive Boolean @map("is_active")
+  id          Int      @id @default(autoincrement())
+  targetId    Int      @map("target_id")
+  name        String
+  isActive    Boolean  @map("is_active")
   create_date DateTime @default(now())
   update_date DateTime @default(now()) @updatedAt
 
@@ -43,8 +43,8 @@ model TrainingRecord {
 }
 
 model TargetArea {
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int      @id @default(autoincrement())
+  name        String
   create_date DateTime @default(now())
   update_date DateTime @default(now()) @updatedAt
 
