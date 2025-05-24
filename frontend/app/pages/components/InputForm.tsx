@@ -19,6 +19,7 @@ const InputForm = (props: Props) => {
     id: 0,
     exercise_id: 0,
     date: new Date(),
+    weight: 0,
     count: 0,
   });
 
@@ -59,6 +60,16 @@ const InputForm = (props: Props) => {
     });
   };
 
+  // 重量の変更状態を管理するハンドラー
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newWeightStr = e.target.value;
+    const newWeight = newWeightStr === "" ? 0 : +newWeightStr;
+    setTrainingData({
+      ...trainingData,
+      weight: newWeight,
+    });
+  };
+
   // 回数の変更状態を管理するハンドラー
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCountStr = e.target.value;
@@ -74,6 +85,7 @@ const InputForm = (props: Props) => {
       <h1>{props.actionName}ぺージ</h1>
       <form action={props.onClick}>
         <div>
+          <span>種目 </span>
           <select
             name="exercise_id"
             value={trainingData.exercise_id || ""}
@@ -86,6 +98,7 @@ const InputForm = (props: Props) => {
           </select>
         </div>
         <div>
+          <span>日付 </span>
           <input
             type="date"
             name="date"
@@ -94,6 +107,17 @@ const InputForm = (props: Props) => {
           />
         </div>
         <div>
+          <span>重量 </span>
+          <input
+            type="number"
+            min="0"
+            name="weight"
+            value={trainingData.weight || ""}
+            onChange={handleWeightChange}
+          />
+        </div>
+        <div>
+          <span>回数 </span>
           <input
             type="number"
             min="0"

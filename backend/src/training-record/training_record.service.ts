@@ -46,6 +46,7 @@ export class TrainingRecordService {
       tr.id,
       tr.exercise_id,
       tr.date,
+      tr.weight,
       tr.count
     FROM training_records as tr
     WHERE tr.id = ${+id}
