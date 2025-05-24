@@ -8,6 +8,7 @@ const PostTrainingDataPage = () => {
   const createTraining = async (formData: FormData) => {
     const categoryId = formData.get("exercise_id");
     const date = formData.get("date");
+    const weight = formData.get("weight");
     const count = formData.get("count");
     // 筋トレ実績登録処理呼び出し
     if (categoryId && date && count) {
@@ -20,6 +21,7 @@ const PostTrainingDataPage = () => {
           body: JSON.stringify({
             exercise_id: +categoryId!,
             date: date,
+            weight: +weight!,
             count: +count!,
           }),
         });
@@ -41,6 +43,9 @@ const PostTrainingDataPage = () => {
       }
       if (!date) {
         alertMessage.push("実施日を選択してください");
+      }
+      if (!weight) {
+        alertMessage.push("重量を入力してください");
       }
       if (!count) {
         alertMessage.push("回数を入力してください");

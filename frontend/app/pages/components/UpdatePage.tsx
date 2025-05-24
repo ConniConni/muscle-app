@@ -12,6 +12,7 @@ const UpdatePage = () => {
   const updateTraining = async (formData: FormData) => {
     const categoryId = formData.get("category_id");
     const date = formData.get("date");
+    const weight = formData.get("weight");
     const count = formData.get("count");
     if (categoryId && date && count) {
       try {
@@ -25,6 +26,7 @@ const UpdatePage = () => {
             body: JSON.stringify({
               category_id: +categoryId!,
               date: date,
+              weight: +weight!,
               count: +count!,
             }),
           }
@@ -48,6 +50,9 @@ const UpdatePage = () => {
       }
       if (!date) {
         alertMessage.push("実施日を選択してください");
+      }
+      if (!weight) {
+        alertMessage.push("重量を入力してください");
       }
       if (!count) {
         alertMessage.push("回数を入力してください");

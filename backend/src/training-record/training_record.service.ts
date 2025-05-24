@@ -72,7 +72,8 @@ export class TrainingRecordService {
       UPDATE training_records SET
       exercise_id = ${createTrainingRecordDto.exercise_id},
       date = ${new Date(createTrainingRecordDto.date)},
-      count = ${createTrainingRecordDto.count}
+      weight =${createTrainingRecordDto.weight},
+      count = ${createTrainingRecordDto.count},
       WHERE id = ${id};
     `;
     return updateResult;
