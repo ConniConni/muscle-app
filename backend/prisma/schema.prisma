@@ -18,6 +18,8 @@ model ExerciseCategory {
   targetId Int     @map("target_id")
   name     String
   isActive Boolean @map("is_active")
+  create_date DateTime @default(now())
+  update_date DateTime @default(now()) @updatedAt
 
   TrainingRecords TrainingRecord[]
   TargetAreas     TargetArea       @relation(fields: [targetId], references: [id], onDelete: Cascade)
@@ -43,6 +45,8 @@ model TrainingRecord {
 model TargetArea {
   id   Int    @id @default(autoincrement())
   name String
+  create_date DateTime @default(now())
+  update_date DateTime @default(now()) @updatedAt
 
   ExerciseCategories ExerciseCategory[]
 
