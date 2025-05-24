@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsDate, IsPositive } from 'class-validator';
 export class CreateTrainingRecordDto {
   @IsNotEmpty()
   @IsNumber()
-  category_id: number;
+  exercise_id: number;
 
   @IsNotEmpty()
   weight: number | string;

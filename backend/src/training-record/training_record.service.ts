@@ -17,13 +17,13 @@ export class TrainingRecordService {
     FROM training_records as tr
     LEFT JOIN
       exercise_categories as ec
-    ON tr.category_id = ec.id
+    ON tr.exercise_id = ec.id
     ORDER BY tr.date;
     `;
     return result;
   }
 
-  async findAllByCategoryId(categoryId: number) {
+  async findAllByCategoryId(exerciseId: number) {
     const result = await this.prisma.$queryRaw`
     SELECT
       tr.id,
@@ -32,8 +32,8 @@ export class TrainingRecordService {
       tr.count
     FROM training_records as tr
     INNER JOIN exercise_categories as ec
-    ON ec.id = tr.category_id
-    WHERE tr.category_id = ${+categoryId}
+    ON ec.id = tr.exercise_id
+    WHERE tr.exercise_id = ${+exerciseId}
     ORDER BY tr.date;
     `;
     return result;
@@ -43,7 +43,7 @@ export class TrainingRecordService {
     const result = await this.prisma.$queryRaw<TrainingData[]>`
     SELECT
       tr.id,
-      tr.category_id,
+      tr.exercise_id,
       tr.date,
       tr.count
     FROM training_records as tr
@@ -54,9 +54,9 @@ export class TrainingRecordService {
 
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
     const training = await this.prisma.$executeRaw`
-        INSERT INTO training_records (category_id,weight,date,count) VALUES
+        INSERT INTO training_records (exercise_id,weight,date,count) VALUES
         (
-        ${createTrainingRecordDto.category_id},
+        ${createTrainingRecordDto.exercise_id},
         ${createTrainingRecordDto.weight},
         ${new Date(createTrainingRecordDto.date)},
         ${createTrainingRecordDto.count}
@@ -68,7 +68,7 @@ export class TrainingRecordService {
   async update(id: number, createTrainingRecordDto: CreateTrainingRecordDto) {
     const updateResult = await this.prisma.$executeRaw`
       UPDATE training_records SET
-      category_id = ${createTrainingRecordDto.category_id},
+      exercise_id = ${createTrainingRecordDto.exercise_id},
       date = ${new Date(createTrainingRecordDto.date)},
       count = ${createTrainingRecordDto.count}
       WHERE id = ${id};
