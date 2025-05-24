@@ -16,7 +16,7 @@ export class TrainingRecordService {
       tr.count,
       ec.name
     FROM training_records as tr
-    LEFT JOIN
+    INNER JOIN
       exercise_categories as ec
     ON tr.exercise_id = ec.id
     ORDER BY tr.date;
