@@ -19,7 +19,7 @@ export class TrainingRecordService {
     INNER JOIN
       exercise_categories as ec
     ON tr.exercise_id = ec.id
-    ORDER BY tr.date;
+    ORDER BY tr.date DESC;
     `;
     return result;
   }
@@ -35,7 +35,7 @@ export class TrainingRecordService {
     INNER JOIN exercise_categories as ec
     ON ec.id = tr.exercise_id
     WHERE tr.exercise_id = ${+exerciseId}
-    ORDER BY tr.date;
+    ORDER BY tr.date DESC;
     `;
     return result;
   }
