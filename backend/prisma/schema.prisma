@@ -20,21 +20,29 @@ model ExerciseCategory {
   isActive  Boolean @map("is_active")
 
   TrainingRecords TrainingRecord[]
+  TargetAreas TargetArea @relation(fields: [targetId], references: [id], onDelete: Cascade)
 
   @@map("exercise_categories")
 }
 
 model TrainingRecord {
   id          Int      @id @default(autoincrement())
-  categoryId  Int      @map("category_id")
+  exerciseId  Int      @map("exercise_id")
   date        DateTime @db.Date
   weight      Int
   count       Int
   create_date DateTime @default(now())
   update_date DateTime @default(now()) @updatedAt
 
-  exerciseCategories ExerciseCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  exerciseCategories ExerciseCategory? @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 
-  @@index([categoryId])
+  @@index([exerciseId])
   @@map("training_records")
+}
+
+model TargetArea {
+  id Int @id @default(autoincrement())
+  name String
+
+  ExerciseCategories ExerciseCategory[]?
 }
