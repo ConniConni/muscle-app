@@ -45,4 +45,6 @@ model TargetArea {
   name String
 
   ExerciseCategories ExerciseCategory[]
+
+  @@map("target_areas")
 }
