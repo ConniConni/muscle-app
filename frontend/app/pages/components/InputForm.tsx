@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { TrainingData } from "~/type/training_data_type";
 import Button from "./Button";
+import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -15,6 +16,7 @@ type Props = {
 // 入力フォームを生成する関数コンポーネント
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
+  const [filterVal, setFilterVal] = useState<number>(0);
   const [trainingData, setTrainingData] = useState<TrainingData>({
     id: 0,
     exercise_id: 0,
@@ -86,16 +88,7 @@ const InputForm = (props: Props) => {
       <form action={props.onClick}>
         <div>
           <span>種目 </span>
-          <select
-            name="exercise_id"
-            value={trainingData.exercise_id || ""}
-            onChange={handleCategoryIdChange}
-          >
-            <option value="">選択してください</option>
-            <option value="1">腹筋</option>
-            <option value="2">腕立て</option>
-            <option value="3">背筋</option>
-          </select>
+          <ExerciseSelectionPulldown setFilterVal={setFilterVal} />
         </div>
         <div>
           <span>日付 </span>

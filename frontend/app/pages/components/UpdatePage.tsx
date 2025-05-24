@@ -10,11 +10,11 @@ const UpdatePage = () => {
 
   // 筋トレ記録更新処理呼び出し
   const updateTraining = async (formData: FormData) => {
-    const categoryId = formData.get("category_id");
+    const exerciseId = formData.get("exercise_id");
     const date = formData.get("date");
     const weight = formData.get("weight");
     const count = formData.get("count");
-    if (categoryId && date && count) {
+    if (exerciseId && date && count) {
       try {
         const response = await fetch(
           `http://localhost:3000/training-record/id/${id}`,
@@ -24,7 +24,7 @@ const UpdatePage = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              category_id: +categoryId!,
+              exercise_id: +exerciseId!,
               date: date,
               weight: +weight!,
               count: +count!,
@@ -45,7 +45,7 @@ const UpdatePage = () => {
       }
     } else {
       const alertMessage: string[] = [];
-      if (!categoryId) {
+      if (!exerciseId) {
         alertMessage.push("トレーニングを選択してください");
       }
       if (!date) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TrainingList from "./components/TrainingList";
 import Button from "./components/Button";
-import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
+import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
 import type { TrainingRecord } from "~/type/training_record_type";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -72,7 +72,7 @@ export function Top() {
           </div>
           <div>
             <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
-            <CategorySelectionPulldown setFilterVal={setFilterVal} />
+            <ExerciseSelectionPulldown setFilterVal={setFilterVal} />
           </div>
           <TrainingList
             trainingRecord={trainingRecord}

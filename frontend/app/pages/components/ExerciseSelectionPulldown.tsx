@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-type CategorySelectionPulldownProps = {
+type ExerciseSelectionPulldownProps = {
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
 };
 
-type MstMuscleCategory = {
+type ExerciseCategory = {
   id: number;
   name: string;
 };
 
 // 種目選択のプルダウンを生成する関数コンポーネント
-const CategorySelectionPulldown = ({
+const ExerciseSelectionPulldown = ({
   setFilterVal,
-}: CategorySelectionPulldownProps) => {
-  const [trainingName, setTrainingName] = useState<MstMuscleCategory[]>([]);
-  const getMstMuscleCategory = async () => {
+}: ExerciseSelectionPulldownProps) => {
+  const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
+  const getExerciseCategory = async () => {
     const response = await fetch(`http://localhost:3000/exercise-category`);
     const result = await response.json();
     setTrainingName(result);
@@ -21,18 +21,18 @@ const CategorySelectionPulldown = ({
   };
 
   useEffect(() => {
-    getMstMuscleCategory();
+    getExerciseCategory();
   }, []);
 
   return (
-    <select name="category_id" onChange={(e) => setFilterVal(+e.target.value)}>
+    <select name="exercise_id" onChange={(e) => setFilterVal(+e.target.value)}>
       <option value="">選択してください</option>
-      {trainingName.map((category) => (
-        <option key={category.id} value={category.id}>
-          {category.name}
+      {trainingName.map((exercise) => (
+        <option key={exercise.id} value={exercise.id}>
+          {exercise.name}
         </option>
       ))}
     </select>
   );
 };
-export default CategorySelectionPulldown;
+export default ExerciseSelectionPulldown;
