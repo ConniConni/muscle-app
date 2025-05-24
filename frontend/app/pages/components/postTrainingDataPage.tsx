@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const PostTrainingDataPage = () => {
   const createTraining = async (formData: FormData) => {
-    const categoryId = formData.get("category_id");
+    const categoryId = formData.get("exercise_id");
     const date = formData.get("date");
     const count = formData.get("count");
     // 筋トレ実績登録処理呼び出し
@@ -18,7 +18,7 @@ const PostTrainingDataPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            category_id: +categoryId!,
+            exercise_id: +categoryId!,
             date: date,
             count: +count!,
           }),

@@ -21,7 +21,7 @@ export class TrainingRecordController {
 
   @Get('exercise/:exercise_id')
   async findAllByCategoryId(@Param('exercise_id') exerciseId: number) {
-    return await this.trainingRecordService.findAllByCategoryId(exerciseId);
+    return await this.trainingRecordService.findAllByExerciseId(exerciseId);
   }
 
   @Get('id/:id')

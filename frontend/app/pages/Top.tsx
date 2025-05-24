@@ -34,7 +34,7 @@ export function Top() {
     if (filterVal != 0) {
       try {
         const response = await fetch(
-          `http://localhost:3000/training-record/category/${filterVal}`
+          `http://localhost:3000/training-record/exercise/${filterVal}`
         );
         if (response.status != 200) {
           const errorData = await response.json();

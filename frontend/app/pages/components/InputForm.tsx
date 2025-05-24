@@ -17,7 +17,7 @@ const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const [trainingData, setTrainingData] = useState<TrainingData>({
     id: 0,
-    category_id: 0,
+    exercise_id: 0,
     date: new Date(),
     count: 0,
   });
@@ -45,7 +45,7 @@ const InputForm = (props: Props) => {
     const newCategoryId = newCategoryIdStr === "" ? 0 : +newCategoryIdStr;
     setTrainingData({
       ...trainingData,
-      category_id: newCategoryId,
+      exercise_id: newCategoryId,
     });
   };
 
@@ -75,8 +75,8 @@ const InputForm = (props: Props) => {
       <form action={props.onClick}>
         <div>
           <select
-            name="category_id"
-            value={trainingData.category_id || ""}
+            name="exercise_id"
+            value={trainingData.exercise_id || ""}
             onChange={handleCategoryIdChange}
           >
             <option value="">選択してください</option>

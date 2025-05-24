@@ -23,7 +23,7 @@ export class TrainingRecordService {
     return result;
   }
 
-  async findAllByCategoryId(exerciseId: number) {
+  async findAllByExerciseId(exerciseId: number) {
     const result = await this.prisma.$queryRaw`
     SELECT
       tr.id,
