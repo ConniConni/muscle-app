@@ -14,13 +14,13 @@ datasource db {
 }
 
 model ExerciseCategory {
-  id        Int    @id @default(autoincrement())
-  targetId  Int    @map("target_id")
-  name      String
-  isActive  Boolean @map("is_active")
+  id       Int     @id @default(autoincrement())
+  targetId Int     @map("target_id")
+  name     String
+  isActive Boolean @map("is_active")
 
   TrainingRecords TrainingRecord[]
-  TargetAreas TargetArea @relation(fields: [targetId], references: [id], onDelete: Cascade)
+  TargetAreas     TargetArea       @relation(fields: [targetId], references: [id], onDelete: Cascade)
 
   @@map("exercise_categories")
 }
@@ -41,8 +41,8 @@ model TrainingRecord {
 }
 
 model TargetArea {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
 
-  ExerciseCategories ExerciseCategory[]?
+  ExerciseCategories ExerciseCategory[]
 }
