@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import type { TrainingData } from "~/type/training_data_type";
 import Button from "./Button";
 import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
+import { API_BASE_URL } from "~/config";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -29,9 +30,7 @@ const InputForm = (props: Props) => {
   useEffect(() => {
     (async () => {
       if (id) {
-        const response = await fetch(
-          `http://localhost:3000/training-record/id/${id}`
-        );
+        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
         const result = await response.json();
         console.log("api取得結果:", result);
         setTrainingData({ ...result, date: new Date(result.date) });

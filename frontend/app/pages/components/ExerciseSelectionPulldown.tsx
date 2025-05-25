@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "~/config";
+
 type ExerciseSelectionPulldownProps = {
   filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
@@ -16,7 +18,7 @@ const ExerciseSelectionPulldown = ({
 }: ExerciseSelectionPulldownProps) => {
   const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
   const getExerciseCategory = async () => {
-    const response = await fetch(`http://localhost:3000/exercise-category`);
+    const response = await fetch(`${API_BASE_URL}/exercise-category`);
     const result = await response.json();
     setTrainingName(result);
     console.log("マスタ取得結果", result);

@@ -1,6 +1,7 @@
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
+import { API_BASE_URL } from "~/config";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
@@ -18,12 +19,9 @@ const TrainingList = ({
 }: TrainingRecordProps) => {
   // 削除処理呼び出し
   const TrainingListDelete = async (id: number) => {
-    const response = await fetch(
-      `http://localhost:3000/training-record/id/${id}`,
-      {
-        method: `DELETE`,
-      }
-    );
+    const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+      method: `DELETE`,
+    });
     if (response.ok) {
       alert("削除が完了しました。");
       getTrainingRecord();

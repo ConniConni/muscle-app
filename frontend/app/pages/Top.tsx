@@ -35,7 +35,7 @@ export function Top() {
     if (filterVal != 0) {
       try {
         const response = await fetch(
-          `http://localhost:3000/training-record/exercise/${filterVal}`
+          `${API_BASE_URL}/training-record/exercise/${filterVal}`
         );
         if (response.status != 200) {
           const errorData = await response.json();
@@ -54,7 +54,7 @@ export function Top() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`http://localhost:3000/training-record/`);
+      const response = await fetch(`${API_BASE_URL}/training-record/`);
       const result = await response.json();
       console.log("api取得結果:", result);
       setTrainingRecord(result);

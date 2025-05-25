@@ -3,6 +3,7 @@ import type { TrainingCategory } from "~/type/training_category_type";
 import Button from "./Button";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ManageMstTrainingPage = () => {
@@ -13,7 +14,7 @@ const ManageMstTrainingPage = () => {
 
   const getMstMuscleCategory = async () => {
     try {
-      const response = await fetch("http://localhost:3000/exercise-category");
+      const response = await fetch(`${API_BASE_URL}/exercise-category`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -35,18 +36,15 @@ const ManageMstTrainingPage = () => {
     console.log(newTraining);
     if (newTraining.length > 0) {
       try {
-        const response = await fetch(
-          `http://localhost:3000/exercise-category`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: newTraining,
-            }),
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/exercise-category`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: newTraining,
+          }),
+        });
         if (response.status != 201) {
           const errorData = await response.json();
           throw new Error(

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import InputForm from "./InputForm";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const PostTrainingDataPage = () => {
@@ -13,7 +14,7 @@ const PostTrainingDataPage = () => {
     // 筋トレ実績登録処理呼び出し
     if (categoryId && date && count) {
       try {
-        const response = await fetch("http://localhost:3000/training-record/", {
+        const response = await fetch(`${API_BASE_URL}/training-record/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

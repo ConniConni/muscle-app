@@ -2,6 +2,7 @@ import InputForm from "./InputForm";
 import { useNavigate, useParams } from "react-router";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const UpdatePage = () => {
@@ -16,21 +17,18 @@ const UpdatePage = () => {
     const count = formData.get("count");
     if (exerciseId && date && count) {
       try {
-        const response = await fetch(
-          `http://localhost:3000/training-record/id/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              exercise_id: +exerciseId!,
-              date: date,
-              weight: +weight!,
-              count: +count!,
-            }),
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exercise_id: +exerciseId!,
+            date: date,
+            weight: +weight!,
+            count: +count!,
+          }),
+        });
 
         if (response.status != 200) {
           const errorData = await response.json();
