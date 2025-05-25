@@ -81,6 +81,8 @@ const InputForm = (props: Props) => {
           <ExerciseSelectionPulldown
             filterVal={filterVal}
             setFilterVal={setFilterVal}
+            trainingData={trainingData}
+            setTrainingData={setTrainingData}
           />
         </div>
         <div>
@@ -93,7 +95,8 @@ const InputForm = (props: Props) => {
           />
         </div>
         <div>
-          <span>重量 </span>
+          <span>重量 </span>{" "}
+          {/* 0以上の数値を0.5刻みで入力可能とするフォーム　 */}
           <input
             type="number"
             step="0.5"
