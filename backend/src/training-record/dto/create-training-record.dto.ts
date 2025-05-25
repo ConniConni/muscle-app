@@ -7,7 +7,7 @@ export class CreateTrainingRecordDto {
   exercise_id: number;
 
   @IsNotEmpty()
-  weight: number | string;
+  weight: number;
 
   @IsNotEmpty()
   @IsDate()
