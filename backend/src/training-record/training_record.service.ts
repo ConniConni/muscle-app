@@ -34,7 +34,7 @@ export class TrainingRecordService {
     FROM training_records as tr
     INNER JOIN exercise_categories as ec
     ON ec.id = tr.exercise_id
-    WHERE tr.exercise_id = ${+exerciseId}
+    WHERE tr.exercise_id = ${exerciseId}
     ORDER BY tr.date DESC;
     `;
     return result;
@@ -49,7 +49,7 @@ export class TrainingRecordService {
       tr.weight,
       tr.count
     FROM training_records as tr
-    WHERE tr.id = ${+id}
+    WHERE tr.id = ${id}
     `;
     return result[0];
   }

@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
@@ -20,12 +21,14 @@ export class TrainingRecordController {
   }
 
   @Get('exercise/:exercise_id')
-  async findAllByExerciseId(@Param('exercise_id') exerciseId: number) {
+  async findAllByExerciseId(
+    @Param('exercise_id', ParseIntPipe) exerciseId: number,
+  ) {
     return await this.trainingRecordService.findAllByExerciseId(exerciseId);
   }
 
-  @Get('id/:id')
-  async findById(@Param('id') id: number) {
+  @Get(':id')
+  async findById(@Param('id', ParseIntPipe) id: number) {
     return await this.trainingRecordService.findById(id);
   }
 
@@ -34,19 +37,16 @@ export class TrainingRecordController {
     return await this.trainingRecordService.create(createTrainingRecordDto);
   }
 
-  @Patch('id/:id')
+  @Patch(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() createTrainingRecordDto: CreateTrainingRecordDto,
   ) {
-    return await this.trainingRecordService.update(
-      +id,
-      createTrainingRecordDto,
-    );
+    return await this.trainingRecordService.update(id, createTrainingRecordDto);
   }
 
-  @Delete('id/:id')
-  async delete(@Param('id') id: number) {
-    return await this.trainingRecordService.delete(+id);
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return await this.trainingRecordService.delete(id);
   }
 }
