@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
 import { TrainingData } from 'src/types';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 
 @Injectable()
 export class TrainingRecordService {
@@ -55,26 +56,39 @@ export class TrainingRecordService {
   }
 
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
+    const currentJstTime = formatInTimeZone(
+      new Date(),
+      'Asia/Tokyo',
+      'yyyy-MM-dd HH:mm:ss.sss',
+    );
+
     const training = await this.prisma.$executeRaw`
-        INSERT INTO training_records (exercise_id,weight,date,count) VALUES
+        INSERT INTO training_records (exercise_id,weight,date,count,create_date,update_date) VALUES
         (
         ${createTrainingRecordDto.exercise_id},
         ${createTrainingRecordDto.weight},
         ${new Date(createTrainingRecordDto.date)},
-        ${createTrainingRecordDto.count}
+        ${createTrainingRecordDto.count},
+        ${currentJstTime}::timestamp,
+        ${currentJstTime}::timestamp
         );
         `;
     return training;
   }
 
   async update(id: number, createTrainingRecordDto: CreateTrainingRecordDto) {
+    const currentJstTime = formatInTimeZone(
+      new Date(),
+      'Asia/Tokyo',
+      'yyyy-MM-dd HH:mm:ss.sss',
+    );
     const updateResult = await this.prisma.$executeRaw`
       UPDATE training_records SET
       exercise_id = ${createTrainingRecordDto.exercise_id},
       date = ${new Date(createTrainingRecordDto.date)},
       weight =${createTrainingRecordDto.weight},
       count = ${createTrainingRecordDto.count},
-      update_date = CURRENT_TIMESTAMP
+      update_date = ${currentJstTime}::timestamp
       WHERE id = ${id};
     `;
     return updateResult;
