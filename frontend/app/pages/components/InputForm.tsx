@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { TrainingData } from "~/type/training_data_type";
 import Button from "./Button";
+import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
+import { API_BASE_URL } from "~/config";
 
 type Props = {
   onClick: (formDate: FormData) => void;
@@ -15,10 +17,12 @@ type Props = {
 // 入力フォームを生成する関数コンポーネント
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
+  const [filterVal, setFilterVal] = useState<number>(0);
   const [trainingData, setTrainingData] = useState<TrainingData>({
     id: 0,
-    category_id: 0,
+    exercise_id: 0,
     date: new Date(),
+    weight: 0,
     count: 0,
   });
 
@@ -26,7 +30,7 @@ const InputForm = (props: Props) => {
   useEffect(() => {
     (async () => {
       if (id) {
-        const response = await fetch(`http://localhost:3000/muscle/id/${id}`);
+        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
         const result = await response.json();
         console.log("api取得結果:", result);
         setTrainingData({ ...result, date: new Date(result.date) });
@@ -34,18 +38,9 @@ const InputForm = (props: Props) => {
     })();
   }, []);
   useEffect(() => {
+    setFilterVal(trainingData.exercise_id);
     console.log("stateの値:", trainingData);
   }, [trainingData]);
-
-  // 種目の変更状態を管理するハンドラー
-  const handleCategoryIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCategoryIdStr = e.target.value;
-    const newCategoryId = newCategoryIdStr === "" ? 0 : +newCategoryIdStr;
-    setTrainingData({
-      ...trainingData,
-      category_id: newCategoryId,
-    });
-  };
 
   // 日付の変更状態を管理するハンドラー
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +49,16 @@ const InputForm = (props: Props) => {
     setTrainingData({
       ...trainingData,
       date: newDate,
+    });
+  };
+
+  // 重量の変更状態を管理するハンドラー
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newWeightStr = e.target.value;
+    const newWeight = newWeightStr === "" ? 0 : +newWeightStr;
+    setTrainingData({
+      ...trainingData,
+      weight: newWeight,
     });
   };
 
@@ -72,18 +77,14 @@ const InputForm = (props: Props) => {
       <h1>{props.actionName}ぺージ</h1>
       <form action={props.onClick}>
         <div>
-          <select
-            name="category_id"
-            value={trainingData.category_id || ""}
-            onChange={handleCategoryIdChange}
-          >
-            <option value="">選択してください</option>
-            <option value="1">腹筋</option>
-            <option value="2">腕立て</option>
-            <option value="3">背筋</option>
-          </select>
+          <span>種目 </span>
+          <ExerciseSelectionPulldown
+            filterVal={filterVal}
+            setFilterVal={setFilterVal}
+          />
         </div>
         <div>
+          <span>日付 </span>
           <input
             type="date"
             name="date"
@@ -92,6 +93,17 @@ const InputForm = (props: Props) => {
           />
         </div>
         <div>
+          <span>重量 </span>
+          <input
+            type="number"
+            min="0"
+            name="weight"
+            value={trainingData.weight || ""}
+            onChange={handleWeightChange}
+          />
+        </div>
+        <div>
+          <span>回数 </span>
           <input
             type="number"
             min="0"

@@ -2,24 +2,27 @@ import { useNavigate } from "react-router";
 import InputForm from "./InputForm";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const PostTrainingDataPage = () => {
   const createTraining = async (formData: FormData) => {
-    const categoryId = formData.get("category_id");
+    const categoryId = formData.get("exercise_id");
     const date = formData.get("date");
+    const weight = formData.get("weight");
     const count = formData.get("count");
     // 筋トレ実績登録処理呼び出し
     if (categoryId && date && count) {
       try {
-        const response = await fetch("http://localhost:3000/muscle/", {
+        const response = await fetch(`${API_BASE_URL}/training-record/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            category_id: +categoryId!,
+            exercise_id: +categoryId!,
             date: date,
+            weight: +weight!,
             count: +count!,
           }),
         });
@@ -41,6 +44,9 @@ const PostTrainingDataPage = () => {
       }
       if (!date) {
         alertMessage.push("実施日を選択してください");
+      }
+      if (!weight) {
+        alertMessage.push("重量を入力してください");
       }
       if (!count) {
         alertMessage.push("回数を入力してください");
