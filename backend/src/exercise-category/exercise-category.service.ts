@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { ExerciseCategoryDto } from './dto/exercise-category.dto';
+import { formatInTimeZone } from 'date-fns-tz';
 
 @Injectable()
 export class ExerciseCategoryService {
@@ -18,11 +19,18 @@ export class ExerciseCategoryService {
   }
 
   async create(exerciseCategoryDto: ExerciseCategoryDto) {
+    const currentJstTime = formatInTimeZone(
+      new Date(),
+      'Asia/Tokyo',
+      'yyyy-MM-dd HH:mm:ss.sss',
+    );
     const result = await this.prisma.$executeRaw`
-      INSERT INTO exercise_categories (target_id, name)
+      INSERT INTO exercise_categories (target_id, name, create_date, update_date)
       VALUES (
         ${exerciseCategoryDto.target_id},
-        ${exerciseCategoryDto.name}
+        ${exerciseCategoryDto.name},
+        ${currentJstTime}::timestamp,
+        ${currentJstTime}::timestamp
       )
       `;
   }
