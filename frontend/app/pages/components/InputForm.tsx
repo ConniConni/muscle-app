@@ -96,6 +96,7 @@ const InputForm = (props: Props) => {
           <span>重量 </span>
           <input
             type="number"
+            step="0.5"
             min="0"
             name="weight"
             value={trainingData.weight || ""}
