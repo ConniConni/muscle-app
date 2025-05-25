@@ -73,7 +73,8 @@ export class TrainingRecordService {
       exercise_id = ${createTrainingRecordDto.exercise_id},
       date = ${new Date(createTrainingRecordDto.date)},
       weight =${createTrainingRecordDto.weight},
-      count = ${createTrainingRecordDto.count}
+      count = ${createTrainingRecordDto.count},
+      update_date = CURRENT_TIMESTAMP
       WHERE id = ${id};
     `;
     return updateResult;
