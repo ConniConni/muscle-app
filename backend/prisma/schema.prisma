@@ -31,7 +31,7 @@ model TrainingRecord {
   id          Int      @id @default(autoincrement())
   exerciseId  Int      @map("exercise_id")
   date        DateTime @db.Date
-  weight      Int
+  weight      Float
   count       Int
   create_date DateTime @default(now())
   update_date DateTime @default(now()) @updatedAt
