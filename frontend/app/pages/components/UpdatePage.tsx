@@ -2,6 +2,7 @@ import InputForm from "./InputForm";
 import { useNavigate, useParams } from "react-router";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const UpdatePage = () => {
@@ -10,19 +11,21 @@ const UpdatePage = () => {
 
   // 筋トレ記録更新処理呼び出し
   const updateTraining = async (formData: FormData) => {
-    const categoryId = formData.get("category_id");
+    const exerciseId = formData.get("exercise_id");
     const date = formData.get("date");
+    const weight = formData.get("weight");
     const count = formData.get("count");
-    if (categoryId && date && count) {
+    if (exerciseId && date && count) {
       try {
-        const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            category_id: +categoryId!,
+            exercise_id: +exerciseId!,
             date: date,
+            weight: +weight!,
             count: +count!,
           }),
         });
@@ -40,11 +43,14 @@ const UpdatePage = () => {
       }
     } else {
       const alertMessage: string[] = [];
-      if (!categoryId) {
+      if (!exerciseId) {
         alertMessage.push("トレーニングを選択してください");
       }
       if (!date) {
         alertMessage.push("実施日を選択してください");
+      }
+      if (!weight) {
+        alertMessage.push("重量を入力してください");
       }
       if (!count) {
         alertMessage.push("回数を入力してください");

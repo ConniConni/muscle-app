@@ -1,6 +1,7 @@
 import type { TrainingRecord } from "~/type/training_record_type";
 import Button from "./Button";
 import { useNavigate } from "react-router";
+import { API_BASE_URL } from "~/config";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecord[];
@@ -18,7 +19,7 @@ const TrainingList = ({
 }: TrainingRecordProps) => {
   // 削除処理呼び出し
   const TrainingListDelete = async (id: number) => {
-    const response = await fetch(`http://localhost:3000/muscle/id/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
       method: `DELETE`,
     });
     if (response.ok) {
@@ -65,7 +66,8 @@ const TrainingList = ({
           <tr>
             <th className="training-record-header">種目名</th>
             <th className="training-record-header">実施日</th>
-            <th className="training-record-header">回数</th>
+            <th className="training-record-header">重量(kg)</th>
+            <th className="training-record-header">回数(回)</th>
             <th className="training-record-header">編集・削除</th>
           </tr>
         </thead>
@@ -78,6 +80,7 @@ const TrainingList = ({
               <tr key={index}>
                 <th className="training-record-cell">{c.name}</th>
                 <th className="training-record-cell">{formattedDate}</th>
+                <th className="training-record-cell">{c.weight}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Button

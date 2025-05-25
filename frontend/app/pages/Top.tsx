@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import TrainingList from "./components/TrainingList";
 import Button from "./components/Button";
-import CategorySelectionPulldown from "./components/CategorySelectionPulldown";
+import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
 import type { TrainingRecord } from "~/type/training_record_type";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import { API_BASE_URL } from "../config";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -15,7 +16,7 @@ export function Top() {
   // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
     try {
-      const response = await fetch("http://localhost:3000/muscle/");
+      const response = await fetch(`${API_BASE_URL}/training-record/`);
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
@@ -34,7 +35,7 @@ export function Top() {
     if (filterVal != 0) {
       try {
         const response = await fetch(
-          `http://localhost:3000/muscle/category/${filterVal}`
+          `${API_BASE_URL}/training-record/exercise/${filterVal}`
         );
         if (response.status != 200) {
           const errorData = await response.json();
@@ -53,7 +54,7 @@ export function Top() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`http://localhost:3000/muscle/`);
+      const response = await fetch(`${API_BASE_URL}/training-record/`);
       const result = await response.json();
       console.log("api取得結果:", result);
       setTrainingRecord(result);
@@ -72,7 +73,10 @@ export function Top() {
           </div>
           <div>
             <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
-            <CategorySelectionPulldown setFilterVal={setFilterVal} />
+            <ExerciseSelectionPulldown
+              filterVal={filterVal}
+              setFilterVal={setFilterVal}
+            />
           </div>
           <TrainingList
             trainingRecord={trainingRecord}
