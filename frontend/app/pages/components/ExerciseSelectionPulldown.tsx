@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "~/config";
+import type { exerciseCategory } from "~/type/exercise_category";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 
 type ExerciseSelectionPulldownProps = {
@@ -11,11 +12,6 @@ type ExerciseSelectionPulldownProps = {
   >;
 };
 
-type ExerciseCategory = {
-  id: number;
-  name: string;
-};
-
 // 種目選択のプルダウンを生成する関数コンポーネント
 const ExerciseSelectionPulldown = ({
   filterVal,
@@ -23,7 +19,7 @@ const ExerciseSelectionPulldown = ({
   trainingRecord,
   setTrainingRecord,
 }: ExerciseSelectionPulldownProps) => {
-  const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
+  const [trainingName, setTrainingName] = useState<exerciseCategory[]>([]);
   const getExerciseCategory = async () => {
     const response = await fetch(`${API_BASE_URL}/exercise-category`);
     const result = await response.json();

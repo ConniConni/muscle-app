@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { TrainingCategory } from "~/type/training_category_type";
+import type { exerciseCategory } from "~/type/exercise_category";
 import Button from "./Button";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -7,7 +7,7 @@ import { API_BASE_URL } from "~/config";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ManageMstTrainingPage = () => {
-  const [trainingCategory, setTrainingCategory] = useState<TrainingCategory[]>(
+  const [trainingCategory, setTrainingCategory] = useState<exerciseCategory[]>(
     []
   );
   const [newTraining, setNewTraining] = useState<string>("");
