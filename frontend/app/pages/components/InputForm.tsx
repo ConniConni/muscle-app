@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type { TrainingData } from "~/type/training_data_type";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import Button from "./Button";
 import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
 import { API_BASE_URL } from "~/config";
@@ -18,13 +18,14 @@ type Props = {
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const [filterVal, setFilterVal] = useState<number>(0);
-  const [trainingData, setTrainingData] = useState<TrainingData>({
-    id: 0,
-    exercise_id: 0,
-    date: new Date(),
-    weight: 0,
-    count: 0,
-  });
+  const [trainingData, setTrainingData] =
+    useState<TrainingRecordWithExerciseId>({
+      id: 0,
+      exercise_id: 0,
+      date: new Date(),
+      weight: 0,
+      count: 0,
+    });
 
   // 編集の際はidに紐づく筋トレ実績を取得する
   useEffect(() => {

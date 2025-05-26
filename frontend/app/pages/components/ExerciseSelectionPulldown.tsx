@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "~/config";
-import type { TrainingData } from "~/type/training_data_type";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
+i;
 
 type ExerciseSelectionPulldownProps = {
   filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
-  trainingData?: TrainingData;
-  setTrainingData?: React.Dispatch<React.SetStateAction<TrainingData>>;
+  trainingData?: TrainingRecordWithExerciseId;
+  setTrainingData?: React.Dispatch<
+    React.SetStateAction<TrainingRecordWithExerciseId>
+  >;
 };
 
 type ExerciseCategory = {
