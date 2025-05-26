@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "~/config";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
-i;
 
 type ExerciseSelectionPulldownProps = {
   filterVal: number;
