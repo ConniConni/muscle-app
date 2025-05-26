@@ -17,7 +17,7 @@ model ExerciseCategory {
   id          Int      @id @default(autoincrement())
   targetId    Int      @map("target_id")
   name        String
-  isActive    Boolean  @map("is_active")
+  isActive    Boolean  @default(true) @map("is_active")
   create_date DateTime
   update_date DateTime
 
