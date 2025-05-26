@@ -5,12 +5,12 @@ import Sidebar from "./Sidebar";
 import { API_BASE_URL } from "~/config";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
-const UpdatePage = () => {
+const TrainingRecordEditPage = () => {
   // URL から id を取得
   const { id } = useParams<{ id: string }>();
 
   // 筋トレ記録更新処理呼び出し
-  const updateTraining = async (formData: FormData) => {
+  const updateTrainingRecord = async (formData: FormData) => {
     const exerciseId = formData.get("exercise_id");
     const date = formData.get("date");
     const weight = formData.get("weight");
@@ -71,7 +71,7 @@ const UpdatePage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
-            onClick={updateTraining}
+            onClick={updateTrainingRecord}
             actionName="更新"
             color="white"
             background="royalblue"
@@ -83,4 +83,4 @@ const UpdatePage = () => {
     </div>
   );
 };
-export default UpdatePage;
+export default TrainingRecordEditPage;

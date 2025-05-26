@@ -1,4 +1,4 @@
-import PostTrainingDataPage from "~/pages/components/postTrainingDataPage";
+import TrainingRecordCreatePage from "~/pages/components/TrainingRecordCreatePage";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
 
@@ -12,6 +12,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Create() {
-  return <PostTrainingDataPage />;
+export default function TrainingRecordCreate() {
+  return <TrainingRecordCreatePage />;
 }

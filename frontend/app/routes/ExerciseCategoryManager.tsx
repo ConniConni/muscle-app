@@ -1,6 +1,6 @@
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
-import ManageMstTrainingPage from "~/pages/components/ManageMstTrainingPage";
+import ExerciseCategoryManagerPage from "~/pages/components/ExerciseCategoryManagerPage";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,5 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Update() {
-  return <ManageMstTrainingPage />;
+  return <ExerciseCategoryManagerPage />;
 }

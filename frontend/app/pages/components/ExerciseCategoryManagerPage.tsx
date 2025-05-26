@@ -6,13 +6,13 @@ import Sidebar from "./Sidebar";
 import { API_BASE_URL } from "~/config";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
-const ManageMstTrainingPage = () => {
-  const [trainingCategory, setTrainingCategory] = useState<exerciseCategory[]>(
+const ExerciseCategoryManagerPage = () => {
+  const [exerciseCategory, setExerciseCategory] = useState<exerciseCategory[]>(
     []
   );
-  const [newTraining, setNewTraining] = useState<string>("");
+  const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
 
-  const getMstMuscleCategory = async () => {
+  const getExerciseCategory = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/exercise-category`);
       if (!response.ok) {
@@ -22,19 +22,19 @@ const ManageMstTrainingPage = () => {
         );
       }
       const result = await response.json();
-      setTrainingCategory(result);
+      setExerciseCategory(result);
       console.log(result);
     } catch (error: any) {
       alert(`マスタ一覧の取得に失敗しました。\n\n${error.message}`);
     }
   };
   useEffect(() => {
-    getMstMuscleCategory();
+    getExerciseCategory();
   }, []);
 
   const createNewTraining = async () => {
-    console.log(newTraining);
-    if (newTraining.length > 0) {
+    console.log(newExerciseCategory);
+    if (newExerciseCategory.length > 0) {
       try {
         const response = await fetch(`${API_BASE_URL}/exercise-category`, {
           method: "POST",
@@ -42,7 +42,7 @@ const ManageMstTrainingPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: newTraining,
+            name: newExerciseCategory,
           }),
         });
         if (response.status != 201) {
@@ -52,8 +52,8 @@ const ManageMstTrainingPage = () => {
           );
         }
         alert("マスタへの追加が完了しました。");
-        setNewTraining("");
-        getMstMuscleCategory();
+        setNewExerciseCategory("");
+        getExerciseCategory();
       } catch (error: any) {
         alert(`マスタ追加に失敗しました。\n\n${error.message}`);
       }
@@ -71,16 +71,16 @@ const ManageMstTrainingPage = () => {
     currentDataに格納
   */
   const startRowIndex = (currentPage - 1) * rowsPerPage;
-  const currentData = trainingCategory.slice(
+  const currentData = exerciseCategory.slice(
     startRowIndex,
     startRowIndex + rowsPerPage
   );
 
   // 総ページ数を計算 (trainingCategoryの要素数を5で割り、切り上げる)
   const totalPages =
-    trainingCategory.length === 0
+    exerciseCategory.length === 0
       ? 1
-      : Math.ceil(trainingCategory.length / rowsPerPage);
+      : Math.ceil(exerciseCategory.length / rowsPerPage);
 
   // 次のページへ進む
   const handleNext = () => {
@@ -106,8 +106,8 @@ const ManageMstTrainingPage = () => {
           <div>
             <input
               type="text"
-              value={newTraining}
-              onChange={(e) => setNewTraining(e.target.value)}
+              value={newExerciseCategory}
+              onChange={(e) => setNewExerciseCategory(e.target.value)}
             />
             <Button onClick={createNewTraining} buttonName="マスタ追加" />
           </div>
@@ -147,4 +147,4 @@ const ManageMstTrainingPage = () => {
     </div>
   );
 };
-export default ManageMstTrainingPage;
+export default ExerciseCategoryManagerPage;

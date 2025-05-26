@@ -9,12 +9,12 @@ const Sidebar = () => {
     navigate("/");
   };
   // 登録画面に遷移
-  const navigateToCreatePage = () => {
+  const navigateToTrainingRecordEditPage = () => {
     navigate("/create");
   };
   // マスタ登録画面に遷移
-  const navigateToManageMstMuscleCategoryPage = () => {
-    navigate("/manage-mst-muscle-category");
+  const navigateToExerciseCategoryManagerPage = () => {
+    navigate("/exercise-category");
   };
   return (
     <aside className="sidebar">
@@ -22,11 +22,14 @@ const Sidebar = () => {
         <Button onClick={backTopPage} buttonName="筋トレ実績へ" />
       </div>
       <div className="sidebar-content">
-        <Button onClick={navigateToCreatePage} buttonName="新規登録" />
+        <Button
+          onClick={navigateToTrainingRecordEditPage}
+          buttonName="新規登録"
+        />
       </div>
       <div className="sidebar-content">
         <Button
-          onClick={navigateToManageMstMuscleCategoryPage}
+          onClick={navigateToExerciseCategoryManagerPage}
           buttonName="種目管理"
         />
       </div>

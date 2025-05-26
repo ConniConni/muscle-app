@@ -11,14 +11,14 @@ type TrainingRecordProps = {
 };
 
 // 筋トレ実績一覧を生成する関数コンポーネント
-const TrainingList = ({
+const TrainingRecordTable = ({
   trainingRecord,
   currentPage,
   getTrainingRecord,
   setCurrentPage,
 }: TrainingRecordProps) => {
   // 削除処理呼び出し
-  const TrainingListDelete = async (id: number) => {
+  const TrainingRecordDelete = async (id: number) => {
     const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
       method: `DELETE`,
     });
@@ -56,7 +56,7 @@ const TrainingList = ({
   };
 
   const navigate = useNavigate();
-  const navigateToUpdatePage = (id: number) => {
+  const navigateToTrainingRecordEditPage = (id: number) => {
     navigate(`/update/${id}`);
   };
   return (
@@ -84,7 +84,7 @@ const TrainingList = ({
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Button
-                    onClick={() => navigateToUpdatePage(c.id)}
+                    onClick={() => navigateToTrainingRecordEditPage(c.id)}
                     buttonName="編集"
                     color="white"
                     background="royalblue"
@@ -92,7 +92,7 @@ const TrainingList = ({
                     hoverBackground="white"
                   />
                   <Button
-                    onClick={() => TrainingListDelete(c.id)}
+                    onClick={() => TrainingRecordDelete(c.id)}
                     buttonName="削除"
                     color="white"
                     background="tomato"
@@ -121,4 +121,4 @@ const TrainingList = ({
     </div>
   );
 };
-export default TrainingList;
+export default TrainingRecordTable;

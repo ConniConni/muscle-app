@@ -5,8 +5,8 @@ import Sidebar from "./Sidebar";
 import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
-const PostTrainingDataPage = () => {
-  const createTraining = async (formData: FormData) => {
+const TrainingRecordCreatePage = () => {
+  const createTrainingRecord = async (formData: FormData) => {
     const categoryId = formData.get("exercise_id");
     const date = formData.get("date");
     const weight = formData.get("weight");
@@ -67,7 +67,7 @@ const PostTrainingDataPage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
-            onClick={createTraining}
+            onClick={createTrainingRecord}
             actionName="登録"
             color="white"
             background="seagreen"
@@ -79,4 +79,4 @@ const PostTrainingDataPage = () => {
     </div>
   );
 };
-export default PostTrainingDataPage;
+export default TrainingRecordCreatePage;
