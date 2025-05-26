@@ -6,6 +6,7 @@ import type { TrainingRecordWithName } from "~/type/training_record";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { API_BASE_URL } from "../config";
+import TargetSelectionPulldown from "./components/TargetSelectionPulldown";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -14,6 +15,8 @@ export function Top() {
   >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterVal, setFilterVal] = useState<number>(0);
+  // 部位選択プルダウン用のstateを追加
+  const [filterTarget, setFilterTarget] = useState<number>(0);
 
   // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
@@ -75,6 +78,10 @@ export function Top() {
           </div>
           <div>
             <Button onClick={getSelectExerciseId} buttonName="絞り込み" />
+            <TargetSelectionPulldown //部位選択プルダウン用の追加
+              filterTarget={filterTarget}
+              setFilterTarget={setFilterTarget}
+            />
             <ExerciseSelectionPulldown
               filterVal={filterVal}
               setFilterVal={setFilterVal}
