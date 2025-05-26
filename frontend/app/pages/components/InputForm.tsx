@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type { TrainingData } from "~/type/training_data_type";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import Button from "./Button";
 import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
 import { API_BASE_URL } from "~/config";
 
 type Props = {
-  onClick: (formDate: FormData) => void;
+  onClick: (formData: FormData) => void;
   actionName: string;
   color: string;
   background: string;
@@ -18,13 +18,14 @@ type Props = {
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const [filterVal, setFilterVal] = useState<number>(0);
-  const [trainingData, setTrainingData] = useState<TrainingData>({
-    id: 0,
-    exercise_id: 0,
-    date: new Date(),
-    weight: 0,
-    count: 0,
-  });
+  const [trainingRecord, setTrainingRecord] =
+    useState<TrainingRecordWithExerciseId>({
+      id: 0,
+      exercise_id: 0,
+      date: new Date(),
+      weight: 0,
+      count: 0,
+    });
 
   // 編集の際はidに紐づく筋トレ実績を取得する
   useEffect(() => {
@@ -33,21 +34,21 @@ const InputForm = (props: Props) => {
         const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
         const result = await response.json();
         console.log("api取得結果:", result);
-        setTrainingData({ ...result, date: new Date(result.date) });
+        setTrainingRecord({ ...result, date: new Date(result.date) });
       }
     })();
   }, []);
   useEffect(() => {
-    setFilterVal(trainingData.exercise_id);
-    console.log("stateの値:", trainingData);
-  }, [trainingData]);
+    setFilterVal(trainingRecord.exercise_id);
+    console.log("stateの値:", trainingRecord);
+  }, [trainingRecord]);
 
   // 日付の変更状態を管理するハンドラー
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDateStr = e.target.value;
     const newDate = new Date(newDateStr);
-    setTrainingData({
-      ...trainingData,
+    setTrainingRecord({
+      ...trainingRecord,
       date: newDate,
     });
   };
@@ -56,8 +57,8 @@ const InputForm = (props: Props) => {
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newWeightStr = e.target.value;
     const newWeight = newWeightStr === "" ? 0 : +newWeightStr;
-    setTrainingData({
-      ...trainingData,
+    setTrainingRecord({
+      ...trainingRecord,
       weight: newWeight,
     });
   };
@@ -66,8 +67,8 @@ const InputForm = (props: Props) => {
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCountStr = e.target.value;
     const newCount = newCountStr === "" ? 0 : +newCountStr;
-    setTrainingData({
-      ...trainingData,
+    setTrainingRecord({
+      ...trainingRecord,
       count: newCount,
     });
   };
@@ -81,8 +82,8 @@ const InputForm = (props: Props) => {
           <ExerciseSelectionPulldown
             filterVal={filterVal}
             setFilterVal={setFilterVal}
-            trainingData={trainingData}
-            setTrainingData={setTrainingData}
+            trainingRecord={trainingRecord}
+            setTrainingRecord={setTrainingRecord}
           />
         </div>
         <div>
@@ -90,7 +91,7 @@ const InputForm = (props: Props) => {
           <input
             type="date"
             name="date"
-            value={trainingData.date.toISOString().split("T")[0]}
+            value={trainingRecord.date.toISOString().split("T")[0]}
             onChange={handleDateChange}
           />
         </div>
@@ -102,7 +103,7 @@ const InputForm = (props: Props) => {
             step="0.5"
             min="0"
             name="weight"
-            value={trainingData.weight || ""}
+            value={trainingRecord.weight || ""}
             onChange={handleWeightChange}
           />
         </div>
@@ -112,7 +113,7 @@ const InputForm = (props: Props) => {
             type="number"
             min="0"
             name="count"
-            value={trainingData.count || ""}
+            value={trainingRecord.count || ""}
             onChange={handleCountChange}
           />
         </div>

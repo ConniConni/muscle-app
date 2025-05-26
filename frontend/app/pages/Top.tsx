@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import TrainingList from "./components/TrainingList";
+import TrainingRecordTable from "./components/TrainingRecordTable";
 import Button from "./components/Button";
 import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
-import type { TrainingRecord } from "~/type/training_record_type";
+import type { TrainingRecordWithName } from "~/type/training_record";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { API_BASE_URL } from "../config";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
-  const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
+  const [trainingRecord, setTrainingRecord] = useState<
+    TrainingRecordWithName[]
+  >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterVal, setFilterVal] = useState<number>(0);
 
@@ -31,7 +33,7 @@ export function Top() {
   };
 
   // 絞り込み表示処理呼び出し
-  const getSelectCategoryId = async () => {
+  const getSelectExerciseId = async () => {
     if (filterVal != 0) {
       try {
         const response = await fetch(
@@ -72,13 +74,13 @@ export function Top() {
             <Button onClick={getTrainingRecord} buttonName="一覧取得" />
           </div>
           <div>
-            <Button onClick={getSelectCategoryId} buttonName="絞り込み" />
+            <Button onClick={getSelectExerciseId} buttonName="絞り込み" />
             <ExerciseSelectionPulldown
               filterVal={filterVal}
               setFilterVal={setFilterVal}
             />
           </div>
-          <TrainingList
+          <TrainingRecordTable
             trainingRecord={trainingRecord}
             currentPage={currentPage}
             getTrainingRecord={getTrainingRecord}

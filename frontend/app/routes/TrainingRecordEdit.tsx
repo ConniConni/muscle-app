@@ -1,5 +1,6 @@
+import TrainingRecordEditPage from "~/pages/components/TrainingRecordEditPage";
 import type { Route } from "../+types/root";
-import UpdatePage from "~/pages/components/UpdatePage";
+
 import Title from "~/utils/Title";
 
 export function meta({}: Route.MetaArgs) {
@@ -12,6 +13,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Update() {
-  return <UpdatePage />;
+export default function TrainingRecordEdit() {
+  return <TrainingRecordEditPage />;
 }

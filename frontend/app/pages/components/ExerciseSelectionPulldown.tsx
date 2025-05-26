@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "~/config";
-import type { TrainingData } from "~/type/training_data_type";
+import type { exerciseCategory } from "~/type/exercise_category";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 
 type ExerciseSelectionPulldownProps = {
   filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
-  trainingData?: TrainingData;
-  setTrainingData?: React.Dispatch<React.SetStateAction<TrainingData>>;
-};
-
-type ExerciseCategory = {
-  id: number;
-  name: string;
+  trainingRecord?: TrainingRecordWithExerciseId;
+  setTrainingRecord?: React.Dispatch<
+    React.SetStateAction<TrainingRecordWithExerciseId>
+  >;
 };
 
 // 種目選択のプルダウンを生成する関数コンポーネント
 const ExerciseSelectionPulldown = ({
   filterVal,
   setFilterVal,
-  trainingData,
-  setTrainingData,
+  trainingRecord,
+  setTrainingRecord,
 }: ExerciseSelectionPulldownProps) => {
-  const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
+  const [trainingName, setTrainingName] = useState<exerciseCategory[]>([]);
   const getExerciseCategory = async () => {
     const response = await fetch(`${API_BASE_URL}/exercise-category`);
     const result = await response.json();
@@ -41,17 +39,17 @@ const ExerciseSelectionPulldown = ({
     const newExerciseId = newExerciseIdStr === "" ? 0 : +newExerciseIdStr;
 
     // 登録、更新画面でのプルダウン表示
-    if (trainingData !== undefined && setTrainingData !== undefined) {
-      console.log("trainingData: ", trainingData);
-      console.log("setTrainingData: ", setTrainingData);
-      setTrainingData!({
-        ...trainingData!,
+    if (trainingRecord !== undefined && setTrainingRecord !== undefined) {
+      console.log("trainingRecord: ", trainingRecord);
+      console.log("setTrainingRecord: ", setTrainingRecord);
+      setTrainingRecord!({
+        ...trainingRecord!,
         exercise_id: newExerciseId,
       });
       // 筋トレ実績画面でのプルダウン表示
     } else {
-      console.log("trainingData: ", trainingData);
-      console.log("setTrainingData: ", setTrainingData);
+      console.log("trainingRecord: ", trainingRecord);
+      console.log("setTrainingRecord: ", setTrainingRecord);
       setFilterVal(newExerciseId);
     }
   };
