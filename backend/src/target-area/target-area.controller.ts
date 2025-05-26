@@ -5,6 +5,11 @@ import { TargetAreaService } from './target-area.service';
 export class TargetAreaController {
   constructor(private readonly targetAreaService: TargetAreaService) {}
 
+  @Get()
+  async findAll() {
+    return await this.targetAreaService.findAll();
+  }
+
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
     return await this.targetAreaService.findById(id);
