@@ -1,7 +1,6 @@
-export type TrainingRecord = {
+export interface TrainingRecord {
   id: number;
-  name: string;
   date: Date;
   weight: number;
   count: number;
-};
+}
