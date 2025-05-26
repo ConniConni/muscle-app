@@ -1,4 +1,4 @@
-export interface TrainingRecord {
+export interface BaseTrainingRecord {
   id: number;
   date: Date;
   weight: number;
