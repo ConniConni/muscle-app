@@ -31,6 +31,7 @@ export class TrainingRecordService {
       tr.id,
       ec.name,
       tr.date,
+      tr.weight,
       tr.count
     FROM training_records as tr
     INNER JOIN exercise_categories as ec
