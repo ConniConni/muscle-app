@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import TrainingList from "./components/TrainingList";
 import Button from "./components/Button";
 import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
-import type { TrainingRecord } from "~/type/training_record_type";
+import type { TrainingRecordWithName } from "~/type/training_record";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { API_BASE_URL } from "../config";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
-  const [trainingRecord, setTrainingRecord] = useState<TrainingRecord[]>([]);
+  const [trainingRecord, setTrainingRecord] = useState<
+    TrainingRecordWithName[]
+  >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterVal, setFilterVal] = useState<number>(0);
 

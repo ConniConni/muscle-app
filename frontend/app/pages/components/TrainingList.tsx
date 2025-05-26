@@ -1,10 +1,10 @@
-import type { TrainingRecord } from "~/type/training_record_type";
+import type { TrainingRecordWithName } from "~/type/training_record";
 import Button from "./Button";
 import { useNavigate } from "react-router";
 import { API_BASE_URL } from "~/config";
 
 type TrainingRecordProps = {
-  trainingRecord: TrainingRecord[];
+  trainingRecord: TrainingRecordWithName[];
   currentPage: number;
   getTrainingRecord: () => void;
   setCurrentPage: (page: number) => void;
