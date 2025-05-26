@@ -1,4 +1,4 @@
-export type TrainingCategory = {
+export type exerciseCategory = {
   id: number;
   name: string;
 };
