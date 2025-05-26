@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { ExerciseCategoryService } from './exercise-category.service';
 import { ExerciseCategoryDto } from './dto/exercise-category.dto';
 
@@ -15,5 +22,10 @@ export class ExerciseCategoryController {
   @Get()
   async findAll() {
     return await this.exerciseCategoryService.findAll();
+  }
+
+  @Get('target/:target_id')
+  async findAllByTargetId(@Param('target_id', ParseIntPipe) targetId: number) {
+    return await this.exerciseCategoryService.findAllByTargetId(targetId);
   }
 }

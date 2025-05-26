@@ -18,6 +18,17 @@ export class ExerciseCategoryService {
     return result;
   }
 
+  async findAllByTargetId(targetId: number) {
+    const result = await this.prisma.$queryRaw`
+      SELECT ec.id, ec.target_id, ta.name, ec.name FROM exercise_categories AS ec
+        INNER JOIN target_areas AS ta
+        ON ec.target_id = ta.id
+        WHERE ec.target_id = ${targetId}
+        ORDER BY ta.id, ec.id ASC;
+    `;
+    return result;
+  }
+
   async create(exerciseCategoryDto: ExerciseCategoryDto) {
     const currentJstTime = formatInTimeZone(
       new Date(),
