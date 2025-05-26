@@ -6,8 +6,8 @@ i;
 type ExerciseSelectionPulldownProps = {
   filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
-  trainingData?: TrainingRecordWithExerciseId;
-  setTrainingData?: React.Dispatch<
+  trainingRecord?: TrainingRecordWithExerciseId;
+  setTrainingRecord?: React.Dispatch<
     React.SetStateAction<TrainingRecordWithExerciseId>
   >;
 };
@@ -21,8 +21,8 @@ type ExerciseCategory = {
 const ExerciseSelectionPulldown = ({
   filterVal,
   setFilterVal,
-  trainingData,
-  setTrainingData,
+  trainingRecord,
+  setTrainingRecord,
 }: ExerciseSelectionPulldownProps) => {
   const [trainingName, setTrainingName] = useState<ExerciseCategory[]>([]);
   const getExerciseCategory = async () => {
@@ -44,17 +44,17 @@ const ExerciseSelectionPulldown = ({
     const newExerciseId = newExerciseIdStr === "" ? 0 : +newExerciseIdStr;
 
     // 登録、更新画面でのプルダウン表示
-    if (trainingData !== undefined && setTrainingData !== undefined) {
-      console.log("trainingData: ", trainingData);
-      console.log("setTrainingData: ", setTrainingData);
-      setTrainingData!({
-        ...trainingData!,
+    if (trainingRecord !== undefined && setTrainingRecord !== undefined) {
+      console.log("trainingRecord: ", trainingRecord);
+      console.log("setTrainingRecord: ", setTrainingRecord);
+      setTrainingRecord!({
+        ...trainingRecord!,
         exercise_id: newExerciseId,
       });
       // 筋トレ実績画面でのプルダウン表示
     } else {
-      console.log("trainingData: ", trainingData);
-      console.log("setTrainingData: ", setTrainingData);
+      console.log("trainingRecord: ", trainingRecord);
+      console.log("setTrainingRecord: ", setTrainingRecord);
       setFilterVal(newExerciseId);
     }
   };
