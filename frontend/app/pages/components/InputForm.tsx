@@ -87,11 +87,14 @@ const InputForm = (props: Props) => {
           <TargetSelectionPulldown //部位選択プルダウン用の追加
             filterTarget={filterTarget}
             setFilterTarget={setFilterTarget}
+            trainingRecord={trainingRecord}
+            setTrainingRecord={setTrainingRecord}
           />
         </div>
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
+            filterTarget={filterTarget} // プルダウンに部位に紐づく種目のみを表示するために追加
             filterExercise={filterVal}
             setFilterExercise={setFilterVal}
             trainingRecord={trainingRecord}
