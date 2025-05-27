@@ -19,8 +19,14 @@ const BaseSelectionPulldown = ({
     const response = await fetch(`${API_BASE_URL}/${apiEndPoint}`);
     const result = await response.json();
     setSelectedValues(result);
-    console.log("マスタ取得結果", result);
-    console.log("selectedValues:", selectedValues);
+    console.log("エンドポイント: ", apiEndPoint, ": マスタ取得結果", result);
+    console.log(
+      "エンドポイント: ",
+      apiEndPoint,
+      ": selectedValues:",
+      selectedValues
+    );
+    console.log("エンドポイント: ", apiEndPoint, ": プルダウン値", filterVal);
   };
 
   useEffect(() => {
