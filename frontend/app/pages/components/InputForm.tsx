@@ -80,8 +80,8 @@ const InputForm = (props: Props) => {
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
-            filterVal={filterVal}
-            setFilterVal={setFilterVal}
+            filterExercise={filterVal}
+            setFilterExercise={setFilterVal}
             trainingRecord={trainingRecord}
             setTrainingRecord={setTrainingRecord}
           />
