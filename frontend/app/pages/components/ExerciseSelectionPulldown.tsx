@@ -38,7 +38,7 @@ const ExerciseSelectionPulldown = ({
     <BaseSelectionPulldown
       filterVal={filterVal}
       handleValueChange={handleExerciseIdChange}
-      apiEndPoint="exercise-category"
+      apiEndPoint="exercise-category/target/1"
     />
   );
 };
