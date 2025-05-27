@@ -14,5 +14,6 @@ export type TrainingRecordWithName = BaseTrainingRecord & {
 
 // 種目名のプルダウンを表示する際に利用する型
 export type TrainingRecordWithExerciseId = BaseTrainingRecord & {
+  target_id: number;
   exercise_id: number;
 };

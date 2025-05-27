@@ -4,6 +4,7 @@ import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import Button from "./Button";
 import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
 import { API_BASE_URL } from "~/config";
+import TargetSelectionPulldown from "./TargetSelectionPulldown";
 
 type Props = {
   onClick: (formData: FormData) => void;
@@ -18,9 +19,12 @@ type Props = {
 const InputForm = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const [filterVal, setFilterVal] = useState<number>(0);
+  // 部位選択プルダウン用のstateを追加
+  const [filterTarget, setFilterTarget] = useState<number>(0);
   const [trainingRecord, setTrainingRecord] =
     useState<TrainingRecordWithExerciseId>({
       id: 0,
+      target_id: 0,
       exercise_id: 0,
       date: new Date(),
       weight: 0,
@@ -33,13 +37,14 @@ const InputForm = (props: Props) => {
       if (id) {
         const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
         const result = await response.json();
-        console.log("api取得結果:", result);
+        console.log("個別データ取得api結果:", result);
         setTrainingRecord({ ...result, date: new Date(result.date) });
       }
     })();
   }, []);
   useEffect(() => {
     setFilterVal(trainingRecord.exercise_id);
+    setFilterTarget(trainingRecord.target_id);
     console.log("stateの値:", trainingRecord);
   }, [trainingRecord]);
 
@@ -77,6 +82,13 @@ const InputForm = (props: Props) => {
     <div>
       <h1>{props.actionName}ぺージ</h1>
       <form action={props.onClick}>
+        <div>
+          <span>部位 </span>
+          <TargetSelectionPulldown //部位選択プルダウン用の追加
+            filterTarget={filterTarget}
+            setFilterTarget={setFilterTarget}
+          />
+        </div>
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
