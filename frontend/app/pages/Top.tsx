@@ -14,7 +14,7 @@ export function Top() {
     TrainingRecordWithName[]
   >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterVal, setFilterVal] = useState<number>(0);
+  const [filterExercise, setFilterExercise] = useState<number>(0);
   // 部位選択プルダウン用のstateを追加
   const [filterTarget, setFilterTarget] = useState<number>(0);
 
@@ -37,10 +37,10 @@ export function Top() {
 
   // 絞り込み表示処理呼び出し
   const getSelectExerciseId = async () => {
-    if (filterVal != 0) {
+    if (filterExercise != 0) {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/training-record/exercise/${filterVal}`
+          `${API_BASE_URL}/training-record/exercise/${filterExercise}`
         );
         if (response.status != 200) {
           const errorData = await response.json();
@@ -83,9 +83,9 @@ export function Top() {
               setFilterTarget={setFilterTarget}
             />
             <ExerciseSelectionPulldown
-              filterVal={filterVal}
+              filterExercise={filterExercise}
               filterTarget={filterTarget}
-              setFilterVal={setFilterVal}
+              setFilterExercise={setFilterExercise}
             />
           </div>
           <TrainingRecordTable
