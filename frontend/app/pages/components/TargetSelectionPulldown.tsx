@@ -32,6 +32,7 @@ TargetSelectionPulldownProps) => {
     //   // 筋トレ実績画面でのプルダウン表示
     // } else {
     setFilterTarget(newTargetId);
+    console.log("filterTarget: ", filterTarget);
     // }
   };
   return (

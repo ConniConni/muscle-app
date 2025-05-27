@@ -84,6 +84,7 @@ export function Top() {
             />
             <ExerciseSelectionPulldown
               filterVal={filterVal}
+              filterTarget={filterTarget}
               setFilterVal={setFilterVal}
             />
           </div>

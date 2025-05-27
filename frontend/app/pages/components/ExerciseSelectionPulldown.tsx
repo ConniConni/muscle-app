@@ -3,6 +3,7 @@ import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import BaseSelectionPulldown from "./BaseSelectionPulldown";
 
 type ExerciseSelectionPulldownProps = {
+  filterTarget?: number;
   filterVal: number;
   setFilterVal: React.Dispatch<React.SetStateAction<number>>;
   trainingRecord?: TrainingRecordWithExerciseId;
@@ -14,6 +15,7 @@ type ExerciseSelectionPulldownProps = {
 // 種目選択のプルダウンを生成する関数コンポーネント
 const ExerciseSelectionPulldown = ({
   filterVal,
+  filterTarget,
   setFilterVal,
   trainingRecord,
   setTrainingRecord,
@@ -32,13 +34,21 @@ const ExerciseSelectionPulldown = ({
       // 筋トレ実績画面でのプルダウン表示
     } else {
       setFilterVal(newExerciseId);
+      console.log(
+        "エンドポイント: ",
+        `exercise-category/target/${filterTarget}`
+      );
     }
   };
   return (
     <BaseSelectionPulldown
       filterVal={filterVal}
       handleValueChange={handleExerciseIdChange}
-      apiEndPoint="exercise-category/target/1"
+      apiEndPoint={
+        filterTarget && filterTarget > 0
+          ? `exercise-category/target/${filterTarget}`
+          : "exercise-category"
+      }
     />
   );
 };
