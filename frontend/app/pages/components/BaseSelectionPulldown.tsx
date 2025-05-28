@@ -15,15 +15,14 @@ const BaseSelectionPulldown = ({
   apiEndPoint,
 }: BaseSelectionPulldownProps) => {
   const [selectedValues, setSelectedValues] = useState<exerciseCategory[]>([]);
-  const getOptionName = async () => {
-    const response = await fetch(`${API_BASE_URL}/${apiEndPoint}`);
-    const result = await response.json();
-    setSelectedValues(result);
-    console.log("エンドポイント: ", apiEndPoint, ": 取得結果", result);
-  };
 
   useEffect(() => {
-    getOptionName();
+    (async () => {
+      const response = await fetch(`${API_BASE_URL}/${apiEndPoint}`);
+      const result = await response.json();
+      setSelectedValues(result);
+      console.log("エンドポイント: ", apiEndPoint, ": 取得結果", result);
+    })();
   }, [apiEndPoint]);
 
   return (
