@@ -1,4 +1,4 @@
-import TrainingRecordEditPage from "~/pages/components/TrainingRecordEditPage";
+import TrainingRecordEditPage from "~/pages/TrainingRecordEditPage";
 import type { Route } from "../+types/root";
 
 import Title from "~/utils/Title";

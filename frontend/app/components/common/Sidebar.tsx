@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import Button from "./Button";
+import Button from "../parts/Button";
 
 // サイドバーを生成する関数コンポーネント
 const Sidebar = () => {

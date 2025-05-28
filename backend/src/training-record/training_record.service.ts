@@ -31,6 +31,7 @@ export class TrainingRecordService {
       tr.id,
       ec.name,
       tr.date,
+      tr.weight,
       tr.count
     FROM training_records as tr
     INNER JOIN exercise_categories as ec
@@ -45,11 +46,14 @@ export class TrainingRecordService {
     const result = await this.prisma.$queryRaw<TrainingData[]>`
     SELECT
       tr.id,
+      ec.target_id,
       tr.exercise_id,
       tr.date,
       tr.weight,
       tr.count
     FROM training_records as tr
+    INNER JOIN exercise_categories as ec
+    ON ec.id = tr.exercise_id
     WHERE tr.id = ${id}
     `;
     return result[0];

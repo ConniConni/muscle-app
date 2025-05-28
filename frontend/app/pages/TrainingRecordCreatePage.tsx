@@ -1,11 +1,32 @@
-import { useNavigate } from "react-router";
-import InputForm from "./InputForm";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import { useNavigate, useParams } from "react-router";
+import InputForm from "~/components/InputForm";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
+import { useEffect, useState } from "react";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const TrainingRecordCreatePage = () => {
+  const [filterVal, setFilterVal] = useState<number>(0);
+  // 部位選択プルダウン用のstateを追加
+  const [filterTarget, setFilterTarget] = useState<number>(0);
+  const [trainingRecord, setTrainingRecord] =
+    useState<TrainingRecordWithExerciseId>({
+      id: 0,
+      target_id: 0,
+      exercise_id: 0,
+      date: new Date(),
+      weight: 0,
+      count: 0,
+    });
+
+  useEffect(() => {
+    setFilterTarget(trainingRecord.target_id);
+    setFilterVal(trainingRecord.exercise_id);
+    console.log("stateの値:", trainingRecord);
+  }, [trainingRecord]);
+
   const createTrainingRecord = async (formData: FormData) => {
     const categoryId = formData.get("exercise_id");
     const date = formData.get("date");
@@ -67,6 +88,12 @@ const TrainingRecordCreatePage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
+            filterVal={filterVal}
+            setFilterVal={setFilterVal}
+            filterTarget={filterTarget}
+            setFilterTarget={setFilterTarget}
+            trainingRecord={trainingRecord}
+            setTrainingRecord={setTrainingRecord}
             onClick={createTrainingRecord}
             actionName="登録"
             color="white"

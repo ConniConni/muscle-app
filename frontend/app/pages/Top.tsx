@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import TrainingRecordTable from "./components/TrainingRecordTable";
-import Button from "./components/Button";
-import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
+import TrainingRecordTable from "~/components/features/top/TrainingRecordTable";
+import Button from "~/components/parts/Button";
+import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelectionPulldown";
 import type { TrainingRecordWithName } from "~/type/training_record";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "../config";
+import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -13,7 +14,9 @@ export function Top() {
     TrainingRecordWithName[]
   >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterVal, setFilterVal] = useState<number>(0);
+  const [filterExercise, setFilterExercise] = useState<number>(0);
+  // 部位選択プルダウン用のstateを追加
+  const [filterTarget, setFilterTarget] = useState<number>(0);
 
   // 筋トレ実績一覧取得処理呼び出し
   const getTrainingRecord = async () => {
@@ -34,10 +37,10 @@ export function Top() {
 
   // 絞り込み表示処理呼び出し
   const getSelectExerciseId = async () => {
-    if (filterVal != 0) {
+    if (filterExercise != 0) {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/training-record/exercise/${filterVal}`
+          `${API_BASE_URL}/training-record/exercise/${filterExercise}`
         );
         if (response.status != 200) {
           const errorData = await response.json();
@@ -75,9 +78,14 @@ export function Top() {
           </div>
           <div>
             <Button onClick={getSelectExerciseId} buttonName="絞り込み" />
+            <TargetSelectionPulldown //部位選択プルダウン用の追加
+              filterTarget={filterTarget}
+              setFilterTarget={setFilterTarget}
+            />
             <ExerciseSelectionPulldown
-              filterVal={filterVal}
-              setFilterVal={setFilterVal}
+              filterExercise={filterExercise}
+              filterTarget={filterTarget}
+              setFilterExercise={setFilterExercise}
             />
           </div>
           <TrainingRecordTable

@@ -1,35 +1,23 @@
 import { useEffect, useState } from "react";
-import type { exerciseCategory } from "~/type/exercise_category";
-import Button from "./Button";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Button from "~/components/parts/Button";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
+import type { PulldownSelectedValue } from "~/type/common";
+import { getExerciseCategory } from "~/apiActions/exerciseCategoryManager";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ExerciseCategoryManagerPage = () => {
-  const [exerciseCategory, setExerciseCategory] = useState<exerciseCategory[]>(
-    []
-  );
+  const [exerciseCategory, setExerciseCategory] = useState<
+    PulldownSelectedValue[]
+  >([]);
   const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
 
-  const getExerciseCategory = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/exercise-category`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
-        );
-      }
-      const result = await response.json();
-      setExerciseCategory(result);
-      console.log(result);
-    } catch (error: any) {
-      alert(`マスタ一覧の取得に失敗しました。\n\n${error.message}`);
-    }
-  };
   useEffect(() => {
-    getExerciseCategory();
+    (async () => {
+      const result = await getExerciseCategory();
+      setExerciseCategory(result);
+    })();
   }, []);
 
   const createNewTraining = async () => {

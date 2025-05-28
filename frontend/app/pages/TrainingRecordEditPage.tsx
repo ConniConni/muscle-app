@@ -1,13 +1,44 @@
-import InputForm from "./InputForm";
+import InputForm from "~/components/InputForm";
 import { useNavigate, useParams } from "react-router";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
+import { useEffect, useState } from "react";
+import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
   // URL から id を取得
   const { id } = useParams<{ id: string }>();
+  const [filterVal, setFilterVal] = useState<number>(0);
+  // 部位選択プルダウン用のstateを追加
+  const [filterTarget, setFilterTarget] = useState<number>(0);
+  const [trainingRecord, setTrainingRecord] =
+    useState<TrainingRecordWithExerciseId>({
+      id: 0,
+      target_id: 0,
+      exercise_id: 0,
+      date: new Date(),
+      weight: 0,
+      count: 0,
+    });
+
+  // 編集の際はidに紐づく筋トレ実績を取得する
+  useEffect(() => {
+    (async () => {
+      if (id) {
+        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
+        const result = await response.json();
+        console.log("個別データ取得api結果:", result);
+        setTrainingRecord({ ...result, date: new Date(result.date) });
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    setFilterTarget(trainingRecord.target_id);
+    setFilterVal(trainingRecord.exercise_id);
+    console.log("stateの値:", trainingRecord);
+  }, [trainingRecord]);
 
   // 筋トレ記録更新処理呼び出し
   const updateTrainingRecord = async (formData: FormData) => {
@@ -71,6 +102,12 @@ const TrainingRecordEditPage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
+            filterVal={filterVal}
+            setFilterVal={setFilterVal}
+            filterTarget={filterTarget}
+            setFilterTarget={setFilterTarget}
+            trainingRecord={trainingRecord}
+            setTrainingRecord={setTrainingRecord}
             onClick={updateTrainingRecord}
             actionName="更新"
             color="white"

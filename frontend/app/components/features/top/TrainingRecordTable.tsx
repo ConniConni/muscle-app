@@ -1,5 +1,5 @@
 import type { TrainingRecordWithName } from "~/type/training_record";
-import Button from "./Button";
+import Button from "~/components/parts/Button";
 import { useNavigate } from "react-router";
 import { API_BASE_URL } from "~/config";
 
