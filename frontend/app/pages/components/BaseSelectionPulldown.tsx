@@ -1,10 +1,10 @@
 import React from "react";
-import type { exerciseCategory } from "~/type/exercise_category";
+import type { PulldownSelectedValue } from "~/type/common";
 
 type BaseSelectionPulldownProps = {
   filterVal: number;
   handleValueChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  selectedValues: exerciseCategory[];
+  selectedValues: PulldownSelectedValue[];
 };
 
 // プルダウンを生成する関数コンポーネント

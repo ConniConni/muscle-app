@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import BaseSelectionPulldown from "./BaseSelectionPulldown";
 import { API_BASE_URL } from "~/config";
-import type { exerciseCategory } from "~/type/exercise_category";
+import type { PulldownSelectedValue } from "~/type/common";
 
 type ExerciseSelectionPulldownProps = {
   filterTarget?: number;
@@ -23,7 +23,9 @@ const ExerciseSelectionPulldown = ({
   setTrainingRecord,
 }: ExerciseSelectionPulldownProps) => {
   // 種目名を取得
-  const [selectedValues, setSelectedValues] = useState<exerciseCategory[]>([]);
+  const [selectedValues, setSelectedValues] = useState<PulldownSelectedValue[]>(
+    []
+  );
   const apiEndPoint =
     filterTarget && filterTarget > 0
       ? `exercise-category/target/${filterTarget}`
