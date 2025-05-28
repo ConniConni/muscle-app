@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import Button from "./Button";
 import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
-import { API_BASE_URL } from "~/config";
 import TargetSelectionPulldown from "./TargetSelectionPulldown";
 
 type Props = {
+  filterVal: number;
+  setFilterVal: React.Dispatch<React.SetStateAction<number>>;
+  filterTarget: number;
+  setFilterTarget: React.Dispatch<React.SetStateAction<number>>;
+  trainingRecord: TrainingRecordWithExerciseId;
+  setTrainingRecord: React.Dispatch<
+    React.SetStateAction<TrainingRecordWithExerciseId>
+  >;
   onClick: (formData: FormData) => void;
   actionName: string;
   color: string;
@@ -17,43 +22,12 @@ type Props = {
 
 // 入力フォームを生成する関数コンポーネント
 const InputForm = (props: Props) => {
-  const { id } = useParams<{ id: string }>();
-  const [filterVal, setFilterVal] = useState<number>(0);
-  // 部位選択プルダウン用のstateを追加
-  const [filterTarget, setFilterTarget] = useState<number>(0);
-  const [trainingRecord, setTrainingRecord] =
-    useState<TrainingRecordWithExerciseId>({
-      id: 0,
-      target_id: 0,
-      exercise_id: 0,
-      date: new Date(),
-      weight: 0,
-      count: 0,
-    });
-
-  // 編集の際はidに紐づく筋トレ実績を取得する
-  useEffect(() => {
-    (async () => {
-      if (id) {
-        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
-        const result = await response.json();
-        console.log("個別データ取得api結果:", result);
-        setTrainingRecord({ ...result, date: new Date(result.date) });
-      }
-    })();
-  }, []);
-  useEffect(() => {
-    setFilterVal(trainingRecord.exercise_id);
-    setFilterTarget(trainingRecord.target_id);
-    console.log("stateの値:", trainingRecord);
-  }, [trainingRecord]);
-
   // 日付の変更状態を管理するハンドラー
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDateStr = e.target.value;
     const newDate = new Date(newDateStr);
-    setTrainingRecord({
-      ...trainingRecord,
+    props.setTrainingRecord({
+      ...props.trainingRecord,
       date: newDate,
     });
   };
@@ -62,8 +36,8 @@ const InputForm = (props: Props) => {
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newWeightStr = e.target.value;
     const newWeight = newWeightStr === "" ? 0 : +newWeightStr;
-    setTrainingRecord({
-      ...trainingRecord,
+    props.setTrainingRecord({
+      ...props.trainingRecord,
       weight: newWeight,
     });
   };
@@ -72,8 +46,8 @@ const InputForm = (props: Props) => {
   const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCountStr = e.target.value;
     const newCount = newCountStr === "" ? 0 : +newCountStr;
-    setTrainingRecord({
-      ...trainingRecord,
+    props.setTrainingRecord({
+      ...props.trainingRecord,
       count: newCount,
     });
   };
@@ -85,20 +59,20 @@ const InputForm = (props: Props) => {
         <div>
           <span>部位 </span>
           <TargetSelectionPulldown //部位選択プルダウン用の追加
-            filterTarget={filterTarget}
-            setFilterTarget={setFilterTarget}
-            trainingRecord={trainingRecord}
-            setTrainingRecord={setTrainingRecord}
+            filterTarget={props.filterTarget}
+            setFilterTarget={props.setFilterTarget}
+            trainingRecord={props.trainingRecord}
+            setTrainingRecord={props.setTrainingRecord}
           />
         </div>
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
-            filterTarget={filterTarget} // プルダウンに部位に紐づく種目のみを表示するために追加
-            filterExercise={filterVal}
-            setFilterExercise={setFilterVal}
-            trainingRecord={trainingRecord}
-            setTrainingRecord={setTrainingRecord}
+            filterTarget={props.filterTarget} // プルダウンに部位に紐づく種目のみを表示するために追加
+            filterExercise={props.filterVal}
+            setFilterExercise={props.setFilterVal}
+            trainingRecord={props.trainingRecord}
+            setTrainingRecord={props.setTrainingRecord}
           />
         </div>
         <div>
@@ -106,7 +80,7 @@ const InputForm = (props: Props) => {
           <input
             type="date"
             name="date"
-            value={trainingRecord.date.toISOString().split("T")[0]}
+            value={props.trainingRecord.date.toISOString().split("T")[0]}
             onChange={handleDateChange}
           />
         </div>
@@ -118,7 +92,7 @@ const InputForm = (props: Props) => {
             step="0.5"
             min="0"
             name="weight"
-            value={trainingRecord.weight || ""}
+            value={props.trainingRecord.weight || ""}
             onChange={handleWeightChange}
           />
         </div>
@@ -128,7 +102,7 @@ const InputForm = (props: Props) => {
             type="number"
             min="0"
             name="count"
-            value={trainingRecord.count || ""}
+            value={props.trainingRecord.count || ""}
             onChange={handleCountChange}
           />
         </div>
