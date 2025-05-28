@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "~/config";
+import React from "react";
 import type { exerciseCategory } from "~/type/exercise_category";
 
 type BaseSelectionPulldownProps = {
   filterVal: number;
   handleValueChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  apiEndPoint: string;
+  selectedValues: exerciseCategory[];
 };
 
 // プルダウンを生成する関数コンポーネント
 const BaseSelectionPulldown = ({
   filterVal,
   handleValueChange,
-  apiEndPoint,
+  selectedValues,
 }: BaseSelectionPulldownProps) => {
-  const [selectedValues, setSelectedValues] = useState<exerciseCategory[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`${API_BASE_URL}/${apiEndPoint}`);
-      const result = await response.json();
-      setSelectedValues(result);
-      console.log("エンドポイント: ", apiEndPoint, ": 取得結果", result);
-    })();
-  }, [apiEndPoint]);
-
   return (
     <select name="exercise_id" value={filterVal} onChange={handleValueChange}>
       <option value="">選択してください</option>

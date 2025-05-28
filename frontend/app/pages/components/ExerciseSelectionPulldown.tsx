@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import BaseSelectionPulldown from "./BaseSelectionPulldown";
+import { API_BASE_URL } from "~/config";
+import type { exerciseCategory } from "~/type/exercise_category";
 
 type ExerciseSelectionPulldownProps = {
   filterTarget?: number;
@@ -20,6 +22,20 @@ const ExerciseSelectionPulldown = ({
   trainingRecord,
   setTrainingRecord,
 }: ExerciseSelectionPulldownProps) => {
+  // 種目名を取得
+  const [selectedValues, setSelectedValues] = useState<exerciseCategory[]>([]);
+  const apiEndPoint =
+    filterTarget && filterTarget > 0
+      ? `exercise-category/target/${filterTarget}`
+      : "exercise-category";
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`${API_BASE_URL}/${apiEndPoint}`);
+      const result = await response.json();
+      setSelectedValues(result);
+      console.log("エンドポイント: ", apiEndPoint, ": 取得結果", result);
+    })();
+  }, [apiEndPoint]);
   // 種目の変更状態を管理するハンドラー
   const handleExerciseIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newExerciseIdStr = e.target.value;
@@ -44,11 +60,7 @@ const ExerciseSelectionPulldown = ({
     <BaseSelectionPulldown
       filterVal={filterExercise}
       handleValueChange={handleExerciseIdChange}
-      apiEndPoint={
-        filterTarget && filterTarget > 0
-          ? `exercise-category/target/${filterTarget}`
-          : "exercise-category"
-      }
+      selectedValues={selectedValues}
     />
   );
 };
