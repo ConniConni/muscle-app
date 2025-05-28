@@ -1,4 +1,4 @@
-import TrainingRecordCreatePage from "~/pages/components/TrainingRecordCreatePage";
+import TrainingRecordCreatePage from "~/pages/TrainingRecordCreatePage";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
 

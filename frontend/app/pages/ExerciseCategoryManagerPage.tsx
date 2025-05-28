@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import type { exerciseCategory } from "~/type/exercise_category";
-import Button from "./Button";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Button from "~/components/parts/Button";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
+import type { PulldownSelectedValue } from "~/type/common";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ExerciseCategoryManagerPage = () => {
-  const [exerciseCategory, setExerciseCategory] = useState<exerciseCategory[]>(
-    []
-  );
+  const [exerciseCategory, setExerciseCategory] = useState<
+    PulldownSelectedValue[]
+  >([]);
   const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
 
   const getExerciseCategory = async () => {

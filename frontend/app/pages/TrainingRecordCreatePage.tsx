@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
-import InputForm from "./InputForm";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import InputForm from "~/components/InputForm";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
 import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";

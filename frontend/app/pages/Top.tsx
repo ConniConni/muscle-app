@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import TrainingRecordTable from "./components/TrainingRecordTable";
-import Button from "./components/Button";
-import ExerciseSelectionPulldown from "./components/ExerciseSelectionPulldown";
+import TrainingRecordTable from "~/components/features/top/TrainingRecordTable";
+import Button from "~/components/parts/Button";
+import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelectionPulldown";
 import type { TrainingRecordWithName } from "~/type/training_record";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Header from "~/components/common/Header";
+import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "../config";
-import TargetSelectionPulldown from "./components/TargetSelectionPulldown";
+import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 
 // トップページを生成する関数コンポーネント
 export function Top() {

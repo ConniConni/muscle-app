@@ -1,6 +1,6 @@
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
-import ExerciseCategoryManagerPage from "~/pages/components/ExerciseCategoryManagerPage";
+import ExerciseCategoryManagerPage from "~/pages/ExerciseCategoryManagerPage";
 
 export function meta({}: Route.MetaArgs) {
   return [

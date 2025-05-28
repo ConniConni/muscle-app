@@ -1,7 +1,7 @@
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
-import Button from "./Button";
-import ExerciseSelectionPulldown from "./ExerciseSelectionPulldown";
-import TargetSelectionPulldown from "./TargetSelectionPulldown";
+import Button from "./parts/Button";
+import ExerciseSelectionPulldown from "./parts/pulldown/ExerciseSelectionPulldown";
+import TargetSelectionPulldown from "./parts/pulldown/TargetSelectionPulldown";
 
 type Props = {
   filterVal: number;
