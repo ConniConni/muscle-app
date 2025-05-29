@@ -15,7 +15,7 @@ export const getTrainingRecordById = async (id: number) => {
       console.log("個別データ取得api結果:", result);
       return result;
     } catch (error: any) {
-      alert(`筋トレ記録詳細の取得に失敗しました。\n\n${error.message}`);
+      return { success: false, error: error.message };
     }
   }
 };
