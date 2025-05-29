@@ -8,10 +8,16 @@ import { getExerciseCategory } from "~/apiActions/exerciseCategoryManager";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
+type ExerciseCategory = {
+  id: number;
+  target_name: string;
+  exercise_name: string;
+};
+
 const ExerciseCategoryManagerPage = () => {
-  const [exerciseCategory, setExerciseCategory] = useState<
-    PulldownSelectedValue[]
-  >([]);
+  const [exerciseCategory, setExerciseCategory] = useState<ExerciseCategory[]>(
+    []
+  );
   // 部位IDを保持するstateを追加
   const [selectedTargetId, setSelectedTargetId] = useState<number>(0);
   const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
@@ -119,6 +125,7 @@ const ExerciseCategoryManagerPage = () => {
           <table>
             <thead>
               <tr>
+                <th className="training-name-header">部位名</th>
                 <th className="training-name-header">種目名</th>
               </tr>
             </thead>
@@ -127,7 +134,10 @@ const ExerciseCategoryManagerPage = () => {
                 return (
                   <tr key={index}>
                     <th className="training-name-record">
-                      {trainingName.name}
+                      {trainingName.target_name}
+                    </th>
+                    <th className="training-name-record">
+                      {trainingName.exercise_name}
                     </th>
                   </tr>
                 );
