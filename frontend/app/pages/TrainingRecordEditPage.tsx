@@ -2,10 +2,12 @@ import InputForm from "~/components/InputForm";
 import { useNavigate, useParams } from "react-router";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import { API_BASE_URL } from "~/config";
 import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
-import { updateTrainingRecord } from "~/apiActions/TrainingRecord";
+import {
+  getTrainingRecordById,
+  updateTrainingRecord,
+} from "~/apiActions/TrainingRecord";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
@@ -28,9 +30,7 @@ const TrainingRecordEditPage = () => {
   useEffect(() => {
     (async () => {
       if (id) {
-        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
-        const result = await response.json();
-        console.log("個別データ取得api結果:", result);
+        const result = await getTrainingRecordById(+id);
         setTrainingRecord({ ...result, date: new Date(result.date) });
       }
     })();

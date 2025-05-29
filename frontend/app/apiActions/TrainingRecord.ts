@@ -1,5 +1,25 @@
 import { API_BASE_URL } from "~/config";
 
+// 個別筋トレ記録取得API呼び出し関数
+export const getTrainingRecordById = async (id: number) => {
+  if (id) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+        );
+      }
+      const result = await response.json();
+      console.log("個別データ取得api結果:", result);
+      return result;
+    } catch (error: any) {
+      alert(`筋トレ記録詳細の取得に失敗しました。\n\n${error.message}`);
+    }
+  }
+};
+
 // トレーニング記録登録API呼び出し関数
 export const createTrainingRecord = async (params: {
   exercise_id: number;
