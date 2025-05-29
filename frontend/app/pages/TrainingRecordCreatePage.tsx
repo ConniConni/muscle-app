@@ -42,18 +42,18 @@ const TrainingRecordCreatePage = () => {
     const count = formData.get("count");
 
     // トレーニング記録登録処理呼び出し
-    const result = await createTrainingRecord({
+    const response = await createTrainingRecord({
       exercise_id: +exercise_id!,
       date: date as string,
       weight: +weight!,
       count: +count!,
     });
 
-    if (result.success) {
+    if (response.success) {
       alert("登録が完了しました。");
       backTopPage();
     } else {
-      alert(`データの登録に失敗しました。\n\n${result.error}`);
+      alert(`データの登録に失敗しました。\n\n${response.error}`);
     }
   };
 
