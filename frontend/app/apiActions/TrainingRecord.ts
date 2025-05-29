@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "~/config";
 
-// API呼び出し専用の関数
+// トレーニング記録登録API呼び出し関数
 export const createTrainingRecord = async (params: {
   exercise_id: number;
   date: string;
@@ -29,7 +29,7 @@ export const createTrainingRecord = async (params: {
   } else {
     const alertMessage: string[] = [];
     if (!params.exercise_id)
-      alertMessage.push("トレーニングを選択してください");
+      alertMessage.push("部位と種目を正しく選択してください");
     if (!params.date) alertMessage.push("実施日を選択してください");
     if (!params.weight) alertMessage.push("重量を入力してください");
     if (!params.count) alertMessage.push("回数を入力してください");
