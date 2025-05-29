@@ -57,7 +57,7 @@ export const createTrainingRecord = async (params: {
   }
 };
 
-// 筋トレ記録更新処理呼び出し
+// 筋トレ記録更新API呼び出し関数
 export const updateTrainingRecord = async (params: {
   id: number;
   exercise_id: number;
@@ -101,5 +101,23 @@ export const updateTrainingRecord = async (params: {
     if (!params.weight) alertMessage.push("重量を入力してください");
     if (!params.count) alertMessage.push("回数を入力してください");
     return { success: false, error: alertMessage.join("\n") };
+  }
+};
+
+// 筋トレ記録削除API呼び出し関数
+export const trainingRecordDelete = async (id: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+      method: `DELETE`,
+    });
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
   }
 };
