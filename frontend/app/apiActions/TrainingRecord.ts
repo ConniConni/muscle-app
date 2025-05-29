@@ -36,3 +36,50 @@ export const createTrainingRecord = async (params: {
     return { success: false, error: alertMessage.join("\n") };
   }
 };
+
+// 筋トレ記録更新処理呼び出し
+export const updateTrainingRecord = async (params: {
+  id: number;
+  exercise_id: number;
+  date: string;
+  weight: number;
+  count: number;
+}) => {
+  if (params.exercise_id && params.date && params.weight && params.count) {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/training-record/${params.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exercise_id: +params.exercise_id!,
+            date: params.date,
+            weight: +params.weight!,
+            count: +params.count!,
+          }),
+        }
+      );
+
+      if (response.status != 200) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー \n${errorData.message}`
+        );
+      }
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  } else {
+    const alertMessage: string[] = [];
+    if (!params.exercise_id)
+      alertMessage.push("部位と種目を正しく選択してください");
+    if (!params.date) alertMessage.push("実施日を選択してください");
+    if (!params.weight) alertMessage.push("重量を入力してください");
+    if (!params.count) alertMessage.push("回数を入力してください");
+    return { success: false, error: alertMessage.join("\n") };
+  }
+};
