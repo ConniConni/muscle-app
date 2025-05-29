@@ -2,7 +2,9 @@ import { API_BASE_URL } from "~/config";
 
 export const getExerciseCategory = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/exercise-category`);
+    const response = await fetch(
+      `${API_BASE_URL}/exercise-category/with-target`
+    );
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(

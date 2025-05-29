@@ -24,6 +24,11 @@ export class ExerciseCategoryController {
     return await this.exerciseCategoryService.findAll();
   }
 
+  @Get('with-target')
+  async findAlWithTarget() {
+    return await this.exerciseCategoryService.findAllWithTarget();
+  }
+
   @Get('target/:target_id')
   async findAllByTargetId(@Param('target_id', ParseIntPipe) targetId: number) {
     return await this.exerciseCategoryService.findAllByTargetId(targetId);

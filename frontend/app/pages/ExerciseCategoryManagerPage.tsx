@@ -3,14 +3,18 @@ import Button from "~/components/parts/Button";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
-import type { PulldownSelectedValue } from "~/type/common";
 import { getExerciseCategory } from "~/apiActions/exerciseCategoryManager";
+import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
+import type { ExerciseCategory } from "~/type/exercise_category";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
+
 const ExerciseCategoryManagerPage = () => {
-  const [exerciseCategory, setExerciseCategory] = useState<
-    PulldownSelectedValue[]
-  >([]);
+  const [exerciseCategory, setExerciseCategory] = useState<ExerciseCategory[]>(
+    []
+  );
+  // 部位IDを保持するstateを追加
+  const [selectedTargetId, setSelectedTargetId] = useState<number>(0);
   const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
 
   useEffect(() => {
@@ -30,6 +34,7 @@ const ExerciseCategoryManagerPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            target_id: selectedTargetId,
             name: newExerciseCategory,
           }),
         });
@@ -45,7 +50,16 @@ const ExerciseCategoryManagerPage = () => {
       } catch (error: any) {
         alert(`マスタ追加に失敗しました。\n\n${error.message}`);
       }
-    } else alert("入力画面には1文字以上の文字を入力してください");
+    } else {
+      const alertMessage: string[] = [];
+      if (!selectedTargetId) {
+        alertMessage.push("部位を選択してください");
+      }
+      if (!newExerciseCategory) {
+        alertMessage.push("入力画面には1文字以上の文字を入力してください");
+      }
+      alert(alertMessage.join("\n"));
+    }
   };
 
   // 5ページ単位のページネーション
@@ -92,6 +106,10 @@ const ExerciseCategoryManagerPage = () => {
         <div className="content">
           <h1>トレーニング種目マスタ</h1>
           <div>
+            <TargetSelectionPulldown
+              filterTarget={selectedTargetId}
+              setFilterTarget={setSelectedTargetId}
+            />
             <input
               type="text"
               value={newExerciseCategory}
@@ -102,6 +120,7 @@ const ExerciseCategoryManagerPage = () => {
           <table>
             <thead>
               <tr>
+                <th className="training-name-header">部位名</th>
                 <th className="training-name-header">種目名</th>
               </tr>
             </thead>
@@ -110,7 +129,10 @@ const ExerciseCategoryManagerPage = () => {
                 return (
                   <tr key={index}>
                     <th className="training-name-record">
-                      {trainingName.name}
+                      {trainingName.target_name}
+                    </th>
+                    <th className="training-name-record">
+                      {trainingName.exercise_name}
                     </th>
                   </tr>
                 );
