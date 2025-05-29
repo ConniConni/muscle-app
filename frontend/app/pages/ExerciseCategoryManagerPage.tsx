@@ -3,16 +3,11 @@ import Button from "~/components/parts/Button";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import { API_BASE_URL } from "~/config";
-import type { PulldownSelectedValue } from "~/type/common";
 import { getExerciseCategory } from "~/apiActions/exerciseCategoryManager";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
+import type { ExerciseCategory } from "~/type/exercise_category";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
-type ExerciseCategory = {
-  id: number;
-  target_name: string;
-  exercise_name: string;
-};
 
 const ExerciseCategoryManagerPage = () => {
   const [exerciseCategory, setExerciseCategory] = useState<ExerciseCategory[]>(
