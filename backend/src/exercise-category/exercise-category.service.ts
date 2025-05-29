@@ -17,6 +17,19 @@ export class ExerciseCategoryService {
       `;
     return result;
   }
+  async findAllWithTarget() {
+    const result = await this.prisma.$queryRaw`
+      SELECT
+        ec.id,
+        ta.name AS target_name,
+        ec.name AS exercise_name
+      FROM exercise_categories as ec
+      INNER JOIN target_areas AS ta
+        ON ec.target_id = ta.id
+      ORDER BY ta.id, ec.id ASC
+      `;
+    return result;
+  }
 
   async findAllByTargetId(targetId: number) {
     const result = await this.prisma.$queryRaw`
