@@ -5,8 +5,11 @@ import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelec
 import type { TrainingRecordWithName } from "~/type/training_record";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import { API_BASE_URL } from "../config";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
+import {
+  getSelectExerciseId,
+  getTrainingRecord,
+} from "~/apiActions/TrainingRecord";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -18,51 +21,36 @@ export function Top() {
   // 部位選択プルダウン用のstateを追加
   const [filterTarget, setFilterTarget] = useState<number>(0);
 
-  // 筋トレ実績一覧取得処理呼び出し
-  const getTrainingRecord = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/training-record/`);
-      if (response.status != 200) {
-        const errorData = await response.json();
-        throw new Error(
-          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
-        );
-      }
-      const result = await response.json();
-      setTrainingRecord(result);
-    } catch (error: any) {
-      alert(`一覧取得に失敗しました。\n\n${error.message}`);
+  // 一覧取得処理呼び出し
+  const handleGetTrainingRecord = async () => {
+    const result = await getTrainingRecord();
+    if (result.success) {
+      setTrainingRecord(result.data);
+      setCurrentPage(1);
+    } else {
+      alert(`一覧取得に失敗しました。\n\n${result.error}`);
     }
   };
 
   // 絞り込み表示処理呼び出し
-  const getSelectExerciseId = async () => {
-    if (filterExercise != 0) {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/training-record/exercise/${filterExercise}`
-        );
-        if (response.status != 200) {
-          const errorData = await response.json();
-          throw new Error(
-            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
-          );
-        }
-        const result = await response.json();
-        setTrainingRecord(result);
-        setCurrentPage(1);
-      } catch (error: any) {
-        alert(`絞り込みに失敗しました。${error.message}`);
-      }
+  const handleGetSelectExerciseId = async () => {
+    const result = await getSelectExerciseId(filterExercise);
+    if (result.success) {
+      setTrainingRecord(result.data);
+      setCurrentPage(1);
+    } else {
+      alert(`絞り込みに失敗しました。${result.error}`);
     }
   };
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`${API_BASE_URL}/training-record/`);
-      const result = await response.json();
-      console.log("api取得結果:", result);
-      setTrainingRecord(result);
+      const result = await getTrainingRecord();
+      if (result.success) {
+        setTrainingRecord(result.data);
+      } else {
+        alert(`一覧取得に失敗しました。\n\n${result.error}`);
+      }
     })();
   }, []);
 
@@ -74,10 +62,10 @@ export function Top() {
         <div className="content">
           <h1>筋トレ実績</h1>
           <div>
-            <Button onClick={getTrainingRecord} buttonName="一覧取得" />
+            <Button onClick={handleGetTrainingRecord} buttonName="一覧取得" />
           </div>
           <div>
-            <Button onClick={getSelectExerciseId} buttonName="絞り込み" />
+            <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
             <TargetSelectionPulldown //部位選択プルダウン用の追加
               filterTarget={filterTarget}
               setFilterTarget={setFilterTarget}

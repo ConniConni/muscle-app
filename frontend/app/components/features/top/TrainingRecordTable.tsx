@@ -2,6 +2,7 @@ import type { TrainingRecordWithName } from "~/type/training_record";
 import Button from "~/components/parts/Button";
 import { useNavigate } from "react-router";
 import { API_BASE_URL } from "~/config";
+import { trainingRecordDelete } from "~/apiActions/TrainingRecord";
 
 type TrainingRecordProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -17,14 +18,14 @@ const TrainingRecordTable = ({
   getTrainingRecord,
   setCurrentPage,
 }: TrainingRecordProps) => {
-  // 削除処理呼び出し
-  const TrainingRecordDelete = async (id: number) => {
-    const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
-      method: `DELETE`,
-    });
-    if (response.ok) {
+  // 個別筋トレデータ削除APIを呼び出す
+  const handleDelete = async (id: number) => {
+    const response = await trainingRecordDelete(id);
+    if (response.success) {
       alert("削除が完了しました。");
       getTrainingRecord();
+    } else {
+      alert(`削除できませんでした。\n\n${response.error}`);
     }
   };
 
@@ -92,7 +93,7 @@ const TrainingRecordTable = ({
                     hoverBackground="white"
                   />
                   <Button
-                    onClick={() => TrainingRecordDelete(c.id)}
+                    onClick={() => handleDelete(c.id)}
                     buttonName="削除"
                     color="white"
                     background="tomato"

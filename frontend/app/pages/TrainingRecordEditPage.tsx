@@ -2,9 +2,12 @@ import InputForm from "~/components/InputForm";
 import { useNavigate, useParams } from "react-router";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import { API_BASE_URL } from "~/config";
 import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
+import {
+  getTrainingRecordById,
+  updateTrainingRecord,
+} from "~/apiActions/TrainingRecord";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
@@ -27,10 +30,8 @@ const TrainingRecordEditPage = () => {
   useEffect(() => {
     (async () => {
       if (id) {
-        const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
-        const result = await response.json();
-        console.log("個別データ取得api結果:", result);
-        setTrainingRecord({ ...result, date: new Date(result.date) });
+        const result = await getTrainingRecordById(+id);
+        setTrainingRecord({ ...result.data, date: new Date(result.data.date) });
       }
     })();
   }, []);
@@ -41,52 +42,25 @@ const TrainingRecordEditPage = () => {
   }, [trainingRecord]);
 
   // 筋トレ記録更新処理呼び出し
-  const updateTrainingRecord = async (formData: FormData) => {
+  const handleUpdate = async (formData: FormData) => {
     const exerciseId = formData.get("exercise_id");
     const date = formData.get("date");
     const weight = formData.get("weight");
     const count = formData.get("count");
-    if (exerciseId && date && count) {
-      try {
-        const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            exercise_id: +exerciseId!,
-            date: date,
-            weight: +weight!,
-            count: +count!,
-          }),
-        });
 
-        if (response.status != 200) {
-          const errorData = await response.json();
-          throw new Error(
-            `HTTP ${errorData.statusCode} エラー \n${errorData.message}`
-          );
-        }
-        alert("更新が完了しました。");
-        backTopPage();
-      } catch (error: any) {
-        alert(`データの更新に失敗しました。\n\n${error.message}`);
-      }
+    const response = await updateTrainingRecord({
+      id: +id!,
+      exercise_id: +exerciseId!,
+      date: date as string,
+      weight: +weight!,
+      count: +count!,
+    });
+
+    if (response.success) {
+      alert("更新が完了しました。");
+      backTopPage();
     } else {
-      const alertMessage: string[] = [];
-      if (!exerciseId) {
-        alertMessage.push("トレーニングを選択してください");
-      }
-      if (!date) {
-        alertMessage.push("実施日を選択してください");
-      }
-      if (!weight) {
-        alertMessage.push("重量を入力してください");
-      }
-      if (!count) {
-        alertMessage.push("回数を入力してください");
-      }
-      alert(alertMessage.join("\n"));
+      alert(`データの登録に失敗しました。\n\n${response.error}`);
     }
   };
 
@@ -108,7 +82,7 @@ const TrainingRecordEditPage = () => {
             setFilterTarget={setFilterTarget}
             trainingRecord={trainingRecord}
             setTrainingRecord={setTrainingRecord}
-            onClick={updateTrainingRecord}
+            onClick={handleUpdate}
             actionName="更新"
             color="white"
             background="royalblue"

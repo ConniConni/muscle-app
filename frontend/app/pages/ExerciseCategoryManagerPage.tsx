@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import Button from "~/components/parts/Button";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import { API_BASE_URL } from "~/config";
-import { getExerciseCategory } from "~/apiActions/exerciseCategoryManager";
+import {
+  createNewTraining,
+  getExerciseCategory,
+} from "~/apiActions/exerciseCategoryManager";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 import type { ExerciseCategory } from "~/type/exercise_category";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
-
 const ExerciseCategoryManagerPage = () => {
   const [exerciseCategory, setExerciseCategory] = useState<ExerciseCategory[]>(
     []
@@ -20,45 +21,24 @@ const ExerciseCategoryManagerPage = () => {
   useEffect(() => {
     (async () => {
       const result = await getExerciseCategory();
-      setExerciseCategory(result);
+      setExerciseCategory(result.data);
     })();
   }, []);
+  // マスタ登録APIを呼び出す
+  const handleCreateNewTraining = async () => {
+    const result = await createNewTraining({
+      target_id: selectedTargetId,
+      name: newExerciseCategory,
+    });
 
-  const createNewTraining = async () => {
-    console.log(newExerciseCategory);
-    if (newExerciseCategory.length > 0) {
-      try {
-        const response = await fetch(`${API_BASE_URL}/exercise-category`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            target_id: selectedTargetId,
-            name: newExerciseCategory,
-          }),
-        });
-        if (response.status != 201) {
-          const errorData = await response.json();
-          throw new Error(
-            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
-          );
-        }
-        alert("マスタへの追加が完了しました。");
-        setNewExerciseCategory("");
-        getExerciseCategory();
-      } catch (error: any) {
-        alert(`マスタ追加に失敗しました。\n\n${error.message}`);
-      }
+    if (result.success) {
+      alert("マスタへの追加が完了しました。");
+      setSelectedTargetId(0);
+      setNewExerciseCategory("");
+      const result = await getExerciseCategory();
+      setExerciseCategory(result.data);
     } else {
-      const alertMessage: string[] = [];
-      if (!selectedTargetId) {
-        alertMessage.push("部位を選択してください");
-      }
-      if (!newExerciseCategory) {
-        alertMessage.push("入力画面には1文字以上の文字を入力してください");
-      }
-      alert(alertMessage.join("\n"));
+      alert(`マスタ追加に失敗しました。\n\n${result.error}`);
     }
   };
 
@@ -115,7 +95,7 @@ const ExerciseCategoryManagerPage = () => {
               value={newExerciseCategory}
               onChange={(e) => setNewExerciseCategory(e.target.value)}
             />
-            <Button onClick={createNewTraining} buttonName="マスタ追加" />
+            <Button onClick={handleCreateNewTraining} buttonName="マスタ追加" />
           </div>
           <table>
             <thead>
