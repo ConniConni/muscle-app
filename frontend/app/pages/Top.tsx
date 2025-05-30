@@ -5,9 +5,11 @@ import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelec
 import type { TrainingRecordWithName } from "~/type/training_record";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import { API_BASE_URL } from "../config";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
-import { getTrainingRecord } from "~/apiActions/TrainingRecord";
+import {
+  getSelectExerciseId,
+  getTrainingRecord,
+} from "~/apiActions/TrainingRecord";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
@@ -20,24 +22,13 @@ export function Top() {
   const [filterTarget, setFilterTarget] = useState<number>(0);
 
   // 絞り込み表示処理呼び出し
-  const getSelectExerciseId = async () => {
-    if (filterExercise != 0) {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/training-record/exercise/${filterExercise}`
-        );
-        if (response.status != 200) {
-          const errorData = await response.json();
-          throw new Error(
-            `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
-          );
-        }
-        const result = await response.json();
-        setTrainingRecord(result);
-        setCurrentPage(1);
-      } catch (error: any) {
-        alert(`絞り込みに失敗しました。${error.message}`);
-      }
+  const handleGetSelectExerciseId = async () => {
+    const result = await getSelectExerciseId(filterExercise);
+    if (result.success) {
+      setTrainingRecord(result.data);
+      setCurrentPage(1);
+    } else {
+      alert(`絞り込みに失敗しました。${result.error}`);
     }
   };
 
@@ -58,7 +49,7 @@ export function Top() {
             <Button onClick={getTrainingRecord} buttonName="一覧取得" />
           </div>
           <div>
-            <Button onClick={getSelectExerciseId} buttonName="絞り込み" />
+            <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
             <TargetSelectionPulldown //部位選択プルダウン用の追加
               filterTarget={filterTarget}
               setFilterTarget={setFilterTarget}
