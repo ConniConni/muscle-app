@@ -40,7 +40,7 @@ export const createNewTraining = async (params: {
           `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
         );
       }
-      return { success: true };
+      return { success: true, data: null };
     } catch (error: any) {
       return { success: false, error: error.message };
     }
