@@ -53,10 +53,12 @@ export const getTrainingRecordById = async (id: number) => {
       }
       const result = await response.json();
       console.log("個別データ取得api結果:", result);
-      return result;
+      return { success: true, data: result };
     } catch (error: any) {
       return { success: false, error: error.message };
     }
+  } else {
+    return { success: false, error: "種目idが存在しません。" };
   }
 };
 

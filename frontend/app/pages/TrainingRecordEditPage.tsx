@@ -31,7 +31,7 @@ const TrainingRecordEditPage = () => {
     (async () => {
       if (id) {
         const result = await getTrainingRecordById(+id);
-        setTrainingRecord({ ...result, date: new Date(result.date) });
+        setTrainingRecord({ ...result.data, date: new Date(result.data.date) });
       }
     })();
   }, []);
