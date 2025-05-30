@@ -34,7 +34,12 @@ export function Top() {
 
   useEffect(() => {
     (async () => {
-      setTrainingRecord(await getTrainingRecord());
+      const result = await getTrainingRecord();
+      if (result.success) {
+        setTrainingRecord(result.data);
+      } else {
+        alert(`一覧取得に失敗しました。\n\n${result.error}`);
+      }
     })();
   }, []);
 

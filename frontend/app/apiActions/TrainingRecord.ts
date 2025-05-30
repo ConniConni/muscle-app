@@ -11,9 +11,9 @@ export const getTrainingRecord = async () => {
       );
     }
     const result = await response.json();
-    return result;
+    return { success: true, data: result };
   } catch (error: any) {
-    alert(`一覧取得に失敗しました。${error.message}`);
+    return { success: false, error: error.message };
   }
 };
 
