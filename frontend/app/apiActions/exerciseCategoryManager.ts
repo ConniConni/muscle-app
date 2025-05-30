@@ -5,7 +5,7 @@ export const getExerciseCategory = async () => {
     const response = await fetch(
       `${API_BASE_URL}/exercise-category/with-target`
     );
-    if (!response.ok) {
+    if (response.status != 200) {
       const errorData = await response.json();
       throw new Error(
         `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
