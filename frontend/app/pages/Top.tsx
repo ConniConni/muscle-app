@@ -21,6 +21,17 @@ export function Top() {
   // 部位選択プルダウン用のstateを追加
   const [filterTarget, setFilterTarget] = useState<number>(0);
 
+  // 一覧取得処理呼び出し
+  const handleGetTrainingRecord = async () => {
+    const result = await getTrainingRecord();
+    if (result.success) {
+      setTrainingRecord(result.data);
+      setCurrentPage(1);
+    } else {
+      alert(`一覧取得に失敗しました。\n\n${result.error}`);
+    }
+  };
+
   // 絞り込み表示処理呼び出し
   const handleGetSelectExerciseId = async () => {
     const result = await getSelectExerciseId(filterExercise);
@@ -51,7 +62,7 @@ export function Top() {
         <div className="content">
           <h1>筋トレ実績</h1>
           <div>
-            <Button onClick={getTrainingRecord} buttonName="一覧取得" />
+            <Button onClick={handleGetTrainingRecord} buttonName="一覧取得" />
           </div>
           <div>
             <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
