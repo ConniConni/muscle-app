@@ -13,9 +13,9 @@ export const getExerciseCategory = async () => {
     }
     const result = await response.json();
     console.log(result);
-    return result;
+    return { success: true, data: result };
   } catch (error: any) {
-    alert(`マスタ一覧の取得に失敗しました。\n\n${error.message}`);
+    return { success: true, error: error.message };
   }
 };
 

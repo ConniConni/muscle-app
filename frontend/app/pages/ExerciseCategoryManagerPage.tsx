@@ -21,7 +21,7 @@ const ExerciseCategoryManagerPage = () => {
   useEffect(() => {
     (async () => {
       const result = await getExerciseCategory();
-      setExerciseCategory(result);
+      setExerciseCategory(result.data);
     })();
   }, []);
   // マスタ登録APIを呼び出す
@@ -35,7 +35,8 @@ const ExerciseCategoryManagerPage = () => {
       alert("マスタへの追加が完了しました。");
       setSelectedTargetId(0);
       setNewExerciseCategory("");
-      setExerciseCategory(await getExerciseCategory());
+      const result = await getExerciseCategory();
+      setExerciseCategory(result.data);
     } else {
       alert(`マスタ追加に失敗しました。\n\n${result.error}`);
     }
