@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import { createTrainingRecord } from "~/apiActions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
-import { API_BASE_URL } from "~/config";
-import { getTargetAreaList } from "~/apiActions/TargetArea";
+import {
+  getExerciseCategoryByTargetId,
+  getTargetAreaList,
+} from "~/apiActions/TargetArea";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const TrainingRecordCreatePage = () => {
@@ -42,17 +44,14 @@ const TrainingRecordCreatePage = () => {
       setTargetOptions(result.data);
 
       if (trainingRecord.target_id && trainingRecord.target_id > 0) {
-        const exerciseResponse = await fetch(
-          `${API_BASE_URL}/exercise-category/target/${trainingRecord.target_id}`
+        const result = await getExerciseCategoryByTargetId(
+          trainingRecord.target_id
         );
-        const exerciseResult = await exerciseResponse.json();
-        setExerciseOptions(exerciseResult);
-      } else {
-        const exerciseResponse = await fetch(
-          `${API_BASE_URL}/exercise-category`
-        );
-        const exerciseResult = await exerciseResponse.json();
-        setExerciseOptions(exerciseResult);
+        if (result.success) {
+          setExerciseOptions(result.data);
+        } else {
+          alert(`部位に対応する種目の取得に失敗しました。${result.error}`);
+        }
       }
     })();
   }, [trainingRecord.target_id]);
