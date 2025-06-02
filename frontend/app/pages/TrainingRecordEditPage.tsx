@@ -1,5 +1,5 @@
-import InputForm from "~/components/InputForm";
 import { useNavigate, useParams } from "react-router";
+import InputForm from "~/components/InputForm";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import { useEffect, useState } from "react";
@@ -8,14 +8,26 @@ import {
   getTrainingRecordById,
   updateTrainingRecord,
 } from "~/apiActions/TrainingRecord";
+import type { PulldownSelectedValue } from "~/type/common";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
   // URL から id を取得
   const { id } = useParams<{ id: string }>();
-  const [filterVal, setFilterVal] = useState<number>(0);
-  // 部位選択プルダウン用のstateを追加
-  const [filterTarget, setFilterTarget] = useState<number>(0);
+  // トップ画面に戻るための処理
+  const navigate = useNavigate();
+  const backTopPage = () => {
+    navigate("/");
+  };
+  // 部位選択プルダウン用のstate
+  const [targetOptions, setTargetOptions] = useState<PulldownSelectedValue[]>(
+    []
+  );
+  // 種目選択プルダウン用のstate
+  const [exerciseOptions, setExerciseOptions] = useState<
+    PulldownSelectedValue[]
+  >([]);
   const [trainingRecord, setTrainingRecord] =
     useState<TrainingRecordWithExerciseId>({
       id: 0,
@@ -36,11 +48,27 @@ const TrainingRecordEditPage = () => {
     })();
   }, []);
   useEffect(() => {
-    setFilterTarget(trainingRecord.target_id);
-    setFilterVal(trainingRecord.exercise_id);
-    console.log("stateの値:", trainingRecord);
-  }, [trainingRecord]);
+    (async () => {
+      // 部位リストを取得
+      const response = await fetch(`${API_BASE_URL}/target-area`);
+      const result = await response.json();
+      setTargetOptions(result);
 
+      if (trainingRecord.target_id && trainingRecord.target_id > 0) {
+        const exerciseResponse = await fetch(
+          `${API_BASE_URL}/exercise-category/target/${trainingRecord.target_id}`
+        );
+        const exerciseResult = await exerciseResponse.json();
+        setExerciseOptions(exerciseResult);
+      } else {
+        const exerciseResponse = await fetch(
+          `${API_BASE_URL}/exercise-category`
+        );
+        const exerciseResult = await exerciseResponse.json();
+        setExerciseOptions(exerciseResult);
+      }
+    })();
+  }, [trainingRecord.target_id]);
   // 筋トレ記録更新処理呼び出し
   const handleUpdate = async (formData: FormData) => {
     const exerciseId = formData.get("exercise_id");
@@ -48,6 +76,7 @@ const TrainingRecordEditPage = () => {
     const weight = formData.get("weight");
     const count = formData.get("count");
 
+    // トレーニング記録登録処理呼び出し
     const response = await updateTrainingRecord({
       id: +id!,
       exercise_id: +exerciseId!,
@@ -60,13 +89,8 @@ const TrainingRecordEditPage = () => {
       alert("更新が完了しました。");
       backTopPage();
     } else {
-      alert(`データの登録に失敗しました。\n\n${response.error}`);
+      alert(`データの更新に失敗しました。\n\n${response.error}`);
     }
-  };
-
-  const navigate = useNavigate();
-  const backTopPage = () => {
-    navigate("/");
   };
 
   return (
@@ -76,10 +100,8 @@ const TrainingRecordEditPage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
-            filterVal={filterVal}
-            setFilterVal={setFilterVal}
-            filterTarget={filterTarget}
-            setFilterTarget={setFilterTarget}
+            exerciseOptions={exerciseOptions}
+            targetOptions={targetOptions}
             trainingRecord={trainingRecord}
             setTrainingRecord={setTrainingRecord}
             onClick={handleUpdate}
