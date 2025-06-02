@@ -9,7 +9,10 @@ import {
   updateTrainingRecord,
 } from "~/apiActions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
-import { API_BASE_URL } from "~/config";
+import {
+  getExerciseCategoryByTargetId,
+  getTargetAreaList,
+} from "~/apiActions/TargetArea";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
@@ -47,25 +50,23 @@ const TrainingRecordEditPage = () => {
       }
     })();
   }, []);
+
+  // 部位IDが変わったら種目リスト取得
   useEffect(() => {
     (async () => {
       // 部位リストを取得
-      const response = await fetch(`${API_BASE_URL}/target-area`);
-      const result = await response.json();
-      setTargetOptions(result);
+      const result = await getTargetAreaList();
+      setTargetOptions(result.data);
 
       if (trainingRecord.target_id && trainingRecord.target_id > 0) {
-        const exerciseResponse = await fetch(
-          `${API_BASE_URL}/exercise-category/target/${trainingRecord.target_id}`
+        const result = await getExerciseCategoryByTargetId(
+          trainingRecord.target_id
         );
-        const exerciseResult = await exerciseResponse.json();
-        setExerciseOptions(exerciseResult);
-      } else {
-        const exerciseResponse = await fetch(
-          `${API_BASE_URL}/exercise-category`
-        );
-        const exerciseResult = await exerciseResponse.json();
-        setExerciseOptions(exerciseResult);
+        if (result.success) {
+          setExerciseOptions(result.data);
+        } else {
+          alert(`部位に対応する種目の取得に失敗しました。${result.error}`);
+        }
       }
     })();
   }, [trainingRecord.target_id]);
