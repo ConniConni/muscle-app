@@ -5,6 +5,8 @@ import Sidebar from "~/components/common/Sidebar";
 import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import { createTrainingRecord } from "~/apiActions/TrainingRecord";
+import type { PulldownSelectedValue } from "~/type/common";
+import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const TrainingRecordCreatePage = () => {
@@ -13,10 +15,14 @@ const TrainingRecordCreatePage = () => {
   const backTopPage = () => {
     navigate("/");
   };
-
-  const [filterVal, setFilterVal] = useState<number>(0);
-  // 部位選択プルダウン用のstateを追加
-  const [filterTarget, setFilterTarget] = useState<number>(0);
+  // 部位選択プルダウン用のstate
+  const [targetOptions, setTargetOptions] = useState<PulldownSelectedValue[]>(
+    []
+  );
+  // 種目選択プルダウン用のstate
+  const [exerciseOptions, setExerciseOptions] = useState<
+    PulldownSelectedValue[]
+  >([]);
   const [trainingRecord, setTrainingRecord] =
     useState<TrainingRecordWithExerciseId>({
       id: 0,
@@ -27,11 +33,29 @@ const TrainingRecordCreatePage = () => {
       count: 0,
     });
 
+  // 部位IDが変わったら種目リスト取得
   useEffect(() => {
-    setFilterTarget(trainingRecord.target_id);
-    setFilterVal(trainingRecord.exercise_id);
-    console.log("stateの値:", trainingRecord);
-  }, [trainingRecord]);
+    (async () => {
+      // 部位リストを取得
+      const response = await fetch(`${API_BASE_URL}/target-area`);
+      const result = await response.json();
+      setTargetOptions(result);
+
+      if (trainingRecord.target_id && trainingRecord.target_id > 0) {
+        const exerciseResponse = await fetch(
+          `${API_BASE_URL}/exercise-category/target/${trainingRecord.target_id}`
+        );
+        const exerciseResult = await exerciseResponse.json();
+        setExerciseOptions(exerciseResult);
+      } else {
+        const exerciseResponse = await fetch(
+          `${API_BASE_URL}/exercise-category`
+        );
+        const exerciseResult = await exerciseResponse.json();
+        setExerciseOptions(exerciseResult);
+      }
+    })();
+  }, [trainingRecord.target_id]);
 
   // トレーニング記録登録に必要なデータの取得
   const handleCreate = async (formData: FormData) => {
@@ -63,10 +87,8 @@ const TrainingRecordCreatePage = () => {
         <Sidebar />
         <div className="content">
           <InputForm
-            filterVal={filterVal}
-            setFilterVal={setFilterVal}
-            filterTarget={filterTarget}
-            setFilterTarget={setFilterTarget}
+            exerciseOptions={exerciseOptions}
+            targetOptions={targetOptions}
             trainingRecord={trainingRecord}
             setTrainingRecord={setTrainingRecord}
             onClick={handleCreate}
