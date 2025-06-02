@@ -6,7 +6,7 @@ type TargetSelectionPulldownProps = {
   name: string;
   options: PulldownSelectedValue[];
   value: number;
-  handleValueChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 // 部位選択のプルダウンを生成する関数コンポーネント
@@ -14,13 +14,13 @@ const TargetSelectionPulldown = ({
   name,
   options,
   value,
-  handleValueChange,
+  onChange,
 }: TargetSelectionPulldownProps) => {
   return (
     <BaseSelectionPulldown
       optionId={name}
       filterVal={value}
-      handleValueChange={handleValueChange}
+      onChange={onChange}
       selectedValues={options || []}
     />
   );

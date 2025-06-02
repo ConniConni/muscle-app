@@ -80,7 +80,7 @@ const InputForm = (props: Props) => {
             name="target_id"
             options={props.targetOptions}
             value={props.trainingRecord.target_id}
-            handleValueChange={handleTargetId}
+            onChange={handleTargetId}
           />
         </div>
         <div>
@@ -89,7 +89,7 @@ const InputForm = (props: Props) => {
             name="exercise_id"
             options={props.exerciseOptions}
             value={props.trainingRecord.exercise_id}
-            handleValueChange={handleExerciseId}
+            onChange={handleExerciseId}
           />
         </div>
         <div>
