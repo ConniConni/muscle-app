@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import TrainingRecordTable from "~/components/features/top/TrainingRecordTable";
 import Button from "~/components/parts/Button";
 import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelectionPulldown";
-import type { TrainingRecordWithName } from "~/type/training_record";
+import type {
+  TrainingRecordWithExerciseId,
+  TrainingRecordWithName,
+} from "~/type/training_record";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
@@ -10,22 +13,41 @@ import {
   getSelectExerciseId,
   getTrainingRecord,
 } from "~/apiActions/TrainingRecord";
+import type { PulldownSelectedValue } from "~/type/common";
+import {
+  getExerciseCategoryByTargetId,
+  getTargetAreaList,
+} from "~/apiActions/TargetArea";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
-  const [trainingRecord, setTrainingRecord] = useState<
+  const [trainingRecords, setTrainingRecords] = useState<
     TrainingRecordWithName[]
   >([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterExercise, setFilterExercise] = useState<number>(0);
-  // 部位選択プルダウン用のstateを追加
-  const [filterTarget, setFilterTarget] = useState<number>(0);
+  // 部位選択プルダウン用のstate
+  const [targetOptions, setTargetOptions] = useState<PulldownSelectedValue[]>(
+    []
+  );
+  // 種目選択プルダウン用のstate
+  const [exerciseOptions, setExerciseOptions] = useState<
+    PulldownSelectedValue[]
+  >([]);
+  const [trainingRecord, setTrainingRecord] =
+    useState<TrainingRecordWithExerciseId>({
+      id: 0,
+      target_id: 0,
+      exercise_id: 0,
+      date: new Date(),
+      weight: 0,
+      count: 0,
+    });
 
   // 一覧取得処理呼び出し
   const handleGetTrainingRecord = async () => {
     const result = await getTrainingRecord();
     if (result.success) {
-      setTrainingRecord(result.data);
+      setTrainingRecords(result.data);
       setCurrentPage(1);
     } else {
       alert(`一覧取得に失敗しました。\n\n${result.error}`);
@@ -34,25 +56,65 @@ export function Top() {
 
   // 絞り込み表示処理呼び出し
   const handleGetSelectExerciseId = async () => {
-    const result = await getSelectExerciseId(filterExercise);
+    const result = await getSelectExerciseId(trainingRecord.exercise_id);
     if (result.success) {
-      setTrainingRecord(result.data);
+      setTrainingRecords(result.data);
       setCurrentPage(1);
     } else {
       alert(`絞り込みに失敗しました。${result.error}`);
     }
   };
 
+  // 部位IDの変更状態を管理するハンドラー
+  const handleTargetId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newTargetIdStr = e.target.value;
+    const newTargetId = newTargetIdStr === "" ? 0 : +newTargetIdStr;
+    setTrainingRecord({
+      ...trainingRecord,
+      target_id: newTargetId,
+    });
+  };
+
+  // 種目IDの変更状態を管理するハンドラー
+  const handleExerciseId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newExerciseIdStr = e.target.value;
+    const newExerciseId = newExerciseIdStr === "" ? 0 : +newExerciseIdStr;
+    setTrainingRecord({
+      ...trainingRecord,
+      exercise_id: newExerciseId,
+    });
+  };
+
   useEffect(() => {
     (async () => {
       const result = await getTrainingRecord();
       if (result.success) {
-        setTrainingRecord(result.data);
+        setTrainingRecords(result.data);
       } else {
         alert(`一覧取得に失敗しました。\n\n${result.error}`);
       }
     })();
   }, []);
+
+  // 部位IDが変わったら種目リスト取得
+  useEffect(() => {
+    (async () => {
+      // 部位リストを取得
+      const result = await getTargetAreaList();
+      setTargetOptions(result.data);
+
+      if (trainingRecord.target_id && trainingRecord.target_id > 0) {
+        const result = await getExerciseCategoryByTargetId(
+          trainingRecord.target_id
+        );
+        if (result.success) {
+          setExerciseOptions(result.data);
+        } else {
+          alert(`部位に対応する種目の取得に失敗しました。${result.error}`);
+        }
+      }
+    })();
+  }, [trainingRecord.target_id]);
 
   return (
     <div className="layout">
@@ -66,18 +128,21 @@ export function Top() {
           </div>
           <div>
             <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
-            <TargetSelectionPulldown //部位選択プルダウン用の追加
-              filterTarget={filterTarget}
-              setFilterTarget={setFilterTarget}
+            <TargetSelectionPulldown
+              name="target_id"
+              options={targetOptions}
+              value={trainingRecord.target_id}
+              onChange={handleTargetId}
             />
             <ExerciseSelectionPulldown
-              filterExercise={filterExercise}
-              filterTarget={filterTarget}
-              setFilterExercise={setFilterExercise}
+              name="exercise_id"
+              options={exerciseOptions}
+              value={trainingRecord.exercise_id}
+              onChange={handleExerciseId}
             />
           </div>
           <TrainingRecordTable
-            trainingRecord={trainingRecord}
+            trainingRecord={trainingRecords}
             currentPage={currentPage}
             getTrainingRecord={getTrainingRecord}
             setCurrentPage={setCurrentPage}
