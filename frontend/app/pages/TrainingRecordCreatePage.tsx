@@ -7,6 +7,7 @@ import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import { createTrainingRecord } from "~/apiActions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
 import { API_BASE_URL } from "~/config";
+import { getTargetAreaList } from "~/apiActions/TargetArea";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const TrainingRecordCreatePage = () => {
@@ -37,9 +38,8 @@ const TrainingRecordCreatePage = () => {
   useEffect(() => {
     (async () => {
       // 部位リストを取得
-      const response = await fetch(`${API_BASE_URL}/target-area`);
-      const result = await response.json();
-      setTargetOptions(result);
+      const result = await getTargetAreaList();
+      setTargetOptions(result.data);
 
       if (trainingRecord.target_id && trainingRecord.target_id > 0) {
         const exerciseResponse = await fetch(
