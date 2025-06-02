@@ -77,6 +77,7 @@ const InputForm = (props: Props) => {
         <div>
           <span>部位 </span>
           <TargetSelectionPulldown
+            name="target_id"
             options={props.targetOptions}
             value={props.trainingRecord.target_id}
             handleValueChange={handleTargetId}
@@ -85,6 +86,7 @@ const InputForm = (props: Props) => {
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
+            name="exercise_id"
             options={props.exerciseOptions}
             value={props.trainingRecord.exercise_id}
             handleValueChange={handleExerciseId}
