@@ -8,6 +8,8 @@ import {
 } from "~/apiActions/exerciseCategoryManager";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 import type { ExerciseCategory } from "~/type/exercise_category";
+import type { PulldownSelectedValue } from "~/type/common";
+import { getTargetAreaList } from "~/apiActions/TargetArea";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ExerciseCategoryManagerPage = () => {
@@ -17,6 +19,19 @@ const ExerciseCategoryManagerPage = () => {
   // 部位IDを保持するstateを追加
   const [selectedTargetId, setSelectedTargetId] = useState<number>(0);
   const [newExerciseCategory, setNewExerciseCategory] = useState<string>("");
+
+  // 部位選択プルダウン用のstate
+  const [targetOptions, setTargetOptions] = useState<PulldownSelectedValue[]>(
+    []
+  );
+
+  // 部位リストを取得
+  useEffect(() => {
+    (async () => {
+      const result = await getTargetAreaList();
+      setTargetOptions(result.data);
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -87,8 +102,10 @@ const ExerciseCategoryManagerPage = () => {
           <h1>トレーニング種目マスタ</h1>
           <div>
             <TargetSelectionPulldown
-              filterTarget={selectedTargetId}
-              setFilterTarget={setSelectedTargetId}
+              name="target_id"
+              options={targetOptions}
+              value={selectedTargetId}
+              onChange={(e) => setSelectedTargetId(+e.target.value)}
             />
             <input
               type="text"
