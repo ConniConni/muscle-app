@@ -32,6 +32,11 @@ export class TrainingRecordController {
     return await this.trainingRecordService.findById(id);
   }
 
+  @Get('date/:date')
+  async findByDate(@Param('date') date: string) {
+    return await this.trainingRecordService.findByDate(date);
+  }
+
   @Post()
   async create(@Body() createTrainingRecordDto: CreateTrainingRecordDto) {
     return await this.trainingRecordService.create(createTrainingRecordDto);

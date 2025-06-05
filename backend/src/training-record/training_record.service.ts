@@ -59,6 +59,22 @@ export class TrainingRecordService {
     return result[0];
   }
 
+  async findByDate(date: string) {
+    const result = await this.prisma.$queryRaw`
+      SELECT
+        tr.id,
+        ec.name,
+        tr.date,
+        tr.weight,
+        tr.count
+      FROM training_records AS tr
+      INNER JOIN exercise_categories AS ec
+      ON tr.exercise_id = ec.id
+      WHERE tr.date = ${date}::DATE;
+      `;
+    return result;
+  }
+
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
     const currentJstTime = formatInTimeZone(
       new Date(),
