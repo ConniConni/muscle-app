@@ -1,0 +1,18 @@
+// 祝日取得api呼び出し関数
+export const getHolidayList = async () => {
+  try {
+    const response = await fetch(
+      "https://holidays-jp.github.io/api/v1/date.json"
+    );
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
