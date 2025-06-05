@@ -89,3 +89,8 @@ header {
 .pagination {
   margin: 10px 15px;
 }
+
+.holiday {
+  background-color: #fff0f0;
+  color: #d10000;
+}

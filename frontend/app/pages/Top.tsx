@@ -1,86 +1,55 @@
 import { useEffect, useState } from "react";
-import TrainingRecordTable from "~/components/features/top/TrainingRecordTable";
-import Button from "~/components/parts/Button";
-import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelectionPulldown";
-import type { TrainingRecordWithName } from "~/type/training_record";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { getHolidayList } from "~/apiActions/holidaysApi";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
-import {
-  getSelectExerciseId,
-  getTrainingRecord,
-} from "~/apiActions/TrainingRecord";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
-  const [trainingRecord, setTrainingRecord] = useState<
-    TrainingRecordWithName[]
-  >([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterExercise, setFilterExercise] = useState<number>(0);
-  // 部位選択プルダウン用のstateを追加
-  const [filterTarget, setFilterTarget] = useState<number>(0);
+  const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
+  const [holidays, setHolidays] = useState<Record<string, string>>({});
 
-  // 一覧取得処理呼び出し
-  const handleGetTrainingRecord = async () => {
-    const result = await getTrainingRecord();
-    if (result.success) {
-      setTrainingRecord(result.data);
-      setCurrentPage(1);
-    } else {
-      alert(`一覧取得に失敗しました。\n\n${result.error}`);
-    }
-  };
-
-  // 絞り込み表示処理呼び出し
-  const handleGetSelectExerciseId = async () => {
-    const result = await getSelectExerciseId(filterExercise);
-    if (result.success) {
-      setTrainingRecord(result.data);
-      setCurrentPage(1);
-    } else {
-      alert(`絞り込みに失敗しました。${result.error}`);
-    }
-  };
-
+  // APIから祝日データを取得
   useEffect(() => {
     (async () => {
-      const result = await getTrainingRecord();
+      const result = await getHolidayList();
       if (result.success) {
-        setTrainingRecord(result.data);
-      } else {
-        alert(`一覧取得に失敗しました。\n\n${result.error}`);
+        setHolidays(result.data);
       }
     })();
   }, []);
 
+  // 祝日かどうか判定
+  const isHoliday = (date: Date) => {
+    // Dateオブジェクトから「年」を取得
+    const year = date.getFullYear();
+    // Dateオブジェクトから「月」を2桁の文字列で取得
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    // Dateオブジェクトから「日」を2桁の文字列で取得
+    const day = String(date.getDate()).padStart(2, "0");
+    // 日本時間（JST）で「YYYY-MM-DD」形式の文字列を作成
+    const dateStr = `${year}-${month}-${day}`;
+    return dateStr in holidays;
+  };
+
+  // カレンダーの日付セルにクラスを付与
+  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    if (view !== "month") return "";
+    return isHoliday(date) ? "holiday" : "";
+  };
   return (
     <div className="layout">
       <Header />
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <h1>筋トレ実績</h1>
-          <div>
-            <Button onClick={handleGetTrainingRecord} buttonName="一覧取得" />
-          </div>
-          <div>
-            <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
-            <TargetSelectionPulldown //部位選択プルダウン用の追加
-              filterTarget={filterTarget}
-              setFilterTarget={setFilterTarget}
-            />
-            <ExerciseSelectionPulldown
-              filterExercise={filterExercise}
-              filterTarget={filterTarget}
-              setFilterExercise={setFilterExercise}
-            />
-          </div>
-          <TrainingRecordTable
-            trainingRecord={trainingRecord}
-            currentPage={currentPage}
-            getTrainingRecord={getTrainingRecord}
-            setCurrentPage={setCurrentPage}
+          <Calendar
+            value={date}
+            onClickDay={(e) => setDate(e)} // 選択した日にポインタを当てる
+            calendarType="gregory" // 日曜始り、土日休日とするためにグレゴリオ歴を指定
+            locale="en-US" // 日付の「日」の表示を消すために、英語ロケールを使用
+            tileClassName={tileClassName}
           />
         </div>
       </div>

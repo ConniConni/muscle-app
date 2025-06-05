@@ -8,6 +8,10 @@ const Sidebar = () => {
   const backTopPage = () => {
     navigate("/");
   };
+  // 一覧画面に遷移
+  const navigateToTrainingRecordListPage = () => {
+    navigate("/list");
+  };
   // 登録画面に遷移
   const navigateToTrainingRecordEditPage = () => {
     navigate("/create");
@@ -19,7 +23,13 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-content">
-        <Button onClick={backTopPage} buttonName="筋トレ実績へ" />
+        <Button onClick={backTopPage} buttonName="トップページへ" />
+      </div>
+      <div className="sidebar-content">
+        <Button
+          onClick={navigateToTrainingRecordListPage}
+          buttonName="実績一覧"
+        />
       </div>
       <div className="sidebar-content">
         <Button

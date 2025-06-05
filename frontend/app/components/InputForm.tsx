@@ -2,12 +2,11 @@ import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import Button from "./parts/Button";
 import ExerciseSelectionPulldown from "./parts/pulldown/ExerciseSelectionPulldown";
 import TargetSelectionPulldown from "./parts/pulldown/TargetSelectionPulldown";
+import type { PulldownSelectedValue } from "~/type/common";
 
 type Props = {
-  filterVal: number;
-  setFilterVal: React.Dispatch<React.SetStateAction<number>>;
-  filterTarget: number;
-  setFilterTarget: React.Dispatch<React.SetStateAction<number>>;
+  exerciseOptions: PulldownSelectedValue[];
+  targetOptions: PulldownSelectedValue[];
   trainingRecord: TrainingRecordWithExerciseId;
   setTrainingRecord: React.Dispatch<
     React.SetStateAction<TrainingRecordWithExerciseId>
@@ -32,6 +31,25 @@ const InputForm = (props: Props) => {
     });
   };
 
+  // 部位IDの変更状態を管理するハンドラー
+  const handleTargetId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newTargetIdStr = e.target.value;
+    const newTargetId = newTargetIdStr === "" ? 0 : +newTargetIdStr;
+    props.setTrainingRecord({
+      ...props.trainingRecord,
+      target_id: newTargetId,
+    });
+  };
+
+  // 種目IDの変更状態を管理するハンドラー
+  const handleExerciseId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newExerciseIdStr = e.target.value;
+    const newExerciseId = newExerciseIdStr === "" ? 0 : +newExerciseIdStr;
+    props.setTrainingRecord({
+      ...props.trainingRecord,
+      exercise_id: newExerciseId,
+    });
+  };
   // 重量の変更状態を管理するハンドラー
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newWeightStr = e.target.value;
@@ -58,21 +76,20 @@ const InputForm = (props: Props) => {
       <form action={props.onClick}>
         <div>
           <span>部位 </span>
-          <TargetSelectionPulldown //部位選択プルダウン用の追加
-            filterTarget={props.filterTarget}
-            setFilterTarget={props.setFilterTarget}
-            trainingRecord={props.trainingRecord}
-            setTrainingRecord={props.setTrainingRecord}
+          <TargetSelectionPulldown
+            name="target_id"
+            options={props.targetOptions}
+            value={props.trainingRecord.target_id}
+            onChange={handleTargetId}
           />
         </div>
         <div>
           <span>種目 </span>
           <ExerciseSelectionPulldown
-            filterTarget={props.filterTarget} // プルダウンに部位に紐づく種目のみを表示するために追加
-            filterExercise={props.filterVal}
-            setFilterExercise={props.setFilterVal}
-            trainingRecord={props.trainingRecord}
-            setTrainingRecord={props.setTrainingRecord}
+            name="exercise_id"
+            options={props.exerciseOptions}
+            value={props.trainingRecord.exercise_id}
+            onChange={handleExerciseId}
           />
         </div>
         <div>
