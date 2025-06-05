@@ -1,12 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { getHolidayList } from "~/apiActions/holidaysApi";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
   const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
+  const [holidays, setHolidays] = useState<Record<string, string>>({});
+
+  // APIから祝日データを取得
+  useEffect(() => {
+    (async () => {
+      const result = await getHolidayList();
+      if (result.success) {
+        setHolidays(result.data);
+      }
+    })();
+  }, []);
+
+  // 祝日かどうか判定
+  const isHoliday = (date: Date) => {
+    // Dateオブジェクトから「年」を取得
+    const year = date.getFullYear();
+    // Dateオブジェクトから「月」を2桁の文字列で取得
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    // Dateオブジェクトから「日」を2桁の文字列で取得
+    const day = String(date.getDate()).padStart(2, "0");
+    // 日本時間（JST）で「YYYY-MM-DD」形式の文字列を作成
+    const dateStr = `${year}-${month}-${day}`;
+    return dateStr in holidays;
+  };
+
+  // カレンダーの日付セルにクラスを付与
+  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    if (view !== "month") return "";
+    return isHoliday(date) ? "holiday" : "";
+  };
   return (
     <div className="layout">
       <Header />
@@ -18,6 +49,7 @@ export function Top() {
             onClickDay={(e) => setDate(e)} // 選択した日にポインタを当てる
             calendarType="gregory" // 日曜始り、土日休日とするためにグレゴリオ歴を指定
             locale="en-US" // 日付の「日」の表示を消すために、英語ロケールを使用
+            tileClassName={tileClassName}
           />
         </div>
       </div>
