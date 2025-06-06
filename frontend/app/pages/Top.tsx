@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { formatDate } from "react-calendar/dist/shared/dateFormatter.js";
 import { getHolidayList } from "~/apiActions/holidaysApi";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
@@ -33,6 +34,14 @@ export function Top() {
     return dateStr in holidays;
   };
 
+  // クリック時に日付を「yyyy-mm-dd」の形式で取得取得
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   // カレンダーの日付セルにクラスを付与
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     if (view !== "month") return "";
@@ -46,7 +55,11 @@ export function Top() {
         <div className="content">
           <Calendar
             value={date}
-            onClickDay={(e) => setDate(e)} // 選択した日にポインタを当てる
+            onClickDay={(e) => {
+              console.log(e);
+              console.log(formatDate(e));
+              setDate(e);
+            }} // 選択した日にポインタを当てる
             calendarType="gregory" // 日曜始り、土日休日とするためにグレゴリオ歴を指定
             locale="en-US" // 日付の「日」の表示を消すために、英語ロケールを使用
             tileClassName={tileClassName}
