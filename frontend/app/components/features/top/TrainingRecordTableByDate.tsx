@@ -18,6 +18,9 @@ type TrainingRecordProps = {
         data?: undefined;
       }
   >;
+  setTrainingRecord: React.Dispatch<
+    React.SetStateAction<TrainingRecordWithName[]>
+  >;
   setCurrentPage: (page: number) => void;
 };
 
@@ -27,6 +30,7 @@ const TrainingRecordTableByDate = ({
   trainingRecord,
   currentPage,
   getTrainingRecord,
+  setTrainingRecord,
   setCurrentPage,
 }: TrainingRecordProps) => {
   // 個別筋トレデータ削除APIを呼び出す
@@ -34,7 +38,10 @@ const TrainingRecordTableByDate = ({
     const response = await trainingRecordDelete(id);
     if (response.success) {
       alert("削除が完了しました。");
-      getTrainingRecord(date);
+      const result = await getTrainingRecord(date);
+      if (result.success) {
+        setTrainingRecord(result.data);
+      }
     } else {
       alert(`削除できませんでした。\n\n${response.error}`);
     }

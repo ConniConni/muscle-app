@@ -39,6 +39,7 @@ const TrainingRecordListByDatePage = () => {
               trainingRecord={trainingRecords}
               currentPage={currentPage}
               getTrainingRecord={getSelectDate}
+              setTrainingRecord={setTrainingRecords}
               setCurrentPage={setCurrentPage}
             />
           </div>
