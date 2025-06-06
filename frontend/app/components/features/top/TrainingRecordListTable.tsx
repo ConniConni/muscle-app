@@ -8,31 +8,36 @@ type TrainingRecordListTableProps = {
   setCurrentPage: (page: number) => void;
   handleDelete: (id: number) => void;
 };
-const TrainingRecordListTable = (props: TrainingRecordListTableProps) => {
+const TrainingRecordListTable = ({
+  trainingRecord,
+  currentPage,
+  setCurrentPage,
+  handleDelete,
+}: TrainingRecordListTableProps) => {
   const rowsPerPage = 5; // 1ページあたりの行数を設置
 
-  const startRowIndex = (props.currentPage - 1) * rowsPerPage;
-  const currentData = props.trainingRecord.slice(
+  const startRowIndex = (currentPage - 1) * rowsPerPage;
+  const currentData = trainingRecord.slice(
     startRowIndex,
     startRowIndex + rowsPerPage
   );
   // 総ページ数を計算 (trainingRecordの要素数を5で割り、切り上げる)
   // ただし、trainingRecordの要素数が0の時は１をセット
   const totalPages =
-    props.trainingRecord.length === 0
+    trainingRecord.length === 0
       ? 1
-      : Math.ceil(props.trainingRecord.length / rowsPerPage);
+      : Math.ceil(trainingRecord.length / rowsPerPage);
   // 次のページへ進む
   const handleNext = () => {
-    if (props.currentPage < totalPages) {
-      props.setCurrentPage(props.currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
   // 次のページへ戻る
   const handlePrev = () => {
-    if (props.currentPage > 1) {
-      props.setCurrentPage(props.currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
   const navigate = useNavigate();
@@ -72,7 +77,7 @@ const TrainingRecordListTable = (props: TrainingRecordListTableProps) => {
                     hoverBackground="white"
                   />
                   <Button
-                    onClick={() => props.handleDelete(c.id)}
+                    onClick={() => handleDelete(c.id)}
                     buttonName="削除"
                     color="white"
                     background="tomato"
@@ -89,13 +94,13 @@ const TrainingRecordListTable = (props: TrainingRecordListTableProps) => {
         <Button
           onClick={handlePrev}
           buttonName="前"
-          disabled={props.currentPage === 1}
+          disabled={currentPage === 1}
         ></Button>
-        <span>{`${props.currentPage} / ${totalPages}`}</span>
+        <span>{`${currentPage} / ${totalPages}`}</span>
         <Button
           onClick={handleNext}
           buttonName="次"
-          disabled={props.currentPage === totalPages}
+          disabled={currentPage === totalPages}
         />
       </div>
     </div>
