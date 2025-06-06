@@ -145,6 +145,7 @@ const TrainingRecordListPage = () => {
             trainingRecord={trainingRecords}
             currentPage={currentPage}
             getTrainingRecord={getTrainingRecord}
+            setTrainingRecord={setTrainingRecords}
             setCurrentPage={setCurrentPage}
           />
         </div>

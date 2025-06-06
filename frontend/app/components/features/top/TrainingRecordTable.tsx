@@ -5,7 +5,21 @@ import TrainingRecordListTable from "./TrainingRecordListTable";
 type TrainingRecordProps = {
   trainingRecord: TrainingRecordWithName[];
   currentPage: number;
-  getTrainingRecord: () => void;
+  getTrainingRecord: () => Promise<
+    | {
+        success: boolean;
+        data: any;
+        error?: undefined;
+      }
+    | {
+        success: boolean;
+        error: any;
+        data?: undefined;
+      }
+  >;
+  setTrainingRecord: React.Dispatch<
+    React.SetStateAction<TrainingRecordWithName[]>
+  >;
   setCurrentPage: (page: number) => void;
 };
 
@@ -14,6 +28,7 @@ const TrainingRecordTable = ({
   trainingRecord,
   currentPage,
   getTrainingRecord,
+  setTrainingRecord,
   setCurrentPage,
 }: TrainingRecordProps) => {
   // 個別筋トレデータ削除APIを呼び出す
@@ -21,7 +36,10 @@ const TrainingRecordTable = ({
     const response = await trainingRecordDelete(id);
     if (response.success) {
       alert("削除が完了しました。");
-      getTrainingRecord();
+      const result = await getTrainingRecord();
+      if (result.success) {
+        setTrainingRecord(result.data);
+      }
     } else {
       alert(`削除できませんでした。\n\n${response.error}`);
     }
