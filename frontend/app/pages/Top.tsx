@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { formatDate } from "react-calendar/dist/shared/dateFormatter.js";
+import { useNavigate } from "react-router";
 import { getHolidayList } from "~/apiActions/holidaysApi";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
@@ -10,6 +10,7 @@ import Sidebar from "~/components/common/Sidebar";
 export function Top() {
   const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
   const [holidays, setHolidays] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   // APIから祝日データを取得
   useEffect(() => {
@@ -56,10 +57,10 @@ export function Top() {
           <Calendar
             value={date}
             onClickDay={(e) => {
-              console.log(e);
-              console.log(formatDate(e));
-              setDate(e);
-            }} // 選択した日にポインタを当てる
+              setDate(e); // 選択した日をハイライト
+              const formattedDate = formatDate(e);
+              navigate(`list/${formattedDate}`);
+            }}
             calendarType="gregory" // 日曜始り、土日休日とするためにグレゴリオ歴を指定
             locale="en-US" // 日付の「日」の表示を消すために、英語ロケールを使用
             tileClassName={tileClassName}
