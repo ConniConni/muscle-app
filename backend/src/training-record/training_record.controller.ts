@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
@@ -16,7 +17,10 @@ export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
   @Get()
-  async findAll() {
+  async findAll(@Query('date') date?: string) {
+    if (date) {
+      return await this.trainingRecordService.findByDate(date);
+    }
     return await this.trainingRecordService.findAll();
   }
 
@@ -30,11 +34,6 @@ export class TrainingRecordController {
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
     return await this.trainingRecordService.findById(id);
-  }
-
-  @Get('date/:date')
-  async findByDate(@Param('date') date: string) {
-    return await this.trainingRecordService.findByDate(date);
   }
 
   @Post()

@@ -40,12 +40,12 @@ export const getSelectExerciseId = async (filterExercise: number) => {
   }
 };
 
-// 絞り込み表示処理呼び出し
+// 日付での絞り込み表示処理呼び出し
 export const getSelectDate = async (filterDate: string) => {
   if (filterDate != "") {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/date/${filterDate}`
+        `${API_BASE_URL}/training-record/?date=${filterDate}`
       );
       if (response.status != 200) {
         const errorData = await response.json();
