@@ -7,7 +7,7 @@ import TrainingRecordTableByDate from "~/components/features/top/TrainingRecordT
 import type { TrainingRecordWithName } from "~/type/training_record";
 
 const TrainingRecordListByDatePage = () => {
-  // URL から id を取得
+  // URL から date を取得
   const { date } = useParams<{ date: string }>();
   const [trainingRecords, setTrainingRecords] = useState<
     TrainingRecordWithName[]

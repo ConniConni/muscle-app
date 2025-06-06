@@ -1,7 +1,6 @@
 import type { TrainingRecordWithName } from "~/type/training_record";
 import Button from "~/components/parts/Button";
 import { useNavigate } from "react-router";
-import { API_BASE_URL } from "~/config";
 import { trainingRecordDelete } from "~/apiActions/TrainingRecord";
 
 type TrainingRecordProps = {
