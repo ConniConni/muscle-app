@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import InputForm from "~/components/InputForm";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
@@ -36,6 +36,10 @@ const TrainingRecordCreatePage = () => {
       count: 0,
     });
 
+  // URLのクエリパラメータからdateの値を取得する
+  const [searchParams] = useSearchParams();
+  const date = searchParams.get("date");
+
   // 部位IDが変わったら種目リスト取得
   useEffect(() => {
     (async () => {
@@ -55,6 +59,17 @@ const TrainingRecordCreatePage = () => {
       }
     })();
   }, [trainingRecord.target_id]);
+
+  // カレンダーから登録ページに遷移した際は、選択した日をセットする
+  useEffect(() => {
+    if (date) {
+      console.log(date);
+      setTrainingRecord((trainingRecord) => ({
+        ...trainingRecord,
+        date: new Date(date),
+      }));
+    }
+  }, []);
 
   // トレーニング記録登録に必要なデータの取得
   const handleCreate = async (formData: FormData) => {

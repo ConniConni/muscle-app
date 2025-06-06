@@ -76,7 +76,8 @@ export function Top() {
     if (isTrainingRecord) {
       navigate(`list/${formattedDate}`);
     } else {
-      navigate("/create");
+      // 日付をクエリパラメータで渡して遷移
+      navigate(`/create?date=${formattedDate}`);
     }
   };
 
