@@ -1,12 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsPositive } from 'class-validator';
 
 export class TrainingRecordDto {
   @Type(() => Number)
   @IsPositive()
   @IsOptional()
   exercise_id?: number;
-  @IsString()
+  @IsDateString()
   @IsOptional()
   date?: string;
 }
