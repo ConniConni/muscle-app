@@ -48,7 +48,7 @@ export class TrainingRecordService {
   }
 
   async findById(id: number) {
-    const response = await this.prisma.trainingRecord.findMany({
+    const response = await this.prisma.trainingRecord.findUnique({
       where: { id },
       include: {
         exerciseCategories: {
@@ -58,15 +58,16 @@ export class TrainingRecordService {
         },
       },
     });
-    const result = response.map((record) => ({
-      id: record.id,
-      target_id: record.exerciseCategories?.targetId,
-      exercise_id: record.exerciseId,
-      date: record.date,
-      weight: record.weight,
-      count: record.count,
-    }));
-    return result[0];
+    if (!response) return null;
+    const result = {
+      id: response.id,
+      target_id: response.exerciseCategories?.targetId,
+      exercise_id: response.exerciseId,
+      date: response.date,
+      weight: response.weight,
+      count: response.count,
+    };
+    return result;
   }
 
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
