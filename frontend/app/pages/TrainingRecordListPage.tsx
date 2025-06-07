@@ -57,7 +57,9 @@ const TrainingRecordListPage = () => {
 
   // 絞り込み表示処理呼び出し
   const handleGetSelectExerciseId = async () => {
-    const result = await getSelectExerciseId(trainingRecord.exercise_id);
+    const result = await getTrainingRecord({
+      exercise_id: trainingRecord.exercise_id,
+    });
     if (result.success) {
       setTrainingRecords(result.data);
       setCurrentPage(1);

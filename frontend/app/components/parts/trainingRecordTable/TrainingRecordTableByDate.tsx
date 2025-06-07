@@ -6,7 +6,10 @@ type TrainingRecordProps = {
   date: string;
   trainingRecord: TrainingRecordWithName[];
   currentPage: number;
-  getTrainingRecord: (date: string) => Promise<
+  getTrainingRecord: (options?: {
+    exercise_id?: number;
+    date?: string;
+  }) => Promise<
     | {
         success: boolean;
         data: any;
@@ -38,7 +41,7 @@ const TrainingRecordTableByDate = ({
     const response = await trainingRecordDelete(id);
     if (response.success) {
       alert("削除が完了しました。");
-      const result = await getTrainingRecord(date);
+      const result = await getTrainingRecord({ date: date });
       if (result.success) {
         setTrainingRecord(result.data);
       }
