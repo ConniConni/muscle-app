@@ -22,7 +22,7 @@ export const getSelectExerciseId = async (filterExercise: number) => {
   if (filterExercise != 0) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/exercise/${filterExercise}`
+        `${API_BASE_URL}/training-record/?exercise_id=${filterExercise}`
       );
       if (response.status != 200) {
         const errorData = await response.json();
