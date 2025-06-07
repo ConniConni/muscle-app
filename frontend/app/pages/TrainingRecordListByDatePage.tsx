@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getSelectDate } from "~/apiActions/TrainingRecord";
+import { getSelectDate, getTrainingRecord } from "~/apiActions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import TrainingRecordTableByDate from "~/components/parts/trainingRecordTable/TrainingRecordTableByDate";
@@ -17,7 +17,7 @@ const TrainingRecordListByDatePage = () => {
   useEffect(() => {
     if (date != null) {
       (async () => {
-        const result = await getSelectDate(date);
+        const result = await getTrainingRecord({ date: date });
         if (result.success) {
           setTrainingRecords(result.data);
         } else {
@@ -38,7 +38,7 @@ const TrainingRecordListByDatePage = () => {
               date={date!}
               trainingRecord={trainingRecords}
               currentPage={currentPage}
-              getTrainingRecord={getSelectDate}
+              getTrainingRecord={getTrainingRecord}
               setTrainingRecord={setTrainingRecords}
               setCurrentPage={setCurrentPage}
             />

@@ -64,22 +64,22 @@ export class TrainingRecordService {
   //   return result;
   // }
 
-  async findAllByExerciseId(exerciseId: number) {
-    const result = await this.prisma.$queryRaw`
-    SELECT
-      tr.id,
-      ec.name,
-      tr.date,
-      tr.weight,
-      tr.count
-    FROM training_records as tr
-    INNER JOIN exercise_categories as ec
-    ON ec.id = tr.exercise_id
-    WHERE tr.exercise_id = ${exerciseId}
-    ORDER BY tr.date DESC;
-    `;
-    return result;
-  }
+  // async findAllByExerciseId(exerciseId: number) {
+  //   const result = await this.prisma.$queryRaw`
+  //   SELECT
+  //     tr.id,
+  //     ec.name,
+  //     tr.date,
+  //     tr.weight,
+  //     tr.count
+  //   FROM training_records as tr
+  //   INNER JOIN exercise_categories as ec
+  //   ON ec.id = tr.exercise_id
+  //   WHERE tr.exercise_id = ${exerciseId}
+  //   ORDER BY tr.date DESC;
+  //   `;
+  //   return result;
+  // }
 
   async findById(id: number) {
     const result = await this.prisma.$queryRaw<TrainingData[]>`
@@ -98,21 +98,21 @@ export class TrainingRecordService {
     return result[0];
   }
 
-  async findByDate(date: string) {
-    const result = await this.prisma.$queryRaw`
-      SELECT
-        tr.id,
-        ec.name,
-        tr.date,
-        tr.weight,
-        tr.count
-      FROM training_records AS tr
-      INNER JOIN exercise_categories AS ec
-      ON tr.exercise_id = ec.id
-      WHERE tr.date = ${date}::DATE;
-      `;
-    return result;
-  }
+  // async findByDate(date: string) {
+  //   const result = await this.prisma.$queryRaw`
+  //     SELECT
+  //       tr.id,
+  //       ec.name,
+  //       tr.date,
+  //       tr.weight,
+  //       tr.count
+  //     FROM training_records AS tr
+  //     INNER JOIN exercise_categories AS ec
+  //     ON tr.exercise_id = ec.id
+  //     WHERE tr.date = ${date}::DATE;
+  //     `;
+  //   return result;
+  // }
 
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
     const currentJstTime = formatInTimeZone(
