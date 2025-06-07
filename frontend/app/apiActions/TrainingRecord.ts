@@ -1,10 +1,22 @@
 import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績一覧取得処理呼び出し
-export const getTrainingRecord = async () => {
+export const getTrainingRecord = async (options?: {
+  exercise_id?: any;
+  date?: string;
+}) => {
+  const params = new URLSearchParams();
+  // exercise_idが1以上のときのみパラメータに追加
+  if (options?.exercise_id && options.exercise_id > 0)
+    params.append("exercise_id", String(options.exercise_id));
+  if (options?.date) params.append("date", options.date);
+
+  const url = `${API_BASE_URL}/training-record/${
+    params.toString() ? "?" + params.toString() : ""
+  }`;
   try {
-    const response = await fetch(`${API_BASE_URL}/training-record/`);
-    if (response.status != 200) {
+    const response = await fetch(url);
+    if (response.status !== 200) {
       const errorData = await response.json();
       throw new Error(
         `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
