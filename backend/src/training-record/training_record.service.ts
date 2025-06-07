@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
-import { TrainingData } from 'src/types';
 import { formatInTimeZone } from 'date-fns-tz';
 import { TrainingRecordDto } from './dto/get-training-record.dto';
 
