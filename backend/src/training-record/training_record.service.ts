@@ -48,21 +48,43 @@ export class TrainingRecordService {
   }
 
   async findById(id: number) {
-    const result = await this.prisma.$queryRaw<TrainingData[]>`
-    SELECT
-      tr.id,
-      ec.target_id,
-      tr.exercise_id,
-      tr.date,
-      tr.weight,
-      tr.count
-    FROM training_records as tr
-    INNER JOIN exercise_categories as ec
-    ON ec.id = tr.exercise_id
-    WHERE tr.id = ${id}
-    `;
+    const response = await this.prisma.trainingRecord.findMany({
+      where: { id },
+      include: {
+        exerciseCategories: {
+          select: {
+            targetId: true,
+          },
+        },
+      },
+    });
+    const result = response.map((record) => ({
+      id: record.id,
+      target_id: record.exerciseCategories?.targetId,
+      exercise_id: record.exerciseId,
+      date: record.date,
+      weight: record.weight,
+      count: record.count,
+    }));
     return result[0];
   }
+
+  // async findById(id: number) {
+  //   const result = await this.prisma.$queryRaw<TrainingData[]>`
+  //   SELECT
+  //     tr.id,
+  //     ec.target_id,
+  //     tr.exercise_id,
+  //     tr.date,
+  //     tr.weight,
+  //     tr.count
+  //   FROM training_records as tr
+  //   INNER JOIN exercise_categories as ec
+  //   ON ec.id = tr.exercise_id
+  //   WHERE tr.id = ${id}
+  //   `;
+  //   return result[0];
+  // }
 
   async create(createTrainingRecordDto: CreateTrainingRecordDto) {
     const currentJstTime = formatInTimeZone(
