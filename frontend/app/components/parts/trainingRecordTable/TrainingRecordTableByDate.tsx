@@ -1,11 +1,12 @@
 import type { TrainingRecordWithName } from "~/type/training_record";
 import { trainingRecordDelete } from "~/apiActions/TrainingRecord";
-import TrainingRecordListTable from "./TrainingRecordListTable";
+import BaseTrainingRecordTable from "./BaseTrainingRecordTable";
 
 type TrainingRecordProps = {
+  date: string;
   trainingRecord: TrainingRecordWithName[];
   currentPage: number;
-  getTrainingRecord: () => Promise<
+  getTrainingRecord: (date: string) => Promise<
     | {
         success: boolean;
         data: any;
@@ -23,8 +24,9 @@ type TrainingRecordProps = {
   setCurrentPage: (page: number) => void;
 };
 
-// 筋トレ実績一覧を生成する関数コンポーネント
-const TrainingRecordTable = ({
+// 日付ごとの筋トレ実績一覧を生成する関数コンポーネント
+const TrainingRecordTableByDate = ({
+  date,
   trainingRecord,
   currentPage,
   getTrainingRecord,
@@ -36,7 +38,7 @@ const TrainingRecordTable = ({
     const response = await trainingRecordDelete(id);
     if (response.success) {
       alert("削除が完了しました。");
-      const result = await getTrainingRecord();
+      const result = await getTrainingRecord(date);
       if (result.success) {
         setTrainingRecord(result.data);
       }
@@ -44,9 +46,8 @@ const TrainingRecordTable = ({
       alert(`削除できませんでした。\n\n${response.error}`);
     }
   };
-
   return (
-    <TrainingRecordListTable
+    <BaseTrainingRecordTable
       trainingRecord={trainingRecord}
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}
@@ -54,4 +55,4 @@ const TrainingRecordTable = ({
     />
   );
 };
-export default TrainingRecordTable;
+export default TrainingRecordTableByDate;

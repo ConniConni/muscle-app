@@ -8,7 +8,7 @@ type TrainingRecordListTableProps = {
   setCurrentPage: (page: number) => void;
   handleDelete: (id: number) => void;
 };
-const TrainingRecordListTable = ({
+const BaseTrainingRecordTable = ({
   trainingRecord,
   currentPage,
   setCurrentPage,
@@ -106,4 +106,4 @@ const TrainingRecordListTable = ({
     </div>
   );
 };
-export default TrainingRecordListTable;
+export default BaseTrainingRecordTable;

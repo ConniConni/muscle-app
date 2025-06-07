@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TrainingRecordTable from "~/components/features/top/TrainingRecordTable";
+
 import Button from "~/components/parts/Button";
 import ExerciseSelectionPulldown from "~/components/parts/pulldown/ExerciseSelectionPulldown";
 import type {
@@ -18,6 +18,7 @@ import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
 } from "~/apiActions/TargetArea";
+import TrainingRecordListTable from "~/components/parts/trainingRecordTable/TrainingRecordTable";
 
 // トップページを生成する関数コンポーネント
 const TrainingRecordListPage = () => {
@@ -141,7 +142,7 @@ const TrainingRecordListPage = () => {
               onChange={handleExerciseId}
             />
           </div>
-          <TrainingRecordTable
+          <TrainingRecordListTable
             trainingRecord={trainingRecords}
             currentPage={currentPage}
             getTrainingRecord={getTrainingRecord}

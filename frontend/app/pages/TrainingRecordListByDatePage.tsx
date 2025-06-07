@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { getSelectDate } from "~/apiActions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
-import TrainingRecordTableByDate from "~/components/features/top/TrainingRecordTableByDate";
+import TrainingRecordTableByDate from "~/components/parts/trainingRecordTable/TrainingRecordTableByDate";
 import type { TrainingRecordWithName } from "~/type/training_record";
 
 const TrainingRecordListByDatePage = () => {
