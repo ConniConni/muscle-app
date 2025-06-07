@@ -10,6 +10,7 @@ import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
 } from "~/apiActions/TargetArea";
+import { toZonedTime } from "date-fns-tz";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント
 const TrainingRecordCreatePage = () => {
@@ -31,11 +32,10 @@ const TrainingRecordCreatePage = () => {
       id: 0,
       target_id: 0,
       exercise_id: 0,
-      date: new Date(),
+      date: toZonedTime(new Date(), "Asia/Tokyo"),
       weight: 0,
       count: 0,
     });
-
   // URLのクエリパラメータからdateの値を取得する
   const [searchParams] = useSearchParams();
   const date = searchParams.get("date");
