@@ -22,7 +22,7 @@ export const getSelectExerciseId = async (filterExercise: number) => {
   if (filterExercise != 0) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/exercise/${filterExercise}`
+        `${API_BASE_URL}/training-record/?exercise_id=${filterExercise}`
       );
       if (response.status != 200) {
         const errorData = await response.json();
@@ -37,6 +37,32 @@ export const getSelectExerciseId = async (filterExercise: number) => {
     }
   } else {
     return { success: false, error: "種目idが存在しません。" };
+  }
+};
+
+// 日付での絞り込み表示処理呼び出し
+export const getSelectDate = async (filterDate: string) => {
+  if (filterDate != "") {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/training-record/?date=${filterDate}`
+      );
+      if (response.status != 200) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+        );
+      }
+      const result = await response.json();
+      return { success: true, data: result };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  } else {
+    return {
+      success: false,
+      error: "筋トレ実績が記録された日付が存在しません。",
+    };
   }
 };
 

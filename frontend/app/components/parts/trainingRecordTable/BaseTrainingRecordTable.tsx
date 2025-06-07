@@ -1,34 +1,19 @@
-import type { TrainingRecordWithName } from "~/type/training_record";
-import Button from "~/components/parts/Button";
 import { useNavigate } from "react-router";
-import { API_BASE_URL } from "~/config";
-import { trainingRecordDelete } from "~/apiActions/TrainingRecord";
+import Button from "~/components/parts/Button";
+import type { TrainingRecordWithName } from "~/type/training_record";
 
-type TrainingRecordProps = {
+type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
   currentPage: number;
-  getTrainingRecord: () => void;
   setCurrentPage: (page: number) => void;
+  handleDelete: (id: number) => void;
 };
-
-// 筋トレ実績一覧を生成する関数コンポーネント
-const TrainingRecordTable = ({
+const BaseTrainingRecordTable = ({
   trainingRecord,
   currentPage,
-  getTrainingRecord,
   setCurrentPage,
-}: TrainingRecordProps) => {
-  // 個別筋トレデータ削除APIを呼び出す
-  const handleDelete = async (id: number) => {
-    const response = await trainingRecordDelete(id);
-    if (response.success) {
-      alert("削除が完了しました。");
-      getTrainingRecord();
-    } else {
-      alert(`削除できませんでした。\n\n${response.error}`);
-    }
-  };
-
+  handleDelete,
+}: TrainingRecordListTableProps) => {
   const rowsPerPage = 5; // 1ページあたりの行数を設置
 
   const startRowIndex = (currentPage - 1) * rowsPerPage;
@@ -55,7 +40,6 @@ const TrainingRecordTable = ({
       setCurrentPage(currentPage - 1);
     }
   };
-
   const navigate = useNavigate();
   const navigateToTrainingRecordEditPage = (id: number) => {
     navigate(`/update/${id}`);
@@ -122,4 +106,4 @@ const TrainingRecordTable = ({
     </div>
   );
 };
-export default TrainingRecordTable;
+export default BaseTrainingRecordTable;

@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
@@ -16,15 +17,16 @@ export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
   @Get()
-  async findAll() {
-    return await this.trainingRecordService.findAll();
-  }
-
-  @Get('exercise/:exercise_id')
-  async findAllByExerciseId(
-    @Param('exercise_id', ParseIntPipe) exerciseId: number,
+  async findAll(
+    @Query('exercise_id') exerciseId?: number,
+    @Query('date') date?: string,
   ) {
-    return await this.trainingRecordService.findAllByExerciseId(exerciseId);
+    if (exerciseId) {
+      return await this.trainingRecordService.findAllByExerciseId(+exerciseId);
+    } else if (date) {
+      return await this.trainingRecordService.findByDate(date);
+    }
+    return await this.trainingRecordService.findAll();
   }
 
   @Get(':id')

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useNavigate } from "react-router";
 import { getHolidayList } from "~/apiActions/holidaysApi";
+import { getSelectDate } from "~/apiActions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 
@@ -9,6 +11,7 @@ import Sidebar from "~/components/common/Sidebar";
 export function Top() {
   const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
   const [holidays, setHolidays] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   // APIから祝日データを取得
   useEffect(() => {
@@ -33,11 +36,34 @@ export function Top() {
     return dateStr in holidays;
   };
 
+  // クリック時に日付を「yyyy-mm-dd」の形式で取得取得
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   // カレンダーの日付セルにクラスを付与
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     if (view !== "month") return "";
     return isHoliday(date) ? "holiday" : "";
   };
+
+  // 日付クリック時の処理
+  const handleClickDay = async (e: Date) => {
+    setDate(e); // 選択した日をハイライト
+    const formattedDate = formatDate(e);
+    const result = await getSelectDate(formattedDate);
+    const isTrainingRecord = result.data && result.data.length > 0;
+    if (isTrainingRecord) {
+      navigate(`list/${formattedDate}`);
+    } else {
+      // 日付をクエリパラメータで渡して遷移
+      navigate(`/create?date=${formattedDate}`);
+    }
+  };
+
   return (
     <div className="layout">
       <Header />
@@ -46,7 +72,7 @@ export function Top() {
         <div className="content">
           <Calendar
             value={date}
-            onClickDay={(e) => setDate(e)} // 選択した日にポインタを当てる
+            onClickDay={handleClickDay}
             calendarType="gregory" // 日曜始り、土日休日とするためにグレゴリオ歴を指定
             locale="en-US" // 日付の「日」の表示を消すために、英語ロケールを使用
             tileClassName={tileClassName}
