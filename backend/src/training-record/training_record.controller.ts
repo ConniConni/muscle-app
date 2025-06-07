@@ -11,22 +11,15 @@ import {
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
+import { TrainingRecordDto } from './dto/get-training-record.dto';
 
 @Controller('training-record')
 export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
   @Get()
-  async findAll(
-    @Query('exercise_id') exerciseId?: number,
-    @Query('date') date?: string,
-  ) {
-    if (exerciseId) {
-      return await this.trainingRecordService.findAllByExerciseId(+exerciseId);
-    } else if (date) {
-      return await this.trainingRecordService.findByDate(date);
-    }
-    return await this.trainingRecordService.findAll();
+  async findAll(@Query() trainingRecordDto: TrainingRecordDto) {
+    return await this.trainingRecordService.findAll(trainingRecordDto);
   }
 
   @Get(':id')

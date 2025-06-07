@@ -3,27 +3,66 @@ import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
 import { TrainingData } from 'src/types';
 import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
+import { TrainingRecordDto } from './dto/get-training-record.dto';
 
 @Injectable()
 export class TrainingRecordService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll() {
-    const result = await this.prisma.$queryRaw`
-    SELECT
-      tr.id,
-      tr.date,
-      tr.weight,
-      tr.count,
-      ec.name
-    FROM training_records as tr
-    INNER JOIN
-      exercise_categories as ec
-    ON tr.exercise_id = ec.id
-    ORDER BY tr.date DESC;
-    `;
+  async findAll(trainingRecordDto: TrainingRecordDto) {
+    // dto取り出し
+    const exercise_id = trainingRecordDto.exercise_id;
+    const date = trainingRecordDto.date;
+
+    // where条件の組み立て
+    const where: any = {};
+    if (exercise_id !== undefined) {
+      where.exerciseId = exercise_id;
+    }
+    if (date !== undefined) {
+      where.date = new Date(date);
+    }
+
+    const response = await this.prisma.trainingRecord.findMany({
+      where,
+      include: {
+        exerciseCategories: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        date: 'desc',
+      },
+    });
+    // フロントが期待する形に変換
+    const result = response.map((record) => ({
+      id: record.id,
+      date: record.date,
+      weight: record.weight,
+      count: record.count,
+      name: record.exerciseCategories?.name,
+    }));
     return result;
   }
+
+  // async findAll() {
+  //   const result = await this.prisma.$queryRaw`
+  //   SELECT
+  //     tr.id,
+  //     tr.date,
+  //     tr.weight,
+  //     tr.count,
+  //     ec.name
+  //   FROM training_records as tr
+  //   INNER JOIN
+  //     exercise_categories as ec
+  //   ON tr.exercise_id = ec.id
+  //   ORDER BY tr.date DESC;
+  //   `;
+  //   return result;
+  // }
 
   async findAllByExerciseId(exerciseId: number) {
     const result = await this.prisma.$queryRaw`
