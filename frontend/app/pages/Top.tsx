@@ -12,6 +12,12 @@ export function Top() {
   const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
   const [holidays, setHolidays] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+  // 筋トレ実施日を取得
+  // const uniqueDates = trainingRecords.map(
+  //   (record) => record.date.spilt("T")[0]
+  // );
+  // console.log("uniqueDates", uniqueDates);
+  // console.log("uniqueDates-type", typeof uniqueDates[0]);
 
   // APIから祝日データを取得
   useEffect(() => {
