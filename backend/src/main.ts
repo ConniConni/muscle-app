@@ -8,7 +8,7 @@ async function bootstrap() {
     origin: '*', // 許可するオリジン
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可する HTTP メソッド
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.listen(process.env.PORT ?? 3000);
 }
