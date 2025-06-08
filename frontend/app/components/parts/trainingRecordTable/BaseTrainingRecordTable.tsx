@@ -85,39 +85,16 @@ const BaseTrainingRecordTable = ({
                       onClick={navigateToTrainingRecordEditPage}
                       IconComponent={EditIcon}
                     />
-                    <Tooltip
-                      title="削除"
-                      placement="top"
-                      arrow
-                      slotProps={{
-                        popper: {
-                          modifiers: [
-                            {
-                              name: "offset",
-                              options: {
-                                offset: [0, -16], // [水平方向, 垂直方向] 16pxだけ下にずらす
-                              },
-                            },
-                          ],
-                        },
-                      }}
-                    >
-                      <IconButton
-                        sx={{
-                          backgroundColor: "tomato",
-                          color: "white",
-                          borderRadius: 1, // 枠を四角に変更
-                          "&:hover": {
-                            backgroundColor: "white", // ホバー時色を反転
-                            color: "tomato",
-                            cursor: "pointer", //  ホバー時カーソルをポインターに変更
-                          },
-                        }}
-                        onClick={() => handleDelete(c.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                    <TooltipIconButton
+                      tooltipTitle="削除"
+                      iconButtonBackgroundColor="tomato"
+                      iconButtonColor="white"
+                      iconButtonHoverBackgroundColor="white"
+                      iconButtonHoverColor="tomato"
+                      id={c.id}
+                      onClick={handleDelete}
+                      IconComponent={DeleteIcon}
+                    />
                   </Box>
                 </th>
               </tr>
