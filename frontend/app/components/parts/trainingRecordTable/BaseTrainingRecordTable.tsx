@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import Button from "~/components/parts/Button";
 import type { TrainingRecordWithName } from "~/type/training_record";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -76,13 +77,16 @@ const BaseTrainingRecordTable = ({
                     hoverColor="royalblue"
                     hoverBackground="white"
                   />
-                  <Button
+                  <DeleteIcon
+                    sx={{
+                      color: "tomato",
+                      // ホバー時にアイコンを変更
+                      "&:hover": {
+                        color: "red", // 色をredに変更
+                        cursor: "pointer", // カーソルをポインターに変更
+                      },
+                    }}
                     onClick={() => handleDelete(c.id)}
-                    buttonName="削除"
-                    color="white"
-                    background="tomato"
-                    hoverColor="tomato"
-                    hoverBackground="white"
                   />
                 </th>
               </tr>
