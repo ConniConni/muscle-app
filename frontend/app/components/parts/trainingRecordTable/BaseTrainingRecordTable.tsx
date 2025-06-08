@@ -4,6 +4,7 @@ import type { TrainingRecordWithName } from "~/type/training_record";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 
 type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -71,33 +72,38 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.weight}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
-                  <IconButton
-                    sx={{
-                      backgroundColor: "royalblue",
-                      color: "white",
-                      borderRadius: 1, // 枠を四角に変更
-                      "&:hover": {
-                        backgroundColor: "white", // ホバー時色を反転
-                        color: "royalblue",
-                        cursor: "pointer", //  ホバー時カーソルをポインターに変更
-                      },
-                    }}
-                    onClick={() => navigateToTrainingRecordEditPage(c.id)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-
-                  <DeleteIcon
-                    sx={{
-                      color: "tomato",
-                      // ホバー時にアイコンを変更
-                      "&:hover": {
-                        color: "red", // 色をredに変更
-                        cursor: "pointer", // カーソルをポインターに変更
-                      },
-                    }}
-                    onClick={() => handleDelete(c.id)}
-                  />
+                  <Box display="flex" gap={0.5}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: "royalblue",
+                        color: "white",
+                        borderRadius: 1, // 枠を四角に変更
+                        "&:hover": {
+                          backgroundColor: "white", // ホバー時色を反転
+                          color: "royalblue",
+                          cursor: "pointer", //  ホバー時カーソルをポインターに変更
+                        },
+                      }}
+                      onClick={() => navigateToTrainingRecordEditPage(c.id)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      sx={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        borderRadius: 1, // 枠を四角に変更
+                        "&:hover": {
+                          backgroundColor: "white", // ホバー時色を反転
+                          color: "tomato",
+                          cursor: "pointer", //  ホバー時カーソルをポインターに変更
+                        },
+                      }}
+                      onClick={() => handleDelete(c.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
                 </th>
               </tr>
             );
