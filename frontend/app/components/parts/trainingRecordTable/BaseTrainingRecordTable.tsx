@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
+import TooltipIconButton from "../TooltipIconButton";
 
 type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -74,39 +75,16 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Box display="flex" gap={0.5}>
-                    <Tooltip
-                      title="編集"
-                      placement="top"
-                      arrow
-                      slotProps={{
-                        popper: {
-                          modifiers: [
-                            {
-                              name: "offset",
-                              options: {
-                                offset: [0, -16], // [水平方向, 垂直方向] 16pxだけ下にずらす
-                              },
-                            },
-                          ],
-                        },
-                      }}
-                    >
-                      <IconButton
-                        sx={{
-                          backgroundColor: "royalblue",
-                          color: "white",
-                          borderRadius: 1, // 枠を四角に変更
-                          "&:hover": {
-                            backgroundColor: "white", // ホバー時色を反転
-                            color: "royalblue",
-                            cursor: "pointer", //  ホバー時カーソルをポインターに変更
-                          },
-                        }}
-                        onClick={() => navigateToTrainingRecordEditPage(c.id)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+                    <TooltipIconButton
+                      tooltipTitle="編集"
+                      iconButtonBackgroundColor="royalblue"
+                      iconButtonColor="white"
+                      iconButtonHoverBackgroundColor="white"
+                      iconButtonHoverColor="royalblue"
+                      id={c.id}
+                      onClick={navigateToTrainingRecordEditPage}
+                      IconComponent={EditIcon}
+                    />
                     <Tooltip
                       title="削除"
                       placement="top"
