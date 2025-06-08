@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 
 type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -73,36 +74,40 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Box display="flex" gap={0.5}>
-                    <IconButton
-                      sx={{
-                        backgroundColor: "royalblue",
-                        color: "white",
-                        borderRadius: 1, // 枠を四角に変更
-                        "&:hover": {
-                          backgroundColor: "white", // ホバー時色を反転
-                          color: "royalblue",
-                          cursor: "pointer", //  ホバー時カーソルをポインターに変更
-                        },
-                      }}
-                      onClick={() => navigateToTrainingRecordEditPage(c.id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      sx={{
-                        backgroundColor: "tomato",
-                        color: "white",
-                        borderRadius: 1, // 枠を四角に変更
-                        "&:hover": {
-                          backgroundColor: "white", // ホバー時色を反転
-                          color: "tomato",
-                          cursor: "pointer", //  ホバー時カーソルをポインターに変更
-                        },
-                      }}
-                      onClick={() => handleDelete(c.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    <Tooltip title="編集" placement="top" arrow>
+                      <IconButton
+                        sx={{
+                          backgroundColor: "royalblue",
+                          color: "white",
+                          borderRadius: 1, // 枠を四角に変更
+                          "&:hover": {
+                            backgroundColor: "white", // ホバー時色を反転
+                            color: "royalblue",
+                            cursor: "pointer", //  ホバー時カーソルをポインターに変更
+                          },
+                        }}
+                        onClick={() => navigateToTrainingRecordEditPage(c.id)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="削除" placement="top" arrow>
+                      <IconButton
+                        sx={{
+                          backgroundColor: "tomato",
+                          color: "white",
+                          borderRadius: 1, // 枠を四角に変更
+                          "&:hover": {
+                            backgroundColor: "white", // ホバー時色を反転
+                            color: "tomato",
+                            cursor: "pointer", //  ホバー時カーソルをポインターに変更
+                          },
+                        }}
+                        onClick={() => handleDelete(c.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </th>
               </tr>
