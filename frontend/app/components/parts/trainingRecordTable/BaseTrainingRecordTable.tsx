@@ -74,7 +74,23 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
                   <Box display="flex" gap={0.5}>
-                    <Tooltip title="編集" placement="top" arrow>
+                    <Tooltip
+                      title="編集"
+                      placement="top"
+                      arrow
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -16], // [水平方向, 垂直方向] 16pxだけ下にずらす
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                    >
                       <IconButton
                         sx={{
                           backgroundColor: "royalblue",
@@ -91,7 +107,23 @@ const BaseTrainingRecordTable = ({
                         <EditIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="削除" placement="top" arrow>
+                    <Tooltip
+                      title="削除"
+                      placement="top"
+                      arrow
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -16], // [水平方向, 垂直方向] 16pxだけ下にずらす
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                    >
                       <IconButton
                         sx={{
                           backgroundColor: "tomato",
