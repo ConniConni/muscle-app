@@ -1,17 +1,31 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useNavigate } from "react-router";
 import { getHolidayList } from "~/apiActions/holidaysApi";
-import { getSelectDate } from "~/apiActions/TrainingRecord";
+import { getSelectDate, getTrainingRecord } from "~/apiActions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
+import type { TrainingRecordWithName } from "~/type/training_record";
 
 // トップページを生成する関数コンポーネント
 export function Top() {
   const [date, setDate] = useState<Date | null>(new Date()); // 初期値は今日の日付
   const [holidays, setHolidays] = useState<Record<string, string>>({});
+  const [dateAll, setDateAll] = useState<(string | null)[]>([]);
   const navigate = useNavigate();
+
+  // 筋トレ実績がある日付を全件取得
+  useEffect(() => {
+    (async () => {
+      const result = await getTrainingRecord();
+      if (result.success) {
+        setDateAll(
+          result.data.map((record: TrainingRecordWithName) => record.date)
+        );
+      }
+    })();
+  }, []);
 
   // APIから祝日データを取得
   useEffect(() => {
@@ -47,7 +61,17 @@ export function Top() {
   // カレンダーの日付セルにクラスを付与
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     if (view !== "month") return "";
-    return isHoliday(date) ? "holiday" : "";
+    const classes = [];
+    // 祝日判定
+    if (isHoliday(date)) {
+      classes.push("holiday");
+    }
+    // 筋トレ記録判定
+    const dateString = formatDate(date);
+    if (dateAll.some((date) => date && date.slice(0, 10) === dateString)) {
+      classes.push("is-training-record");
+    }
+    return classes.join(" ");
   };
 
   // 日付クリック時の処理
