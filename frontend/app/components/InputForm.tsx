@@ -72,7 +72,7 @@ const InputForm = (props: Props) => {
 
   return (
     <div>
-      <h1>{props.actionName}ぺージ</h1>
+      <h1 className="page-title">{props.actionName}ぺージ</h1>
       <form action={props.onClick}>
         <div>
           <span>部位 </span>

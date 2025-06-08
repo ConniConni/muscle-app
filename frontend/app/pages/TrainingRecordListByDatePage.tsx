@@ -32,7 +32,7 @@ const TrainingRecordListByDatePage = () => {
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <h1>{date} 筋トレ実績</h1>
+          <h1 className="page-title">{date} 筋トレ実績</h1>
           <div>
             <TrainingRecordTableByDate
               date={date!}

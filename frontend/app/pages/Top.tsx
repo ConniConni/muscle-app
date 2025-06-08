@@ -94,6 +94,7 @@ export function Top() {
       <div className="main-content">
         <Sidebar />
         <div className="content">
+          <h1 className="page-title">筋トレ実績</h1>
           <Calendar
             value={date}
             onClickDay={handleClickDay}
