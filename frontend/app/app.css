@@ -78,12 +78,6 @@ header {
 }
 
 .sidebar {
-  /* width: 15%;
-  background-color: whitesmoke;
-  color: black;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px black solid; */
   width: 15%;
   min-width: 180px;
   background-color: whitesmoke;
