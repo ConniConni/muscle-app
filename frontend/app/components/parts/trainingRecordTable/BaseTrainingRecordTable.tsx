@@ -81,14 +81,6 @@ const BaseTrainingRecordTable = ({
                     }}
                     onClick={() => navigateToTrainingRecordEditPage(c.id)}
                   />
-                  {/* <Button
-                    onClick={() => navigateToTrainingRecordEditPage(c.id)}
-                    buttonName="編集"
-                    color="white"
-                    background="royalblue"
-                    hoverColor="royalblue"
-                    hoverBackground="white"
-                  /> */}
                   <DeleteIcon
                     sx={{
                       color: "tomato",
