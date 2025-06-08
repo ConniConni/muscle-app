@@ -130,7 +130,6 @@ const TrainingRecordListPage = () => {
             <Button onClick={handleGetTrainingRecord} buttonName="一覧取得" />
           </div>
           <div>
-            <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
             <TargetSelectionPulldown
               name="target_id"
               options={targetOptions}
@@ -143,6 +142,7 @@ const TrainingRecordListPage = () => {
               value={trainingRecord.exercise_id}
               onChange={handleExerciseId}
             />
+            <Button onClick={handleGetSelectExerciseId} buttonName="絞り込み" />
           </div>
           <TrainingRecordListTable
             trainingRecord={trainingRecords}
