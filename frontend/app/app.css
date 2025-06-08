@@ -90,7 +90,28 @@ header {
   margin: 10px 15px;
 }
 
+/* 祝日の日に付与されるクラス */
 .holiday {
   background-color: #fff0f0;
   color: #d10000;
+}
+
+/* 筋トレ記録がある日に付与されるクラス */
+.react-calendar__tile.is-training-record {
+  position: relative; /* 円を絶対配置するための設定 */
+}
+
+/* 筋トレ記録がある日のセルの擬似要素 */
+.react-calendar__tile.is-training-record::after {
+  content: ""; /* 擬似要素を生成するための必須要素 */
+  display: block; /* positionを使うために設定 */
+  position: absolute; /* 筋トレ記録がある日のセルを基準に絶対配置 */
+  top: 50%; /* セルの中央に円を配置 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 32px; /* 円のサイズを指定 */
+  height: 32px;
+  background: #1976d2; /* 色を指定 */
+  opacity: 0.25; /* 半透度を指定 */
 }
