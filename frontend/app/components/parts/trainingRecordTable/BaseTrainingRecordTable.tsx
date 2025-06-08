@@ -58,7 +58,7 @@ const BaseTrainingRecordTable = ({
             <th className="training-record-header">実施日</th>
             <th className="training-record-header">重量(kg)</th>
             <th className="training-record-header">回数(回)</th>
-            <th className="training-record-header">編集・削除</th>
+            <th className="training-record-header"></th>
           </tr>
         </thead>
         <tbody>
