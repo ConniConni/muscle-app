@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import Button from "~/components/parts/Button";
 import type { TrainingRecordWithName } from "~/type/training_record";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type TrainingRecordListTableProps = {
@@ -69,14 +70,25 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.weight}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
-                  <Button
+                  <EditIcon
+                    sx={{
+                      color: "royalblue",
+                      // ホバー時にアイコンを変更
+                      "&:hover": {
+                        color: "blue",
+                        cursor: "pointer",
+                      },
+                    }}
+                    onClick={() => navigateToTrainingRecordEditPage(c.id)}
+                  />
+                  {/* <Button
                     onClick={() => navigateToTrainingRecordEditPage(c.id)}
                     buttonName="編集"
                     color="white"
                     background="royalblue"
                     hoverColor="royalblue"
                     hoverBackground="white"
-                  />
+                  /> */}
                   <DeleteIcon
                     sx={{
                       color: "tomato",
