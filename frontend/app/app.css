@@ -106,7 +106,7 @@ header {
   content: ""; /* 擬似要素を生成するための必須要素 */
   display: block; /* positionを使うために設定 */
   position: absolute; /* 筋トレ記録がある日のセルを基準に絶対配置 */
-  top: 50%; /* セルの中央に円を配置 */
+  top: 50%; /* セルの中央に円の中心を配置 */
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
