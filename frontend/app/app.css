@@ -13,6 +13,15 @@ body {
     color-scheme: dark;
   }
 }
+.page-title {
+  margin-bottom: 1rem; /* タイトル下に余白 */
+  font-size: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
 
 thead {
   background-color: #2c5e77;
@@ -22,75 +31,152 @@ thead {
 tbody {
   background-color: #e4f0f5;
 }
+
 table {
-  width: auto; /* テーブル全体が親要素に幅を占めるようにする */
-  table-layout: fixed; /* テーブルのレイアウトを固定 */
-  border-collapse: collapse; /* ボーダーの重なりを消す */
+  width: auto; /* 親要素いっぱいに広げる */
+  table-layout: fixed;
+  border-collapse: collapse;
   border: 2px solid rgb(140 140 140);
   font-family: sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
+  font-size: 0.95rem; /* 少し大きめで見やすく */
+  letter-spacing: 0.5px;
   color: black;
+  margin: 24px 0; /* テーブル上下に余白を追加 */
+  background: white;
 }
 
 th,
 tr {
-  padding: 1rem;
+  padding: 0.75rem 1.25rem; /* 横にも余白をしっかり入れる */
+  text-align: left;
+  vertical-align: middle;
 }
 
 input,
 select {
-  border: 1px solid black;
-  padding: 5px;
+  border: 2px solid #bbb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 6px 1px;
+  font-size: 1rem;
 }
 
 header {
   width: 100%;
   height: 10vh;
-  background-color: black;
+  background-color: #202020;
   color: white;
-  padding: 15px 20px;
+  padding: 18px 32px; /* 横幅を広げる */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background: #f5f7fa;
 }
 
 .main-content {
   display: flex;
   flex: 1;
+  padding: 24px 0; /* 上下に余白 */
+  gap: 24px; /* サイドバーとコンテンツの間に余白 */
 }
 
 .sidebar {
   width: 15%;
+  min-width: 180px;
   background-color: whitesmoke;
   color: black;
   display: flex;
   flex-direction: column;
-  border-right: 1px black solid;
+  border-right: 1px solid #bbb;
+  padding: 24px 12px;
+  box-sizing: border-box;
 }
 
 .sidebar-content {
   color: black;
   display: flex;
   flex-direction: column;
-  margin: 20px 20px 10px;
+  gap: 16px;
+  margin: 0;
 }
 
 .content {
-  width: 85%;
+  width: auto;
   background-color: white;
   color: black;
-  margin: 20px;
+  margin: 0 24px;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(60, 60, 60, 0.06);
+  box-sizing: border-box;
 }
 
 .pagination {
   margin: 10px 15px;
 }
 
+/* 祝日の日に付与されるクラス */
 .holiday {
   background-color: #fff0f0;
   color: #d10000;
+}
+.react-calendar {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.1rem;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #e3f0fa;
+  color: #1976d2;
+}
+
+.react-calendar__tile--now {
+  background: #fffbe6;
+  color: #d48806;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active {
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+}
+
+.react-calendar__navigation {
+  margin-bottom: 1rem;
+}
+
+.react-calendar__month-view__weekdays {
+  font-weight: 600;
+  color: #808080;
+  margin-bottom: 0.5rem;
+}
+
+/* 筋トレ記録がある日に付与されるクラス */
+.react-calendar__tile.is-training-record {
+  position: relative; /* 円を絶対配置するための設定 */
+}
+
+/* 筋トレ記録がある日のセルの擬似要素 */
+.react-calendar__tile.is-training-record::after {
+  content: ""; /* 擬似要素を生成するための必須要素 */
+  display: block; /* positionを使うために設定 */
+  position: absolute; /* 筋トレ記録がある日のセルを基準に絶対配置 */
+  top: 50%; /* セルの中央に円の中心を配置 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 32px; /* 円のサイズを指定 */
+  height: 32px;
+  background: #1976d2; /* 色を指定 */
+  opacity: 0.25; /* 半透度を指定 */
 }

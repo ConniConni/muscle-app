@@ -1,6 +1,12 @@
 import { useNavigate } from "react-router";
 import Button from "~/components/parts/Button";
 import type { TrainingRecordWithName } from "~/type/training_record";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
+import TooltipIconButton from "../TooltipIconButton";
 
 type TrainingRecordListTableProps = {
   trainingRecord: TrainingRecordWithName[];
@@ -53,7 +59,7 @@ const BaseTrainingRecordTable = ({
             <th className="training-record-header">実施日</th>
             <th className="training-record-header">重量(kg)</th>
             <th className="training-record-header">回数(回)</th>
-            <th className="training-record-header">編集・削除</th>
+            <th className="training-record-header"></th>
           </tr>
         </thead>
         <tbody>
@@ -68,22 +74,28 @@ const BaseTrainingRecordTable = ({
                 <th className="training-record-cell">{c.weight}</th>
                 <th className="training-record-cell">{c.count}</th>
                 <th className="training-record-cell">
-                  <Button
-                    onClick={() => navigateToTrainingRecordEditPage(c.id)}
-                    buttonName="編集"
-                    color="white"
-                    background="royalblue"
-                    hoverColor="royalblue"
-                    hoverBackground="white"
-                  />
-                  <Button
-                    onClick={() => handleDelete(c.id)}
-                    buttonName="削除"
-                    color="white"
-                    background="tomato"
-                    hoverColor="tomato"
-                    hoverBackground="white"
-                  />
+                  <Box display="flex" gap={0.5}>
+                    <TooltipIconButton
+                      tooltipTitle="編集"
+                      iconButtonBackgroundColor="royalblue"
+                      iconButtonColor="white"
+                      iconButtonHoverBackgroundColor="white"
+                      iconButtonHoverColor="royalblue"
+                      id={c.id}
+                      onClick={navigateToTrainingRecordEditPage}
+                      IconComponent={EditIcon}
+                    />
+                    <TooltipIconButton
+                      tooltipTitle="削除"
+                      iconButtonBackgroundColor="tomato"
+                      iconButtonColor="white"
+                      iconButtonHoverBackgroundColor="white"
+                      iconButtonHoverColor="tomato"
+                      id={c.id}
+                      onClick={handleDelete}
+                      IconComponent={DeleteIcon}
+                    />
+                  </Box>
                 </th>
               </tr>
             );

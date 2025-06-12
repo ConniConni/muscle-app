@@ -99,7 +99,7 @@ const ExerciseCategoryManagerPage = () => {
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <h1>トレーニング種目マスタ</h1>
+          <h1 className="page-title">トレーニング種目マスタ</h1>
           <div>
             <TargetSelectionPulldown
               name="target_id"
