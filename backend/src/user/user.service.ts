@@ -29,15 +29,20 @@ export class UserService {
     return updateUser;
   }
 
+  async remove(id: number) {
+    const deleteUser = await this.prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deleteUser;
+  }
+
   // findAll() {
   //   return `This action returns all user`;
   // }
 
   // findOne(id: number) {
   //   return `This action returns a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
   // }
 }
