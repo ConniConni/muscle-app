@@ -28,6 +28,21 @@ export class UserService {
     return selectUser;
   }
 
+  async findOne(id: number) {
+    const users = await this.prisma.user.findUnique({
+      select: {
+        id: true,
+        username: true,
+        userId: true,
+        email: true,
+      },
+      where: {
+        id: id,
+      },
+    });
+    return users;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const updateUser = await this.prisma.user.update({
       where: {
@@ -48,8 +63,4 @@ export class UserService {
     });
     return deleteUser;
   }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
 }
