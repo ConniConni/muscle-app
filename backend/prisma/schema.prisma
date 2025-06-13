@@ -52,3 +52,14 @@ model TargetArea {
 
   @@map("target_areas")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  name String @unique
+  email String @unique
+  password String
+  create_date DateTime @default(now())
+  update_date DateTime @updatedAt
+
+  @@map("users")
+}
