@@ -16,6 +16,18 @@ export class UserService {
     return createUser;
   }
 
+  async findAll() {
+    const selectUser = await this.prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        userId: true,
+        email: true,
+      },
+    });
+    return selectUser;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const updateUser = await this.prisma.user.update({
       where: {
@@ -36,10 +48,6 @@ export class UserService {
     });
     return deleteUser;
   }
-
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
 
   // findOne(id: number) {
   //   return `This action returns a #${id} user`;
