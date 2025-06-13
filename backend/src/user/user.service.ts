@@ -1,10 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PrismaService } from 'src/prisma.service';
+import { formatInTimeZone } from 'date-fns-tz';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createUserDto: CreateUserDto) {
+    const createUser = await this.prisma.user.create({
+      data: {
+        ...createUserDto,
+      },
+    });
+    return createUser;
   }
 
   // findAll() {
