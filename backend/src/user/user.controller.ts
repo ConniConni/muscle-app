@@ -30,6 +30,11 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
+  @Get(':userId')
+  findUserId(@Param('userId') userId: string) {
+    return this.userService.findByUserId(userId);
+  }
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.userService.update(+id, updateUserDto);
