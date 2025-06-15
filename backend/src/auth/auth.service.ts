@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt'; // bcryptはCommonJS形式のパッケージのため名前空間インポート
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,8 @@ export class AuthService {
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const { userId, password: inputPassword } = signInDto;
     const user = await this.userService.findByUserId(userId);
-    if (user?.password !== inputPassword) {
+    // userがnull または inputPasswordがハッシュ化したパスワードと一致しない場合
+    if (!user || !bcrypt.compare(inputPassword, user.password)) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, username: user.username };
