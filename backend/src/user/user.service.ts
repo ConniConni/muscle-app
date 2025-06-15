@@ -32,7 +32,7 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    const users = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       select: {
         id: true,
         username: true,
@@ -43,7 +43,7 @@ export class UserService {
         id: id,
       },
     });
-    return users;
+    return user;
   }
 
   async findByUserId(userId: string) {
