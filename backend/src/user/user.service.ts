@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt'; // bcryptはCommonJS形式のパッケージのため名前空間インポート
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 8);
     const createUser = await this.prisma.user.create({
       data: {
         ...createUserDto,
+        password: hashedPassword,
       },
     });
     return createUser;
