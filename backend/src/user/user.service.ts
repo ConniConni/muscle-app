@@ -46,6 +46,8 @@ export class UserService {
   async findByUserId(userId: string) {
     const user = await this.prisma.user.findUnique({
       select: {
+        id: true,
+        username: true,
         userId: true,
         password: true,
       },
