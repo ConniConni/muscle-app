@@ -1,20 +1,26 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { SignInDto } from './dto/sign-in.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
-  async signIn(signInDto: SignInDto): Promise<any> {
+  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const { userId, password: inputPassword } = signInDto;
     const user = await this.userService.findByUserId(userId);
     if (user?.password !== inputPassword) {
       throw new UnauthorizedException();
     }
-    // オブジェクトの分割代入で、userからpasswordを除いた残りの情報をresultに格納
-    const { password, ...result } = user;
-    // TODO: JWTを生成して返却する形に修正 現在はユーザー情報をオブジェクトで返却
-    return result;
+    const payload = { sub: user.id, username: user.username };
+    // メモ 戻り値：
+    // "①Base64URLエンコードされたヘッダー".
+    // "②Base64URLエンコードされたペイロード".
+    // "①と②をドットで結合した文字列に秘密鍵やアルゴリズムで署名を生成し、Base64URLエンコードしたもの"
+    return { access_token: await this.jwtService.signAsync(payload) };
   }
 }
