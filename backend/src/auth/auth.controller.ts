@@ -21,7 +21,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any) {
     return req.user;
   }
 }
