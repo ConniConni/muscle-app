@@ -1,4 +1,4 @@
-import LoginPage from "~/pages/LogInPage";
+import LoginPage from "~/pages/LoginPage";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
 
