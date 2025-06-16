@@ -10,11 +10,8 @@ const Header = () => {
     logout();
     navigate("/login");
   };
-  const auth = useAuth();
-  if (!auth) {
-    return null;
-  }
-  const { user, logout } = auth;
+  const { user, logout, loading } = useAuth();
+  if (loading) return null; // ローディング中は何も表示しない
   return (
     <header
       style={{
