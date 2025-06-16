@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "~/config";
-import type { LogIn } from "~/type/log_in";
 
 // ユーザー認証api呼び出し関数
 export const authLogIn = async (params: {
