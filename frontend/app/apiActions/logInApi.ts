@@ -32,3 +32,22 @@ export const authLogIn = async (params: {
     return { success: false, error: alertMessage.join("\n") };
   }
 };
+
+// JWTトークンからユーザー情報取得するapiの呼び出し関数
+export const getUserProfile = async (params: { token: string }) => {
+  try {
+    const response = await fetch("http://localhost:3000/auth/profile", {
+      headers: { Authorization: `Bearer ${params.token}` },
+    });
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};

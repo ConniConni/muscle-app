@@ -1,9 +1,9 @@
-// AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from "react";
+import { getUserProfile } from "~/apiActions/logInApi";
 
 type AuthContextType = {
   user: null | { userId: string; username: string };
-  login: (token: string) => void;
+  login: (token: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
 };
@@ -18,9 +18,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (token: string) => {
     localStorage.setItem("access_token", token);
-    // トークンからユーザー情報をデコード
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    setUser({ userId: payload.sub, username: payload.username });
+
+    // サーバーにトークンを送ってユーザー情報を取得
+    const result = await getUserProfile({ token });
+
+    setUser({
+      userId: result.data.id,
+      username: result.data.username,
+    });
   };
 
   const logout = () => {
