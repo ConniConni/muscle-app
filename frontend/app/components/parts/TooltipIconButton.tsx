@@ -7,7 +7,7 @@ type TooltipIconButtonProps = {
   iconButtonColor: string;
   iconButtonHoverBackgroundColor: string;
   iconButtonHoverColor: string;
-  id: number;
+  id?: number;
   onClick: (id: number) => void;
   IconComponent: React.ElementType;
 };
@@ -51,7 +51,7 @@ const TooltipIconButton: React.FC<TooltipIconButtonProps> = ({
             cursor: "pointer", //  ホバー時カーソルをポインターに変更
           },
         }}
-        onClick={() => onClick(id)}
+        onClick={() => onClick(id!)}
       >
         <IconComponent />
       </IconButton>
