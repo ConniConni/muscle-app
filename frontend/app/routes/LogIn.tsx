@@ -1,4 +1,4 @@
-import LogInPage from "~/pages/LogInPage";
+import LoginPage from "~/pages/LogInPage";
 import type { Route } from "../+types/root";
 import Title from "~/utils/Title";
 
@@ -13,5 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Login() {
-  return <LogInPage />;
+  return <LoginPage />;
 }
