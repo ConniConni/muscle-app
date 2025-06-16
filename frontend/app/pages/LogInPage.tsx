@@ -1,13 +1,34 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { authLogIn } from "~/apiActions/logInApi";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
+import type { LoginForm } from "~/type/login";
 
-// ログイン画面を生成する関数コンポーネント
-const LogInPage = () => {
-  const [inputUserId, setInputUserId] = useState<string>("");
-  const [inputPass, setInputPass] = useState<string>("");
+const LoginPage = () => {
+  const [formData, setFormData] = useState<LoginForm>({
+    userId: "",
+    password: "",
+  });
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  const backTopPage = () => {
+    navigate("/");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // APIレスポンスを待って画面描画処理に移る
+    e.preventDefault();
+    const response = await authLogIn(formData);
+    if (response.success) {
+      localStorage.setItem("access_token", response.data.access_token);
+      alert("ログインに成功しました。");
+      backTopPage();
+    } else {
+      alert(`ログインに失敗しました。\n\n${response.error}`);
+    }
+  };
+
   return (
     <div className="layout">
       <Header />
@@ -21,8 +42,10 @@ const LogInPage = () => {
                 <div>
                   <input
                     type="text"
-                    value={inputUserId}
-                    onChange={(e) => setInputUserId(e.target.value)}
+                    value={formData.userId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, userId: e.target.value })
+                    }
                   />
                 </div>
               </label>
@@ -33,8 +56,10 @@ const LogInPage = () => {
                 <div>
                   <input
                     type="password"
-                    value={inputPass}
-                    onChange={(e) => setInputPass(e.target.value)}
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                   />
                 </div>
               </label>
@@ -53,4 +78,4 @@ const LogInPage = () => {
     </div>
   );
 };
-export default LogInPage;
+export default LoginPage;
