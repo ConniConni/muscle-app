@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { authLogIn } from "~/apiActions/logInApi";
+import { useAuth } from "~/auth/AuthContext";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
 import type { LoginForm } from "~/type/login";
@@ -11,10 +12,13 @@ const LoginPage = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const { user, login } = useAuth();
 
-  const backTopPage = () => {
-    navigate("/");
-  };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // APIレスポンスを待って画面描画処理に移る
@@ -23,7 +27,8 @@ const LoginPage = () => {
     if (response.success) {
       localStorage.setItem("access_token", response.data.access_token);
       alert("ログインに成功しました。");
-      backTopPage();
+      // loginの完了をawaitしてから画面遷移
+      await login(response.data.access_token);
     } else {
       alert(`ログインに失敗しました。\n\n${response.error}`);
     }
