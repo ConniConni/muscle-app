@@ -14,10 +14,18 @@ export class AuthService {
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const { userId, password: inputPassword } = signInDto;
     const user = await this.userService.findByUserId(userId);
+    // ユーザーが存在する場合のみ、パスワードを比較する
+    const isPasswordMatching = user
+      ? await bcrypt.compare(inputPassword, user.password)
+      : false;
+
     // userがnull または inputPasswordがハッシュ化したパスワードと一致しない場合（認証失敗）401エラーを投げる
-    if (!user || !bcrypt.compare(inputPassword, user.password)) {
-      throw new UnauthorizedException();
+    if (!user || !isPasswordMatching) {
+      throw new UnauthorizedException(
+        'ユーザーIDまたはパスワードが正しくありません',
+      );
     }
+
     // 認証に成功すれば、JWTのペイロードにユーザーのIDとユーザー名を格納する
     const payload = { sub: user.id, username: user.username };
     // メモ 戻り値：
