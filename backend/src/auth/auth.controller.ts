@@ -16,7 +16,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @HttpCode(200)
+  @HttpCode(200) //Postはステータスコードが201 Createdとなるため、200 OKを指定
   async signIn(@Body() signInDto: SignInDto) {
     return await this.authService.signIn(signInDto);
   }

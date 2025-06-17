@@ -1,3 +1,4 @@
+// ルール違反のリクエストは、コントローラーに到達する前に自動的に 400 Bad Request エラーとしてく
 import {
   IsNotEmpty,
   IsString,

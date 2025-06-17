@@ -14,10 +14,11 @@ export class AuthService {
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const { userId, password: inputPassword } = signInDto;
     const user = await this.userService.findByUserId(userId);
-    // userがnull または inputPasswordがハッシュ化したパスワードと一致しない場合
+    // userがnull または inputPasswordがハッシュ化したパスワードと一致しない場合（認証失敗）401エラーを投げる
     if (!user || !bcrypt.compare(inputPassword, user.password)) {
       throw new UnauthorizedException();
     }
+    // 認証に成功すれば、JWTのペイロードにユーザーのIDとユーザー名を格納する
     const payload = { sub: user.id, username: user.username };
     // メモ 戻り値：
     // "①Base64URLエンコードされたヘッダー".
