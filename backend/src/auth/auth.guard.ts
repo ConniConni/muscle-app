@@ -18,16 +18,21 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
     // JWTトークンが取り出せない場合、例外処理
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        'JWTトークンが見つかりません。ログインしてください。',
+      );
     }
     // JWTトークンを検証
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
+      // 検証に成功して得られたペイロードをリクエストオブジェクトに新しいプロパティuserとして追加
       request['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        'JWTトークンが無効、または期限切れです。',
+      );
     }
     return true;
   }
