@@ -16,7 +16,10 @@ export class UserService {
         password: hashedPassword,
       },
     });
-    return createUser;
+    // 分割代入でcreateUserプロジェクトからpasswordプロパティを取り除き、
+    // 残りのプロパティを新しいオブジェクresultにまとめる
+    const { password, ...result } = createUser;
+    return result;
   }
 
   async findAll() {
