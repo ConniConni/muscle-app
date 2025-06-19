@@ -3,6 +3,7 @@ import { type RouteConfig, route } from "@react-router/dev/routes";
 export default [
   // ログインページは保護しない（ルートレベルに配置）
   route("login", "routes/Login.tsx"),
+  route("sign-up", "routes/Signup.tsx"),
 
   // ここから下がログイン必須のルート
   route(
