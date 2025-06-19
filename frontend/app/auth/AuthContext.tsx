@@ -8,6 +8,7 @@ type AuthContextType = {
   loading: boolean;
 };
 
+// Contextの変数を作成。初期値はnullだが、Providerで必ず値が提供されるため null! を使用。
 const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -52,5 +53,5 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-
+// コンポーネント内で認証情報（user, loading login, logout関数）にアクセスするためのフック。
 export const useAuth = () => useContext(AuthContext);
