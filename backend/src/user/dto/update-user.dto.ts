@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -8,18 +9,22 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto {
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   username?: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsEmail()
   email?: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   userId?: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MinLength(8) // パスワードは8文字以上
