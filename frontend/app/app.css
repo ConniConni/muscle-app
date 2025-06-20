@@ -180,3 +180,20 @@ header {
   background: #1976d2; /* 色を指定 */
   opacity: 0.25; /* 半透度を指定 */
 }
+
+.signup-form-grid {
+  display: grid; /* form要素をグリッドコンテナにする */
+  gap: 16px; /* 各行の間の余白 */
+}
+
+/* form内の直下のdiv要素（各行）をグリッドにする */
+.signup-form-grid > .form-row {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* 1列目の幅を最も長いラベルに合わせ、２列目は全てを指定 */
+  align-items: center; /* ラベルを垂直方向中央揃え */
+  gap: 8px; /* ラベルと入力欄の間の余白 */
+}
+
+.signup-form-grid label {
+  text-align: left; /* ラベルのテキストを左揃えにする */
+}
