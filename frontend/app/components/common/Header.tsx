@@ -1,5 +1,6 @@
 import { useAuth } from "~/auth/AuthContext";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TooltipIconButton from "../parts/TooltipIconButton";
 import { useNavigate } from "react-router";
 
@@ -9,6 +10,10 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+  // サインアップ画面へ遷移
+  const handleSingUp = () => {
+    navigate("/sign-up");
   };
   const { user, logout, loading } = useAuth();
   if (loading) return null; // ローディング中は何も表示しない
@@ -42,6 +47,17 @@ const Header = () => {
           <>
             <div>
               <span>ログインユーザー：{user.username}</span>
+            </div>
+            <div>
+              <TooltipIconButton
+                tooltipTitle="サインアップ"
+                iconButtonBackgroundColor="white"
+                iconButtonColor="gray"
+                iconButtonHoverBackgroundColor="gray"
+                iconButtonHoverColor="white"
+                onClick={handleSingUp}
+                IconComponent={PersonAddIcon}
+              />
             </div>
             <div>
               <TooltipIconButton
