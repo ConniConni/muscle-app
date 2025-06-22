@@ -4,6 +4,7 @@ import type { SignUpFormType } from "~/type/signup";
 // propsの型はSignUpFormTypeのプロパティをすべて継承し、setFormDataとonClickを追加
 type SignUpFormProps = SignUpFormType & {
   setFormData: React.Dispatch<React.SetStateAction<SignUpFormType>>;
+  onClick: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };
 
@@ -15,6 +16,7 @@ const SignUpForm = ({
   confirmEmail,
   username,
   setFormData,
+  onClick,
   onSubmit,
 }: SignUpFormProps) => {
   // 入力値が変更されたときの共通ハンドラ
@@ -96,6 +98,7 @@ const SignUpForm = ({
         />
       </div>
       <div className="form-actions">
+        <Button type="button" buttonName="キャンセル" onClick={onClick} />
         <Button
           type="submit"
           buttonName="登録"
