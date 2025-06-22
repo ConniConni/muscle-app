@@ -15,6 +15,18 @@ const SignupPage = () => {
     username: "",
   });
   const navigate = useNavigate();
+  // キャンセルボタンクリック時に実行されるハンドラ関数を定義
+  const handleClick = () => {
+    setFormData({
+      userId: "",
+      password: "",
+      confirmPassword: "",
+      email: "",
+      confirmEmail: "",
+      username: "",
+    });
+    navigate("/");
+  };
   // ★ フォーム送信時に実行されるハンドラ関数を定義
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // フォーム送信によるページのリロードを防ぐ
@@ -38,6 +50,7 @@ const SignupPage = () => {
           <SignUpForm
             {...formData}
             setFormData={setFormData}
+            onClick={handleClick}
             onSubmit={handleSubmit}
           />
         </div>
