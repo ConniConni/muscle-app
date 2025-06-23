@@ -46,6 +46,7 @@ const SignUpForm = ({
           name="password"
           id="password"
           value={password}
+          placeholder="8文字以上・英大文字・英小文字・数字必須"
           onChange={handleChange}
         />
       </div>
