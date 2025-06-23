@@ -197,3 +197,7 @@ header {
 .signup-form-grid label {
   text-align: left; /* ラベルのテキストを左揃えにする */
 }
+
+input::placeholder {
+  font-size: 9px;
+}
