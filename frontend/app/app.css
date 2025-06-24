@@ -180,3 +180,45 @@ header {
   background: #1976d2; /* 色を指定 */
   opacity: 0.25; /* 半透度を指定 */
 }
+
+.signup-form-grid {
+  display: grid; /* form要素をグリッドコンテナにする */
+  gap: 16px; /* 各行の間の余白 */
+}
+
+/* form内の直下のdiv要素（各行）をグリッドにする */
+.signup-form-grid > .form-row {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* 1列目の幅を最も長いラベルに合わせ、２列目は全てを指定 */
+  align-items: center; /* ラベルを垂直方向中央揃え */
+  gap: 8px; /* ラベルと入力欄の間の余白 */
+}
+
+.signup-form-grid label {
+  text-align: left; /* ラベルのテキストを左揃えにする */
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  flex-grow: 1; /*入力欄が幅を広げる*/
+  padding-right: 40px;
+}
+
+.password-input-wrapper .MuiIconButton-root {
+  position: absolute;
+  right: 8px; /* ★ 右端から8pxの位置に配置 */
+  top: 50%; /* 上から50%の位置 */
+  transform: translateY(
+    -50%
+  ); /* ★ Y軸方向に-50%ずらして、垂直方向ど真ん中に配置 */
+  color: #757575; /* アイコンの色を調整 */
+}
+
+input::placeholder {
+  font-size: 9px;
+}
