@@ -2,7 +2,7 @@
 // 他のトレーニング記録関連の型の拡張元として利用する
 export interface BaseTrainingRecord {
   id: number;
-  date: Date;
+  date: string;
   weight: number;
   count: number;
 }
