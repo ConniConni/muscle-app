@@ -45,14 +45,17 @@ export const useCalendar = () => {
     fetchData();
   }, []);
 
-  // useMemoを使って、計算結果をメモ化（パフォーマンス向上）
+  // react-calendarの各日付に適用するCSSクラス名を返す関数を生成・メモ化
   const tileClassName = useMemo(() => {
+    // holidaysかtrainingDatesのどちらかが変更されたときのみ実行
     return ({ date, view }: { date: Date; view: string }) => {
+      // 現在の表示が月表示("month")でなければクラス名を付けず処理を終了
       if (view !== "month") return "";
 
+      // dateを"YYYY-MM-DD" 形式の文字列に変換
       const dateStr = formatDate(date);
+      // 祝日、トレーニング実施日に適用するCSSクラス名を格納するための空配列
       const classes = [];
-
       if (holidays[dateStr]) {
         classes.push("holiday");
       }
@@ -63,5 +66,6 @@ export const useCalendar = () => {
     };
   }, [holidays, trainingDates]);
 
+  // holidays,trainingDatesどちらもに変更がないときは前回生成した関数を利用
   return { loading, tileClassName, formatDate };
 };
