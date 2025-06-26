@@ -21,6 +21,10 @@ const LoginPage = () => {
     }
   }, [user, navigate]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginFormData((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // APIレスポンスを待って画面描画処理に移る
     e.preventDefault();
@@ -47,24 +51,14 @@ const LoginPage = () => {
               name="userId"
               type="text"
               value={loginFormData.userId}
-              onChange={(e) =>
-                setLoginFormData({
-                  ...loginFormData,
-                  userId: e.target.value,
-                })
-              }
+              onChange={handleChange}
             />
             <InputField
               label="パスワード"
               name="password"
               type="password"
               value={loginFormData.password}
-              onChange={(e) =>
-                setLoginFormData({
-                  ...loginFormData,
-                  password: e.target.value,
-                })
-              }
+              onChange={handleChange}
             />
             <Button
               type="submit"
