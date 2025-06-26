@@ -4,6 +4,7 @@ import { authLogIn } from "~/apiActions/logInApi";
 import { useAuth } from "~/auth/AuthContext";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
+import InputField from "~/components/parts/form/InputField";
 import type { LoginForm } from "~/type/login";
 
 const LoginPage = () => {
@@ -41,40 +42,30 @@ const LoginPage = () => {
         <div className="content">
           <h1 className="page-title">ログイン</h1>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                ユーザーID
-                <div>
-                  <input
-                    type="text"
-                    value={loginFormData.userId}
-                    onChange={(e) =>
-                      setLoginFormData({
-                        ...loginFormData,
-                        userId: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </label>
-            </div>
-            <div>
-              <label>
-                パスワード
-                <div>
-                  <input
-                    type="password"
-                    value={loginFormData.password}
-                    onChange={(e) =>
-                      setLoginFormData({
-                        ...loginFormData,
-                        password: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </label>
-            </div>
+            <InputField
+              label="ユーザーID"
+              name="userId"
+              type="text"
+              value={loginFormData.userId}
+              onChange={(e) =>
+                setLoginFormData({
+                  ...loginFormData,
+                  userId: e.target.value,
+                })
+              }
+            />
+            <InputField
+              label="パスワード"
+              name="password"
+              type="password"
+              value={loginFormData.password}
+              onChange={(e) =>
+                setLoginFormData({
+                  ...loginFormData,
+                  password: e.target.value,
+                })
+              }
+            />
             <Button
               type="submit"
               buttonName="ログイン"
