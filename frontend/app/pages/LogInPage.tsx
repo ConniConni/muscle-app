@@ -4,10 +4,11 @@ import { authLogIn } from "~/apiActions/logInApi";
 import { useAuth } from "~/auth/AuthContext";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
+import InputField from "~/components/parts/form/InputField";
 import type { LoginForm } from "~/type/login";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState<LoginForm>({
+  const [loginFormData, setLoginFormData] = useState<LoginForm>({
     userId: "",
     password: "",
   });
@@ -20,10 +21,14 @@ const LoginPage = () => {
     }
   }, [user, navigate]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginFormData((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // APIレスポンスを待って画面描画処理に移る
     e.preventDefault();
-    const response = await authLogIn(formData);
+    const response = await authLogIn(loginFormData);
     if (response.success) {
       localStorage.setItem("access_token", response.data.access_token);
       alert("ログインに成功しました。");
@@ -41,34 +46,20 @@ const LoginPage = () => {
         <div className="content">
           <h1 className="page-title">ログイン</h1>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                ユーザーID
-                <div>
-                  <input
-                    type="text"
-                    value={formData.userId}
-                    onChange={(e) =>
-                      setFormData({ ...formData, userId: e.target.value })
-                    }
-                  />
-                </div>
-              </label>
-            </div>
-            <div>
-              <label>
-                パスワード
-                <div>
-                  <input
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
-                    }
-                  />
-                </div>
-              </label>
-            </div>
+            <InputField
+              label="ユーザーID"
+              name="userId"
+              type="text"
+              value={loginFormData.userId}
+              onChange={handleChange}
+            />
+            <InputField
+              label="パスワード"
+              name="password"
+              type="password"
+              value={loginFormData.password}
+              onChange={handleChange}
+            />
             <Button
               type="submit"
               buttonName="ログイン"
