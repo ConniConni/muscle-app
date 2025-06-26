@@ -7,7 +7,7 @@ import Button from "~/components/parts/Button";
 import type { LoginForm } from "~/type/login";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState<LoginForm>({
+  const [loginFormData, setLoginFormData] = useState<LoginForm>({
     userId: "",
     password: "",
   });
@@ -23,7 +23,7 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // APIレスポンスを待って画面描画処理に移る
     e.preventDefault();
-    const response = await authLogIn(formData);
+    const response = await authLogIn(loginFormData);
     if (response.success) {
       localStorage.setItem("access_token", response.data.access_token);
       alert("ログインに成功しました。");
@@ -47,9 +47,12 @@ const LoginPage = () => {
                 <div>
                   <input
                     type="text"
-                    value={formData.userId}
+                    value={loginFormData.userId}
                     onChange={(e) =>
-                      setFormData({ ...formData, userId: e.target.value })
+                      setLoginFormData({
+                        ...loginFormData,
+                        userId: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -61,9 +64,12 @@ const LoginPage = () => {
                 <div>
                   <input
                     type="password"
-                    value={formData.password}
+                    value={loginFormData.password}
                     onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
+                      setLoginFormData({
+                        ...loginFormData,
+                        password: e.target.value,
+                      })
                     }
                   />
                 </div>
