@@ -57,7 +57,13 @@ const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
       />
       <PasswordInputField
         className="form-row"
-        label="パスワード（確認用）"
+        label={
+          <>
+            パスワード
+            <br />
+            （確認用）
+          </>
+        }
         id="confirmPassword"
         name="confirmPassword"
         value={signupFormData.confirmPassword}
@@ -75,7 +81,13 @@ const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
       />
       <InputField
         className="form-row"
-        label="メールアドレス（確認用）"
+        label={
+          <>
+            メールアドレス
+            <br />
+            （確認用）
+          </>
+        }
         id="confirmEmail"
         name="confirmEmail"
         type="email"
