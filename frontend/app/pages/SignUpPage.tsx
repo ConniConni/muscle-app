@@ -19,12 +19,24 @@ const SignupPage = () => {
       alert("パスワードが一致しません。");
       return;
     }
+    if (
+      formData.password !== formData.confirmPassword ||
+      formData.email !== formData.confirmEmail
+    ) {
+      const alertMessage: string[] = [];
+      if (formData.password !== formData.confirmPassword)
+        alertMessage.push("パスワードの入力が一致していません");
+      if (formData.email !== formData.confirmEmail)
+        alertMessage.push("メールアドレスの入力が一致していません");
+      alert(alertMessage);
+      return;
+    }
 
     setIsSubmitting(true); // 送信中にする(ボタンを無効化する)
 
     // APIに不要なフィールドを取り除く
-    const { confirmPassword, confirmEmail, ...apiParams } = formData;
-    const response = await postUser(apiParams);
+    // const { confirmPassword, confirmEmail, ...apiParams } = formData;
+    const response = await postUser(formData);
 
     setIsSubmitting(false); // 送信完了(ボタンを有効に戻す)
 
