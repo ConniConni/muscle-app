@@ -6,7 +6,7 @@ import SignUpForm from "~/components/parts/SignUpForm";
 import type { SignUpFormType } from "~/type/signup";
 
 const SignupPage = () => {
-  const [formData, setFormData] = useState<SignUpFormType>({
+  const [signupFormData, setSignupFormData] = useState<SignUpFormType>({
     userId: "",
     password: "",
     confirmPassword: "",
@@ -17,7 +17,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
   // キャンセルボタンクリック時に実行されるハンドラ関数を定義
   const handleClick = () => {
-    setFormData({
+    setSignupFormData({
       userId: "",
       password: "",
       confirmPassword: "",
@@ -32,7 +32,7 @@ const SignupPage = () => {
     // フォーム送信によるページのリロードを防ぐ
     e.preventDefault();
 
-    const response = await postUser(formData);
+    const response = await postUser(signupFormData);
 
     if (response.success) {
       alert("ユーザー登録が完了しました。ログインページに移動します。");
@@ -48,8 +48,8 @@ const SignupPage = () => {
         <div className="content">
           <h1 className="page-title">ユーザー登録</h1>
           <SignUpForm
-            {...formData}
-            setFormData={setFormData}
+            {...signupFormData}
+            setFormData={setSignupFormData}
             onClick={handleClick}
             onSubmit={handleSubmit}
           />
