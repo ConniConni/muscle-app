@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { postUser } from "~/apiActions/SignUpApi";
 import Header from "~/components/common/Header";
-import SignUpForm from "~/components/parts/SignUpForm";
-import type { SignUpFormType } from "~/type/signup";
+import { SignupForm } from "~/components/parts/form/SignupForm";
+import type { SignupFormType } from "~/type/signup";
 
 const SignupPage = () => {
-  const [signupFormData, setSignupFormData] = useState<SignUpFormType>({
+  const [signupFormData, setSignupFormData] = useState<SignupFormType>({
     userId: "",
     password: "",
     confirmPassword: "",
@@ -47,7 +47,7 @@ const SignupPage = () => {
       <div className="main-content">
         <div className="content">
           <h1 className="page-title">ユーザー登録</h1>
-          <SignUpForm
+          <SignupForm
             {...signupFormData}
             setFormData={setSignupFormData}
             onClick={handleClick}
