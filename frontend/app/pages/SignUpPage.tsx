@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { postUser } from "~/apiActions/SignUpApi";
 import Header from "~/components/common/Header";
-import { SignupForm } from "~/components/parts/form/SignupForm";
+import SignupForm from "~/components/parts/form/SignupForm";
 import type { SignupFormType } from "~/type/signup";
 
 const SignupPage = () => {
