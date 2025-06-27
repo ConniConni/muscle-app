@@ -1,147 +1,98 @@
 import { useState } from "react";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { IconButton } from "@mui/material";
 import type { SignupFormType } from "~/type/signup";
+import InputField from "./InputField";
 import Button from "../Button";
+import PasswordInputField from "./PasswordInputField";
 
 // propsの型はSignUpFormTypeのプロパティをすべて継承し、setFormDataとonClickを追加
-type SignupFormProps = SignupFormType & {
-  setFormData: React.Dispatch<React.SetStateAction<SignupFormType>>;
-  onClick: () => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+type SignupFormProps = {
+  onSubmit: (data: SignupFormType) => void;
+  onCancel: () => void;
+  isSubmitting?: boolean;
 };
 
-const SignupForm = ({
-  userId,
-  password,
-  confirmPassword,
-  email,
-  confirmEmail,
-  username,
-  setFormData,
-  onClick,
-  onSubmit,
-}: SignupFormProps) => {
-  // パスワードの表示状態を保持
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false,
+const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
+  const [signupFormData, setSignupFormData] = useState<SignupFormType>({
+    userId: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+    confirmEmail: "",
+    username: "",
   });
+
   // 入力値が変更されたときの共通ハンドラ
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setSignupFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  // パスワード表示状態切り替えボタン用のハンドラ関数を追加
-  const handleTogglePasswordVisibility = (
-    fieldName: "password" | "confirmPassword"
-  ) => {
-    setShowPassword((prev) => ({
-      ...prev,
-      [fieldName]: !prev[fieldName],
-    }));
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(signupFormData); // 親に最終的なデータを渡す
   };
 
   return (
-    <form className="signup-form-grid" onSubmit={onSubmit}>
-      <div className="form-row">
-        <label htmlFor="userId">ユーザーID</label>
-        <input
-          type="text"
-          name="userId"
-          id="userId"
-          value={userId}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-row">
-        <label htmlFor="password">パスワード</label>
-        <div className="password-input-wrapper">
-          <input
-            type={showPassword.password ? "text" : "password"}
-            name="password"
-            id="password"
-            value={password}
-            placeholder="8文字以上・英大文字・英小文字・数字必須"
-            onChange={handleChange}
-          />
-          <IconButton
-            aria-label="toggle password visibility"
-            onClick={() => handleTogglePasswordVisibility("password")}
-            edge="end"
-          >
-            {showPassword.password ? <VisibilityIcon /> : <VisibilityOffIcon />}
-          </IconButton>
-        </div>
-      </div>
-      <div className="form-row">
-        <label htmlFor="confirmPassword">
-          パスワード
-          <br />
-          （確認用）
-        </label>
-        <div className="password-input-wrapper">
-          <input
-            type={showPassword.confirmPassword ? "text" : "password"}
-            name="confirmPassword"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={handleChange}
-          />
-          <IconButton
-            aria-label="toggle confirm password visibility"
-            onClick={() => handleTogglePasswordVisibility("confirmPassword")}
-            edge="end"
-          >
-            {showPassword.confirmPassword ? (
-              <VisibilityIcon />
-            ) : (
-              <VisibilityOffIcon />
-            )}
-          </IconButton>
-        </div>
-      </div>
-      <div className="form-row">
-        <label htmlFor="email">メールアドレス</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-row">
-        <label htmlFor="confirmEmail">
-          メールアドレス
-          <br />
-          （確認用）
-        </label>
-        <input
-          type="email"
-          name="confirmEmail"
-          id="confirmEmail"
-          value={confirmEmail}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-row">
-        <label htmlFor="username">ニックネーム</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={username}
-          onChange={handleChange}
-        />
-      </div>
+    <form className="signup-form-grid" onSubmit={handleFormSubmit}>
+      <InputField
+        className="form-row"
+        label="ユーザーID"
+        id="userId"
+        name="userId"
+        type="text"
+        value={signupFormData.userId}
+        onChange={handleChange}
+      />
+      <PasswordInputField
+        className="form-row"
+        label="パスワード"
+        id="password"
+        name="password"
+        value={signupFormData.password}
+        placeholder="8文字以上・英大文字・英小文字・数字必須"
+        onChange={handleChange}
+      />
+      <PasswordInputField
+        className="form-row"
+        label="パスワード（確認用）"
+        id="confirmPassword"
+        name="confirmPassword"
+        value={signupFormData.confirmPassword}
+        placeholder="8文字以上・英大文字・英小文字・数字必須"
+        onChange={handleChange}
+      />
+      <InputField
+        className="form-row"
+        label="メールアドレス"
+        id="email"
+        name="email"
+        type="email"
+        value={signupFormData.email}
+        onChange={handleChange}
+      />
+      <InputField
+        className="form-row"
+        label="メールアドレス（確認用）"
+        id="confirmEmail"
+        name="confirmEmail"
+        type="email"
+        value={signupFormData.confirmEmail}
+        onChange={handleChange}
+      />
+      <InputField
+        className="form-row"
+        label="ニックネーム"
+        id="username"
+        name="username"
+        type="text"
+        value={signupFormData.username}
+        onChange={handleChange}
+      />
       <div className="form-actions">
-        <Button type="button" buttonName="キャンセル" onClick={onClick} />
+        <Button type="button" buttonName="キャンセル" onClick={onCancel} />
         <Button
           type="submit"
           buttonName="登録"
