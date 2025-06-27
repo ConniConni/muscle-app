@@ -1,18 +1,18 @@
-import Button from "./Button";
-import type { SignUpFormType } from "~/type/signup";
+import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { IconButton } from "@mui/material";
-import { useState } from "react";
+import type { SignupFormType } from "~/type/signup";
+import Button from "../Button";
 
 // propsの型はSignUpFormTypeのプロパティをすべて継承し、setFormDataとonClickを追加
-type SignUpFormProps = SignUpFormType & {
-  setFormData: React.Dispatch<React.SetStateAction<SignUpFormType>>;
+type SignupFormProps = SignupFormType & {
+  setFormData: React.Dispatch<React.SetStateAction<SignupFormType>>;
   onClick: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const SignUpForm = ({
+const SignupForm = ({
   userId,
   password,
   confirmPassword,
@@ -22,7 +22,7 @@ const SignUpForm = ({
   setFormData,
   onClick,
   onSubmit,
-}: SignUpFormProps) => {
+}: SignupFormProps) => {
   // パスワードの表示状態を保持
   const [showPassword, setShowPassword] = useState({
     password: false,
@@ -154,4 +154,4 @@ const SignUpForm = ({
     </form>
   );
 };
-export default SignUpForm;
+export default SignupForm;
