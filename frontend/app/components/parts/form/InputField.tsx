@@ -1,5 +1,5 @@
 type InputFieldProps = {
-  label: string;
+  label: React.ReactNode;
   name: string;
   type: "text" | "password" | "email";
   value: string;
