@@ -2,37 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { postUser } from "~/apiActions/SignUpApi";
 import Header from "~/components/common/Header";
-import SignUpForm from "~/components/parts/SignUpForm";
-import type { SignUpFormType } from "~/type/signup";
+import SignupForm from "~/components/parts/form/SignupForm";
+import type { SignupFormType } from "~/type/signup";
 
 const SignupPage = () => {
-  const [formData, setFormData] = useState<SignUpFormType>({
-    userId: "",
-    password: "",
-    confirmPassword: "",
-    email: "",
-    confirmEmail: "",
-    username: "",
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   // キャンセルボタンクリック時に実行されるハンドラ関数を定義
-  const handleClick = () => {
-    setFormData({
-      userId: "",
-      password: "",
-      confirmPassword: "",
-      email: "",
-      confirmEmail: "",
-      username: "",
-    });
+  const handleCancel = () => {
     navigate("/");
   };
-  // ★ フォーム送信時に実行されるハンドラ関数を定義
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    // フォーム送信によるページのリロードを防ぐ
-    e.preventDefault();
+
+  const handleSignup = async (formData: SignupFormType) => {
+    setIsSubmitting(true); // 送信中にする(ボタンを無効化する)
 
     const response = await postUser(formData);
+
+    setIsSubmitting(false); // 送信完了(ボタンを有効に戻す)
 
     if (response.success) {
       alert("ユーザー登録が完了しました。ログインページに移動します。");
@@ -47,11 +33,10 @@ const SignupPage = () => {
       <div className="main-content">
         <div className="content">
           <h1 className="page-title">ユーザー登録</h1>
-          <SignUpForm
-            {...formData}
-            setFormData={setFormData}
-            onClick={handleClick}
-            onSubmit={handleSubmit}
+          <SignupForm
+            onSubmit={handleSignup}
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "~/config";
-import type { SignUpFormType } from "~/type/signup";
+import type { SignupFormType } from "~/type/signup";
 
-export const postUser = async (params: SignUpFormType) => {
+export const postUser = async (params: SignupFormType) => {
   if (
     params.userId &&
     params.password &&
