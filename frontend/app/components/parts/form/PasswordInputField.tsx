@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import type { InputFieldProps } from "~/type/common";
 
-// InputFieldと同様に、inputの標準属性を受け取る
-type PasswordInputFieldProps = React.ComponentPropsWithRef<"input"> & {
+type PasswordInputFieldProps = InputFieldProps & {
   label: React.ReactNode;
 };
 
-const PasswordInputField = React.forwardRef<
-  HTMLInputElement,
-  PasswordInputFieldProps
->(({ label, id, ...props }, ref) => {
+const PasswordInputField = ({
+  className,
+  label,
+  id,
+  ...props
+}: PasswordInputFieldProps) => {
   const [isClient, setIsClient] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const inputId = id || props.name;
@@ -21,12 +23,11 @@ const PasswordInputField = React.forwardRef<
   }, []);
 
   return (
-    <div className="form-row">
+    <div className={className}>
       <label htmlFor={inputId}>{label}</label>
       <div className="password-input-wrapper">
         <input
           id={inputId}
-          ref={ref}
           type={showPassword ? "text" : "password"}
           {...props}
         />
@@ -42,6 +43,6 @@ const PasswordInputField = React.forwardRef<
       </div>
     </div>
   );
-});
+};
 
 export default PasswordInputField;
