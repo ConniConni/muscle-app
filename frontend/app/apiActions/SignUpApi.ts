@@ -35,10 +35,10 @@ export const postUser = async (params: SignupFormType) => {
     if (!params.password) alertMessage.push("パスワードを入力してください");
     if (!params.email) alertMessage.push("メールアドレスを入力してください");
     if (!params.username) alertMessage.push("ニックネームを入力してください");
-    // if (params.password !== params.confirmPassword)
-    //   alertMessage.push("パスワードの入力が一致していません");
-    // if (params.email !== params.confirmEmail)
-    //   alertMessage.push("メールアドレスの入力が一致していません");
+    if (params.password !== params.confirmPassword)
+      alertMessage.push("パスワードの入力が一致していません");
+    if (params.email !== params.confirmEmail)
+      alertMessage.push("メールアドレスの入力が一致していません");
     return { success: false, error: alertMessage.join("\n") };
   }
 };
