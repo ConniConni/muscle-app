@@ -1,3 +1,11 @@
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button as ButtonByMui,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { authLogIn } from "~/apiActions/logInApi";
@@ -11,6 +19,12 @@ const LoginPage = () => {
   const [loginFormData, setLoginFormData] = useState<LoginForm>({
     userId: "",
     password: "",
+  });
+  // ダイアログの状態を管理
+  const [dialog, setDialog] = useState({
+    open: false,
+    title: "",
+    message: "",
   });
   const navigate = useNavigate();
   const { user, login } = useAuth();
@@ -31,11 +45,31 @@ const LoginPage = () => {
     const response = await authLogIn(loginFormData);
     if (response.success) {
       localStorage.setItem("access_token", response.data.access_token);
-      alert("ログインに成功しました。");
-      // loginの完了をawaitしてから画面遷移
-      await login(response.data.access_token);
+
+      // 成功ダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "成功",
+        message: "ログインに成功しました。",
+      });
     } else {
-      alert(`ログインに失敗しました。\n\n${response.error}`);
+      // エラーダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "エラー",
+        message: "ログインに失敗しました。",
+      });
+    }
+  };
+
+  const handleCloseDialog = async () => {
+    setDialog({ ...dialog, open: false });
+
+    if (dialog.title === "成功") {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        await login(token);
+      }
     }
   };
 
@@ -69,6 +103,29 @@ const LoginPage = () => {
               hoverBackground="white"
             />
           </form>
+          <Dialog
+            open={dialog.open} // stateに基づいて表示/非表示を制御
+            onClose={handleCloseDialog} // ダイアログの外側をクリックした時にも閉じるように
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{dialog.title}</DialogTitle>
+            <DialogContent>
+              {/* メッセージ内の改行(\n)を<br/>に変換して表示 */}
+              <DialogContentText
+                id="alert-dialog-description"
+                style={{ whiteSpace: "pre-wrap" }}
+              >
+                {dialog.message}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              {/* ボタンを押したらダイアログを閉じる */}
+              <ButtonByMui onClick={handleCloseDialog} autoFocus>
+                OK
+              </ButtonByMui>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </div>
