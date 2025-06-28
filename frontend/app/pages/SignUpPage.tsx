@@ -31,7 +31,7 @@ const SignupPage = () => {
     <div className="layout">
       <Header />
       <div className="main-content">
-        <div className="content">
+        <div className="content content--centered">
           <h1 className="page-title">ユーザー登録</h1>
           <SignupForm
             onSubmit={handleSignup}

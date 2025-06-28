@@ -43,7 +43,7 @@ const LoginPage = () => {
     <div className="layout">
       <Header />
       <div className="main-content">
-        <div className="content">
+        <div className="content content--centered">
           <h1 className="page-title">ログイン</h1>
           <form onSubmit={handleSubmit}>
             <InputField
