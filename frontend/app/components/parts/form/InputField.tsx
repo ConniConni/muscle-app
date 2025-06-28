@@ -7,6 +7,7 @@ type InputFieldProps = {
   id?: string;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
 };
 
 // labelとidはinput要素の中身以外で使用するため明示的にpropsを受け取る

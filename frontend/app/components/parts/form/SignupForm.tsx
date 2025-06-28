@@ -44,6 +44,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         type="text"
         value={signupFormData.userId}
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <PasswordInputField
         className="form-row"
@@ -53,6 +54,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         value={signupFormData.password}
         placeholder="8文字以上・英大文字・英小文字・数字必須"
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <PasswordInputField
         className="form-row"
@@ -68,6 +70,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         value={signupFormData.confirmPassword}
         placeholder="8文字以上・英大文字・英小文字・数字必須"
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <InputField
         className="form-row"
@@ -77,6 +80,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         type="email"
         value={signupFormData.email}
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <InputField
         className="form-row"
@@ -92,6 +96,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         type="email"
         value={signupFormData.confirmEmail}
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <InputField
         className="form-row"
@@ -101,6 +106,7 @@ const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
         type="text"
         value={signupFormData.username}
         onChange={handleChange}
+        disabled={isSubmitting}
       />
       <div className="form-actions">
         <Button
