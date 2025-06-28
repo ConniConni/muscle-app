@@ -4,14 +4,13 @@ import InputField from "./InputField";
 import Button from "../Button";
 import PasswordInputField from "./PasswordInputField";
 
-// propsの型はSignUpFormTypeのプロパティをすべて継承し、setFormDataとonClickを追加
 type SignupFormProps = {
   onSubmit: (data: SignupFormType) => void;
   onCancel: () => void;
   isSubmitting?: boolean;
 };
 
-const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
+const SignupForm = ({ onSubmit, onCancel, isSubmitting }: SignupFormProps) => {
   const [signupFormData, setSignupFormData] = useState<SignupFormType>({
     userId: "",
     password: "",
@@ -104,7 +103,12 @@ const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
         onChange={handleChange}
       />
       <div className="form-actions">
-        <Button type="button" buttonName="キャンセル" onClick={onCancel} />
+        <Button
+          type="button"
+          buttonName="キャンセル"
+          onClick={onCancel}
+          disabled={isSubmitting}
+        />
         <Button
           type="submit"
           buttonName="登録"
@@ -112,6 +116,7 @@ const SignupForm = ({ onSubmit, onCancel }: SignupFormProps) => {
           background="seagreen"
           hoverColor="seagreen"
           hoverBackground="white"
+          disabled={isSubmitting}
         />
       </div>
     </form>
