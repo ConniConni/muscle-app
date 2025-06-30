@@ -1,15 +1,8 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button as ButtonByMui,
-} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { authLogIn } from "~/apiActions/logInApi";
 import { useAuth } from "~/auth/AuthContext";
+import AlertDialog from "~/components/common/AlertDialog";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
 import InputField from "~/components/parts/form/InputField";
@@ -103,29 +96,7 @@ const LoginPage = () => {
               hoverBackground="white"
             />
           </form>
-          <Dialog
-            open={dialog.open} // stateに基づいて表示/非表示を制御
-            onClose={handleCloseDialog} // ダイアログの外側をクリックした時にも閉じる
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{dialog.title}</DialogTitle>
-            <DialogContent>
-              {/* styleでメッセージ内の改行(\n)を<br/>に変換して表示 */}
-              <DialogContentText
-                id="alert-dialog-description"
-                style={{ whiteSpace: "pre-wrap" }}
-              >
-                {dialog.message}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              {/* ボタンを押したらダイアログを閉じる(autoFocusによってEnterキーでOK) */}
-              <ButtonByMui onClick={handleCloseDialog} autoFocus>
-                OK
-              </ButtonByMui>
-            </DialogActions>
-          </Dialog>
+          <AlertDialog dialog={dialog} handleCloseDialog={handleCloseDialog} />
         </div>
       </div>
     </div>
