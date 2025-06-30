@@ -50,7 +50,7 @@ const LoginPage = () => {
       setDialog({
         open: true,
         title: "エラー",
-        message: "ログインに失敗しました。",
+        message: response.error,
       });
     }
   };
