@@ -14,10 +14,10 @@ datasource db {
 }
 
 model ExerciseCategory {
-  id          Int      @id @default(autoincrement())
-  targetId    Int      @map("target_id")
-  name        String
-  isActive    Boolean  @default(true) @map("is_active")
+  id         Int      @id @default(autoincrement())
+  targetId   Int      @map("target_id")
+  name       String
+  isActive   Boolean  @default(true) @map("is_active")
   createDate DateTime @default(now()) @map("create_date")
   updateDate DateTime @default(now()) @updatedAt @map("update_date")
 
@@ -28,12 +28,12 @@ model ExerciseCategory {
 }
 
 model TrainingRecord {
-  id          Int      @id @default(autoincrement())
-  exerciseId  Int      @map("exercise_id")
-  userId      Int      @map("user_id")
-  date        DateTime @db.Date
-  weight      Float
-  count       Int
+  id         Int      @id @default(autoincrement())
+  exerciseId Int      @map("exercise_id")
+  userId     Int      @map("user_id")
+  date       DateTime @db.Date
+  weight     Float
+  count      Int
   createDate DateTime @default(now()) @map("create_date")
   updateDate DateTime @default(now()) @updatedAt @map("update_date")
 
@@ -44,7 +44,7 @@ model TrainingRecord {
   // 多対１： [複数形(キャメルケース)] [単数形(アッパーケース)]
   // 多対多： [複数形(キャメルケース)] [単数形(アッパーケース)[]]
   exerciseCategories ExerciseCategory? @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([exerciseId])
   @@index([userId])
@@ -52,9 +52,9 @@ model TrainingRecord {
 }
 
 model TargetArea {
-  id          Int      @id @default(autoincrement())
-  name        String
-  createDate DateTime @default(now())  @map("create_date")
+  id         Int      @id @default(autoincrement())
+  name       String
+  createDate DateTime @default(now()) @map("create_date")
   updateDate DateTime @default(now()) @updatedAt @map("update_date")
 
   ExerciseCategories ExerciseCategory[]
