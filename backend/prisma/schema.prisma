@@ -18,8 +18,8 @@ model ExerciseCategory {
   targetId    Int      @map("target_id")
   name        String
   isActive    Boolean  @default(true) @map("is_active")
-  create_date DateTime
-  update_date DateTime
+  createDate DateTime @map("create_date")
+  updateDate DateTime @map("update_date")
 
   TrainingRecords TrainingRecord[]
   TargetAreas     TargetArea       @relation(fields: [targetId], references: [id], onDelete: Cascade)
@@ -33,8 +33,8 @@ model TrainingRecord {
   date        DateTime @db.Date
   weight      Float
   count       Int
-  create_date DateTime
-  update_date DateTime
+  createDate DateTime @map("create_date")
+  updateDate DateTime @map("update_date")
 
   exerciseCategories ExerciseCategory? @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 
@@ -45,8 +45,8 @@ model TrainingRecord {
 model TargetArea {
   id          Int      @id @default(autoincrement())
   name        String
-  create_date DateTime
-  update_date DateTime
+  createDate DateTime @map("create_date")
+  updateDate DateTime @map("update_date")
 
   ExerciseCategories ExerciseCategory[]
 
