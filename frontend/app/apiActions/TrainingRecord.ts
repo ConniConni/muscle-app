@@ -1,10 +1,13 @@
 import { API_BASE_URL } from "~/config";
 
 // 筋トレ実績一覧取得処理呼び出し
-export const getTrainingRecord = async (options?: {
-  exercise_id?: any;
-  date?: string;
-}) => {
+export const getTrainingRecord = async (
+  token: string,
+  options?: {
+    exercise_id?: any;
+    date?: string;
+  }
+) => {
   const params = new URLSearchParams();
   // exercise_idが1以上のときのみパラメータに追加
   if (options?.exercise_id && options.exercise_id > 0)
@@ -15,7 +18,9 @@ export const getTrainingRecord = async (options?: {
     params.toString() ? "?" + params.toString() : ""
   }`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (response.status !== 200) {
       const errorData = await response.json();
       throw new Error(
