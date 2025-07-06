@@ -1,9 +1,14 @@
 import { API_BASE_URL } from "~/config";
+import { getAuthHeaders } from "./apiHelper";
 
 export const getExerciseCategory = async () => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/exercise-category/with-target`
+      `${API_BASE_URL}/exercise-category/with-target`,
+      {
+        method: "GET",
+        headers: getAuthHeaders(),
+      }
     );
     if (response.status != 200) {
       const errorData = await response.json();
@@ -28,9 +33,7 @@ export const createNewTraining = async (params: {
     try {
       const response = await fetch(`${API_BASE_URL}/exercise-category`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(params),
       });
       console.log("params: ", params);
