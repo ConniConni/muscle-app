@@ -7,10 +7,6 @@ export class CreateTrainingRecordDto {
   exercise_id: number;
 
   @IsNotEmpty()
-  @IsPositive()
-  user_id: number;
-
-  @IsNotEmpty()
   weight: number;
 
   @IsNotEmpty()

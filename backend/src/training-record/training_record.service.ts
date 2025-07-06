@@ -77,10 +77,9 @@ export class TrainingRecordService {
     );
 
     const training = await this.prisma.$executeRaw`
-        INSERT INTO training_records (exercise_id,user_id,weight,date,count,create_date,update_date) VALUES
+        INSERT INTO training_records (exercise_id,weight,date,count,create_date,update_date) VALUES
         (
         ${createTrainingRecordDto.exercise_id},
-        ${createTrainingRecordDto.user_id},
         ${createTrainingRecordDto.weight},
         ${new Date(createTrainingRecordDto.date)},
         ${createTrainingRecordDto.count},
