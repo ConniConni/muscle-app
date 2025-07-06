@@ -38,7 +38,11 @@ export const getSelectExerciseId = async (filterExercise: number) => {
   if (filterExercise != 0) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/?exercise_id=${filterExercise}`
+        `${API_BASE_URL}/training-record/?exercise_id=${filterExercise}`,
+        {
+          method: "GET",
+          headers: getAuthHeaders(),
+        }
       );
       if (response.status != 200) {
         const errorData = await response.json();
@@ -61,7 +65,11 @@ export const getSelectDate = async (filterDate: string) => {
   if (filterDate != "") {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/?date=${filterDate}`
+        `${API_BASE_URL}/training-record/?date=${filterDate}`,
+        {
+          method: "GET",
+          headers: getAuthHeaders(),
+        }
       );
       if (response.status != 200) {
         const errorData = await response.json();
@@ -86,7 +94,10 @@ export const getSelectDate = async (filterDate: string) => {
 export const getTrainingRecordById = async (id: number) => {
   if (id) {
     try {
-      const response = await fetch(`${API_BASE_URL}/training-record/${id}`);
+      const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
@@ -115,9 +126,7 @@ export const createTrainingRecord = async (params: {
     try {
       const response = await fetch(`${API_BASE_URL}/training-record/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(params),
       });
       if (response.status !== 201) {
@@ -155,9 +164,7 @@ export const updateTrainingRecord = async (params: {
         `${API_BASE_URL}/training-record/${params.id}`,
         {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             exercise_id: +params.exercise_id!,
             date: params.date,
@@ -193,6 +200,7 @@ export const trainingRecordDelete = async (id: number) => {
   try {
     const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
       method: `DELETE`,
+      headers: getAuthHeaders(),
     });
     if (response.status != 200) {
       const errorData = await response.json();
