@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "~/config";
+import { getAuthHeaders } from "./apiHelper";
 
 // ユーザー認証api呼び出し関数
 export const authLogIn = async (params: {
@@ -36,8 +37,9 @@ export const authLogIn = async (params: {
 // JWTトークンからユーザー情報取得するapiの呼び出し関数
 export const getUserProfile = async (params: { token: string }) => {
   try {
-    const response = await fetch("http://localhost:3000/auth/profile", {
-      headers: { Authorization: `Bearer ${params.token}` },
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: "GET",
+      headers: getAuthHeaders(),
     });
     if (response.status != 200) {
       const errorData = await response.json();
