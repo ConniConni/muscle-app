@@ -5,11 +5,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { ExerciseCategoryService } from './exercise-category.service';
 import { ExerciseCategoryDto } from './dto/exercise-category.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('exercise-category')
 export class ExerciseCategoryController {
@@ -21,7 +19,7 @@ export class ExerciseCategoryController {
   async create(@Body() exerciseCategoryDto: ExerciseCategoryDto) {
     return await this.exerciseCategoryService.create(exerciseCategoryDto);
   }
-  @UseGuards(AuthGuard)
+
   @Get()
   async findAll() {
     return await this.exerciseCategoryService.findAll();
