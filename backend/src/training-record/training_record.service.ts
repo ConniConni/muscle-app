@@ -69,7 +69,10 @@ export class TrainingRecordService {
     return result;
   }
 
-  async create(createTrainingRecordDto: CreateTrainingRecordDto) {
+  async create(
+    createTrainingRecordDto: CreateTrainingRecordDto,
+    userId: number,
+  ) {
     const currentJstTime = formatInTimeZone(
       new Date(),
       'Asia/Tokyo',
@@ -77,9 +80,10 @@ export class TrainingRecordService {
     );
 
     const training = await this.prisma.$executeRaw`
-        INSERT INTO training_records (exercise_id,weight,date,count,create_date,update_date) VALUES
+        INSERT INTO training_records (exercise_id,user_id,weight,date,count,create_date,update_date) VALUES
         (
         ${createTrainingRecordDto.exercise_id},
+        ${userId},
         ${createTrainingRecordDto.weight},
         ${new Date(createTrainingRecordDto.date)},
         ${createTrainingRecordDto.count},

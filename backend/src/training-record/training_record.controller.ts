@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
@@ -31,8 +32,14 @@ export class TrainingRecordController {
   }
 
   @Post()
-  async create(@Body() createTrainingRecordDto: CreateTrainingRecordDto) {
-    return await this.trainingRecordService.create(createTrainingRecordDto);
+  async create(
+    @Body() createTrainingRecordDto: CreateTrainingRecordDto,
+    @Req() req: any,
+  ) {
+    return await this.trainingRecordService.create(
+      createTrainingRecordDto,
+      req.user.sub,
+    );
   }
 
   @Patch(':id')
