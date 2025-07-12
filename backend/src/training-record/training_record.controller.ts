@@ -38,7 +38,7 @@ export class TrainingRecordController {
   ) {
     return await this.trainingRecordService.create(
       createTrainingRecordDto,
-      req.user.sub,
+      req.user.id,
     );
   }
 

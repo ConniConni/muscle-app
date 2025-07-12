@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const result = await getUserProfile({ token });
 
     setUser({
-      userId: result.data.sub,
-      username: result.data.preferred_username,
+      userId: result.data.id,
+      username: result.data.username,
     });
   };
 
