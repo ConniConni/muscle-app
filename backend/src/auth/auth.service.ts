@@ -27,9 +27,7 @@ export class AuthService {
     }
 
     // 認証に成功すれば、ヘッダーのAuthorizationフィールドで運ばれるJWTのペイロードにユーザーのIDとユーザー名を格納する
-    // JWTの標準クレームに沿って sub にユーザーを一意に絞り込む user.idを格納
-    // OIDCの標準クレームに沿って ユーザーのニックネームを preferred_username
-    const payload = { sub: user.id, preferred_username: user.username };
+    const payload = { id: user.id, username: user.username };
     // メモ 戻り値：
     // "①Base64URLエンコードされたヘッダー".
     // "②Base64URLエンコードされたペイロード".
