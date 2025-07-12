@@ -1,7 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { TargetAreaService } from './target-area.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('target-area')
+@UseGuards(AuthGuard)
 export class TargetAreaController {
   constructor(private readonly targetAreaService: TargetAreaService) {}
 

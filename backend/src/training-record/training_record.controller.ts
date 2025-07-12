@@ -8,12 +8,15 @@ import {
   Patch,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { TrainingRecordService } from './training_record.service';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { TrainingRecordDto } from './dto/get-training-record.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('training-record')
+@UseGuards(AuthGuard)
 export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
