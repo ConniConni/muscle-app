@@ -106,20 +106,16 @@ export class TrainingRecordService {
     if (!record || record.userId !== userId) {
       throw new ForbiddenException('この操作を行う権限がありません。');
     }
-    const currentJstTime = formatInTimeZone(
-      new Date(),
-      'Asia/Tokyo',
-      'yyyy-MM-dd HH:mm:ss.sss',
-    );
-    const updateResult = await this.prisma.$executeRaw`
-      UPDATE training_records SET
-      exercise_id = ${createTrainingRecordDto.exercise_id},
-      date = ${new Date(createTrainingRecordDto.date)},
-      weight =${createTrainingRecordDto.weight},
-      count = ${createTrainingRecordDto.count},
-      update_date = ${currentJstTime}::timestamp
-      WHERE id = ${id};
-    `;
+
+    const updateResult = await this.prisma.trainingRecord.update({
+      where: { id: id },
+      data: {
+        exerciseId: createTrainingRecordDto.exercise_id,
+        date: new Date(createTrainingRecordDto.date),
+        weight: createTrainingRecordDto.weight,
+        count: createTrainingRecordDto.count,
+      },
+    });
     return updateResult;
   }
 
