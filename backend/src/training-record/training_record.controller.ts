@@ -33,8 +33,8 @@ export class TrainingRecordController {
   }
 
   @Get(':id')
-  async findById(@Param('id', ParseIntPipe) id: number) {
-    return await this.trainingRecordService.findById(id);
+  async findById(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.trainingRecordService.findById(id, req.user.id);
   }
 
   @Post()

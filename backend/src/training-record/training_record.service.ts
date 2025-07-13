@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -46,9 +50,9 @@ export class TrainingRecordService {
     return result;
   }
 
-  async findById(id: number) {
+  async findById(id: number, userId: number) {
     const response = await this.prisma.trainingRecord.findUnique({
-      where: { id },
+      where: { id: id, userId: userId },
       include: {
         exerciseCategories: {
           select: {
@@ -57,7 +61,11 @@ export class TrainingRecordService {
         },
       },
     });
-    if (!response) return null;
+    if (!response) {
+      throw new NotFoundException(
+        `ID: ${id} の記録が見つからないか、アクセス権がありません。`,
+      );
+    }
     const result = {
       id: response.id,
       target_id: response.exerciseCategories?.targetId,
