@@ -14,7 +14,7 @@ export class TrainingRecordService {
     const date = trainingRecordDto.date;
 
     // where条件の組み立て
-    const where: any = {};
+    const where: any = { userId: userId };
     if (exercise_id !== undefined) {
       where.exerciseId = exercise_id;
     }
@@ -23,7 +23,7 @@ export class TrainingRecordService {
     }
 
     const response = await this.prisma.trainingRecord.findMany({
-      where: { userId },
+      where: where,
       include: {
         exerciseCategories: {
           select: {
@@ -113,9 +113,8 @@ export class TrainingRecordService {
   }
 
   async delete(id: number) {
-    await this.prisma.$executeRaw`
-    DELETE FROM training_records WHERE id = ${id};
-    `;
-    return;
+    await this.prisma.trainingRecord.delete({
+      where: { id: id },
+    });
   }
 }
