@@ -57,7 +57,7 @@ export class TrainingRecordController {
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
-    return await this.trainingRecordService.delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.trainingRecordService.delete(id, req.user.id);
   }
 }

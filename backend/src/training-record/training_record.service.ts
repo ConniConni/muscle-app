@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -112,7 +112,14 @@ export class TrainingRecordService {
     return updateResult;
   }
 
-  async delete(id: number) {
+  async delete(id: number, userId: number) {
+    const record = await this.prisma.trainingRecord.findUnique({
+      where: { id: id },
+    });
+
+    if (!record || record.userId !== userId) {
+      throw new ForbiddenException('この操作を行う権限がありません。');
+    }
     await this.prisma.trainingRecord.delete({
       where: { id: id },
     });
