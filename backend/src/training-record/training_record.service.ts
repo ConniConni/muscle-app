@@ -94,7 +94,18 @@ export class TrainingRecordService {
     return training;
   }
 
-  async update(id: number, createTrainingRecordDto: CreateTrainingRecordDto) {
+  async update(
+    id: number,
+    createTrainingRecordDto: CreateTrainingRecordDto,
+    userId: number,
+  ) {
+    const record = await this.prisma.trainingRecord.findUnique({
+      where: { id: id },
+    });
+
+    if (!record || record.userId !== userId) {
+      throw new ForbiddenException('この操作を行う権限がありません。');
+    }
     const currentJstTime = formatInTimeZone(
       new Date(),
       'Asia/Tokyo',

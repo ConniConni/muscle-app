@@ -52,8 +52,13 @@ export class TrainingRecordController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() createTrainingRecordDto: CreateTrainingRecordDto,
+    @Req() req: any,
   ) {
-    return await this.trainingRecordService.update(id, createTrainingRecordDto);
+    return await this.trainingRecordService.update(
+      id,
+      createTrainingRecordDto,
+      req.user.id,
+    );
   }
 
   @Delete(':id')
