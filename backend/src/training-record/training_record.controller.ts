@@ -22,8 +22,14 @@ export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
   @Get()
-  async findAll(@Query() trainingRecordDto: TrainingRecordDto) {
-    return await this.trainingRecordService.findAll(trainingRecordDto);
+  async findAll(
+    @Query() trainingRecordDto: TrainingRecordDto,
+    @Req() req: any,
+  ) {
+    return await this.trainingRecordService.findAll(
+      trainingRecordDto,
+      req.user.id,
+    );
   }
 
   @Get(':id')

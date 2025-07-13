@@ -8,7 +8,7 @@ import { TrainingRecordDto } from './dto/get-training-record.dto';
 export class TrainingRecordService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(trainingRecordDto: TrainingRecordDto) {
+  async findAll(trainingRecordDto: TrainingRecordDto, userId: number) {
     // dto取り出し
     const exercise_id = trainingRecordDto.exercise_id;
     const date = trainingRecordDto.date;
@@ -23,7 +23,7 @@ export class TrainingRecordService {
     }
 
     const response = await this.prisma.trainingRecord.findMany({
-      where,
+      where: { userId },
       include: {
         exerciseCategories: {
           select: {
