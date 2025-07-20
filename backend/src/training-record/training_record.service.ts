@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTrainingRecordDto } from './dto/create-training-record.dto';
 import { PrismaService } from 'src/prisma.service';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -8,13 +12,13 @@ import { TrainingRecordDto } from './dto/get-training-record.dto';
 export class TrainingRecordService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(trainingRecordDto: TrainingRecordDto) {
+  async findAll(trainingRecordDto: TrainingRecordDto, userId: number) {
     // dto取り出し
     const exercise_id = trainingRecordDto.exercise_id;
     const date = trainingRecordDto.date;
 
     // where条件の組み立て
-    const where: any = {};
+    const where: any = { userId: userId };
     if (exercise_id !== undefined) {
       where.exerciseId = exercise_id;
     }
@@ -23,7 +27,7 @@ export class TrainingRecordService {
     }
 
     const response = await this.prisma.trainingRecord.findMany({
-      where,
+      where: where,
       include: {
         exerciseCategories: {
           select: {
@@ -46,9 +50,9 @@ export class TrainingRecordService {
     return result;
   }
 
-  async findById(id: number) {
+  async findById(id: number, userId: number) {
     const response = await this.prisma.trainingRecord.findUnique({
-      where: { id },
+      where: { id: id, userId: userId },
       include: {
         exerciseCategories: {
           select: {
@@ -57,7 +61,11 @@ export class TrainingRecordService {
         },
       },
     });
-    if (!response) return null;
+    if (!response) {
+      throw new NotFoundException(
+        `ID: ${id} の記録が見つからないか、アクセス権がありません。`,
+      );
+    }
     const result = {
       id: response.id,
       target_id: response.exerciseCategories?.targetId,
@@ -94,28 +102,41 @@ export class TrainingRecordService {
     return training;
   }
 
-  async update(id: number, createTrainingRecordDto: CreateTrainingRecordDto) {
-    const currentJstTime = formatInTimeZone(
-      new Date(),
-      'Asia/Tokyo',
-      'yyyy-MM-dd HH:mm:ss.sss',
-    );
-    const updateResult = await this.prisma.$executeRaw`
-      UPDATE training_records SET
-      exercise_id = ${createTrainingRecordDto.exercise_id},
-      date = ${new Date(createTrainingRecordDto.date)},
-      weight =${createTrainingRecordDto.weight},
-      count = ${createTrainingRecordDto.count},
-      update_date = ${currentJstTime}::timestamp
-      WHERE id = ${id};
-    `;
+  async update(
+    id: number,
+    createTrainingRecordDto: CreateTrainingRecordDto,
+    userId: number,
+  ) {
+    const record = await this.prisma.trainingRecord.findUnique({
+      where: { id: id },
+    });
+
+    if (!record || record.userId !== userId) {
+      throw new ForbiddenException('この操作を行う権限がありません。');
+    }
+
+    const updateResult = await this.prisma.trainingRecord.update({
+      where: { id: id },
+      data: {
+        exerciseId: createTrainingRecordDto.exercise_id,
+        date: new Date(createTrainingRecordDto.date),
+        weight: createTrainingRecordDto.weight,
+        count: createTrainingRecordDto.count,
+      },
+    });
     return updateResult;
   }
 
-  async delete(id: number) {
-    await this.prisma.$executeRaw`
-    DELETE FROM training_records WHERE id = ${id};
-    `;
-    return;
+  async delete(id: number, userId: number) {
+    const record = await this.prisma.trainingRecord.findUnique({
+      where: { id: id },
+    });
+
+    if (!record || record.userId !== userId) {
+      throw new ForbiddenException('この操作を行う権限がありません。');
+    }
+    await this.prisma.trainingRecord.delete({
+      where: { id: id },
+    });
   }
 }

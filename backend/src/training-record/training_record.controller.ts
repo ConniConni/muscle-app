@@ -22,13 +22,19 @@ export class TrainingRecordController {
   constructor(private readonly trainingRecordService: TrainingRecordService) {}
 
   @Get()
-  async findAll(@Query() trainingRecordDto: TrainingRecordDto) {
-    return await this.trainingRecordService.findAll(trainingRecordDto);
+  async findAll(
+    @Query() trainingRecordDto: TrainingRecordDto,
+    @Req() req: any,
+  ) {
+    return await this.trainingRecordService.findAll(
+      trainingRecordDto,
+      req.user.id,
+    );
   }
 
   @Get(':id')
-  async findById(@Param('id', ParseIntPipe) id: number) {
-    return await this.trainingRecordService.findById(id);
+  async findById(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.trainingRecordService.findById(id, req.user.id);
   }
 
   @Post()
@@ -46,12 +52,17 @@ export class TrainingRecordController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() createTrainingRecordDto: CreateTrainingRecordDto,
+    @Req() req: any,
   ) {
-    return await this.trainingRecordService.update(id, createTrainingRecordDto);
+    return await this.trainingRecordService.update(
+      id,
+      createTrainingRecordDto,
+      req.user.id,
+    );
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
-    return await this.trainingRecordService.delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.trainingRecordService.delete(id, req.user.id);
   }
 }
