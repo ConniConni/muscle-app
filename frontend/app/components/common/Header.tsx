@@ -43,21 +43,25 @@ const Header = () => {
         className="header-right"
         style={{ display: "flex", alignItems: "center", gap: "0.5em" }}
       >
+        {/* 未サインイン状態時にサインアップボタンを表示 */}
+        {!user && (
+          <div>
+            <TooltipIconButton
+              tooltipTitle="サインアップ"
+              iconButtonBackgroundColor="white"
+              iconButtonColor="gray"
+              iconButtonHoverBackgroundColor="gray"
+              iconButtonHoverColor="white"
+              onClick={handleSingUp}
+              IconComponent={PersonAddIcon}
+            />
+          </div>
+        )}
+        {/* サインイン状態時にログインユーザーのニックネームとサインアウトボタンを表示 */}
         {user && (
           <>
             <div>
               <span>ログインユーザー：{user.username}</span>
-            </div>
-            <div>
-              <TooltipIconButton
-                tooltipTitle="サインアップ"
-                iconButtonBackgroundColor="white"
-                iconButtonColor="gray"
-                iconButtonHoverBackgroundColor="gray"
-                iconButtonHoverColor="white"
-                onClick={handleSingUp}
-                IconComponent={PersonAddIcon}
-              />
             </div>
             <div>
               <TooltipIconButton
