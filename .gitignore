@@ -1,3 +1,4 @@
 db/data/*
 !db/data/.gitkeep
 .env
+muscle-app-key.pem
