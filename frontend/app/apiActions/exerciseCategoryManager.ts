@@ -31,7 +31,7 @@ export const createNewTraining = async (params: {
   console.log(params.name);
   if (params.target_id > 0 && params.name.length > 0) {
     try {
-      const response = await fetch(`/api/exercise-category`, {
+      const response = await fetch(`${API_BASE_URL}/exercise-category`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(params),

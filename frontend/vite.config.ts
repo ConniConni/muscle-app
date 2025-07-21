@@ -14,11 +14,11 @@ export default defineConfig({
   // },
   // server: {
   //   proxy: {
-  //     // '/api' で始まるリクエストをAPI_BASE_URLに転送
-  //     "/api": {
+  //     // '${API_BASE_URL}' で始まるリクエストをAPI_BASE_URLに転送
+  //     "${API_BASE_URL}": {
   //       target: "http://localhost:3000",
   //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ""),
+  //       rewrite: (path) => path.replace(/^\${API_BASE_URL}/, ""),
   //     },
   //   },
   // },

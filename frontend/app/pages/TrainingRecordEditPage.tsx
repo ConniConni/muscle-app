@@ -7,12 +7,12 @@ import type { TrainingRecordWithExerciseId } from "~/type/training_record";
 import {
   getTrainingRecordById,
   updateTrainingRecord,
-} from "~/apiActions/TrainingRecord";
+} from "~${API_BASE_URL}Actions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
 import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
-} from "~/apiActions/TargetArea";
+} from "~${API_BASE_URL}Actions/TargetArea";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {

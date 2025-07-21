@@ -25,12 +25,15 @@ export const getExerciseCategoryByTargetId = async (target_id: number) => {
   try {
     let response;
     if (target_id && target_id > 0) {
-      response = await fetch(`/api/exercise-category/target/${target_id}`, {
-        method: "GET",
-        headers: getAuthHeaders(),
-      });
+      response = await fetch(
+        `${API_BASE_URL}/exercise-category/target/${target_id}`,
+        {
+          method: "GET",
+          headers: getAuthHeaders(),
+        }
+      );
     } else {
-      response = await fetch(`/api/exercise-category`, {
+      response = await fetch(`${API_BASE_URL}/exercise-category`, {
         method: "GET",
         headers: getAuthHeaders(),
       });

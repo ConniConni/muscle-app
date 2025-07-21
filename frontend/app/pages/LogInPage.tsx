@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { authLogIn } from "~/apiActions/logInApi";
+import { authLogIn } from "~${API_BASE_URL}Actions/logInApi";
 import { useAuth } from "~/auth/AuthContext";
 import AlertDialog from "~/components/common/AlertDialog";
 import Header from "~/components/common/Header";

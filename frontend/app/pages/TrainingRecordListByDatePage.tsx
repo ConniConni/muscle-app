@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getSelectDate, getTrainingRecord } from "~/apiActions/TrainingRecord";
+import {
+  getSelectDate,
+  getTrainingRecord,
+} from "~${API_BASE_URL}Actions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import TrainingRecordTableByDate from "~/components/parts/trainingRecordTable/TrainingRecordTableByDate";
