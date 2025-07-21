@@ -1,52 +1,49 @@
-# --- ビルドステージ ---
-FROM node:20-alpine AS builder
-
+# --- ステージ1: 依存関係のインストール ---
+# 本番で必要な依存関係だけをインストールする
+FROM node:20-alpine AS deps
 WORKDIR /app
+COPY package.json package-lock.json ./
+# `--omit=dev` で devDependencies を除外
+RUN npm install --omit=dev
 
-# 依存関係をインストール
-COPY package*.json ./
+
+# --- ステージ2: アプリケーションのビルド ---
+# 開発依存関係も含めてインストールし、ビルドを実行する
+FROM node:20-alpine AS builder
+WORKDIR /app
+# package.jsonをコピー
+COPY package.json package-lock.json ./
+# すべての依存関係をインストール
 RUN npm install
-
 # ソースコードをコピー
 COPY . .
-
-# Reactアプリをビルド
+# ビルドコマンドを実行
 RUN npm run build
 
-# --- プロダクションステージ ---
-FROM nginx:stable-alpine
 
-# ビルドステージからビルド済みの静的ファイルをNginxの公開ディレクトリにコピー
-COPY --from=builder /app/build /usr/share/nginx/html
+# --- ステージ3: プロダクション実行 ---
+# 最終的な実行イメージを作成する
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# カスタムNginx設定ファイルをコピー
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# 環境変数を設定
+ENV NODE_ENV=production
+# コンテナ内部でリッスンするポート
+ENV PORT=3001
 
-# ポートを公開
-EXPOSE 80
+# ステージ1から本番用のnode_modulesをコピー
+COPY --from=deps /app/node_modules ./node_modules
 
-# Nginxをフォアグラウンドで実行
-CMD ["nginx", "-g", "daemon off;"]
+# ステージ2からビルドされた成果物をコピー
+# `react-router build` は `build` ディレクトリに成果物を出力します
+COPY --from=builder /app/build ./build
 
-# FROM node:20-alpine AS development-dependencies-env
-# COPY . /app
-# WORKDIR /app
-# RUN npm ci
+# package.jsonをコピー (react-router-serveが内部で参照する可能性があるため)
+COPY --from=builder /app/package.json ./package.json
 
-# FROM node:20-alpine AS production-dependencies-env
-# COPY ./package.json package-lock.json /app/
-# WORKDIR /app
-# RUN npm ci --omit=dev
+# 公開するポート
+EXPOSE 3001
 
-# FROM node:20-alpine AS build-env
-# COPY . /app/
-# COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-# WORKDIR /app
-# RUN npm run build
-
-# FROM node:20-alpine
-# COPY ./package.json package-lock.json /app/
-# COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-# COPY --from=build-env /app/build /app/build
-# WORKDIR /app
-# CMD ["npm", "run", "start"]
+# ★★★ サーバーの起動コマンド ★★★
+# `react-router-serve` を使うのではなく、ビルドされたサーバーファイルを直接nodeで実行する
+CMD ["node", "./build/server/index.js"]
