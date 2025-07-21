@@ -2,7 +2,7 @@ import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useNavigate } from "react-router";
-import { getSelectDate } from "~${API_BASE_URL}Actions/TrainingRecord";
+import { getSelectDate } from "~/apiActions/TrainingRecord";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import { useCalendar } from "~/hooks/useCalendar";

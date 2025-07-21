@@ -1,5 +1,5 @@
 import type { TrainingRecordWithName } from "~/type/training_record";
-import { trainingRecordDelete } from "~${API_BASE_URL}Actions/TrainingRecord";
+import { trainingRecordDelete } from "~/apiActions/TrainingRecord";
 import BaseTrainingRecordTable from "./BaseTrainingRecordTable";
 
 type TrainingRecordProps = {

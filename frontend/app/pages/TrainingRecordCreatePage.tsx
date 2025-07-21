@@ -4,12 +4,12 @@ import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import { useEffect, useState } from "react";
 import type { TrainingRecordWithExerciseId } from "~/type/training_record";
-import { createTrainingRecord } from "~${API_BASE_URL}Actions/TrainingRecord";
+import { createTrainingRecord } from "~/apiActions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
 import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
-} from "~${API_BASE_URL}Actions/TargetArea";
+} from "~/apiActions/TargetArea";
 import { toZonedTime } from "date-fns-tz";
 
 // 筋トレ実績登録画面を生成する関数コンポーネント

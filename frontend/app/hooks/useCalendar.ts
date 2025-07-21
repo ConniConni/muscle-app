@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { getHolidayList } from "~${API_BASE_URL}Actions/holidaysApi";
-import { getTrainingRecord } from "~${API_BASE_URL}Actions/TrainingRecord";
+import { getHolidayList } from "~/apiActions/holidaysApi";
+import { getTrainingRecord } from "~/apiActions/TrainingRecord";
 import type { TrainingRecordWithName } from "~/type/training_record";
 
 // 日付を 'YYYY-MM-DD' 形式にフォーマットするヘルパー関数

@@ -5,11 +5,11 @@ import Sidebar from "~/components/common/Sidebar";
 import {
   createNewTraining,
   getExerciseCategory,
-} from "~${API_BASE_URL}Actions/exerciseCategoryManager";
+} from "~/apiActions/exerciseCategoryManager";
 import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelectionPulldown";
 import type { ExerciseCategory } from "~/type/exercise_category";
 import type { PulldownSelectedValue } from "~/type/common";
-import { getTargetAreaList } from "~${API_BASE_URL}Actions/TargetArea";
+import { getTargetAreaList } from "~/apiActions/TargetArea";
 
 // 筋トレ種目（マスタ）登録画面を生成する関数コンポーネント
 const ExerciseCategoryManagerPage = () => {

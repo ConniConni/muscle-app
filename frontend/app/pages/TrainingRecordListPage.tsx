@@ -12,12 +12,12 @@ import TargetSelectionPulldown from "~/components/parts/pulldown/TargetSelection
 import {
   getSelectExerciseId,
   getTrainingRecord,
-} from "~${API_BASE_URL}Actions/TrainingRecord";
+} from "~/apiActions/TrainingRecord";
 import type { PulldownSelectedValue } from "~/type/common";
 import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
-} from "~${API_BASE_URL}Actions/TargetArea";
+} from "~/apiActions/TargetArea";
 import TrainingRecordListTable from "~/components/parts/trainingRecordTable/TrainingRecordTable";
 
 // トップページを生成する関数コンポーネント
