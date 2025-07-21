@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // ユーザー認証api呼び出し関数
@@ -8,7 +7,7 @@ export const authLogIn = async (params: {
 }) => {
   if (params.userId && params.password) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +36,7 @@ export const authLogIn = async (params: {
 // JWTトークンからユーザー情報取得するapiの呼び出し関数
 export const getUserProfile = async (params: { token: string }) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+    const response = await fetch(`/api/auth/profile`, {
       method: "GET",
       headers: getAuthHeaders(),
     });

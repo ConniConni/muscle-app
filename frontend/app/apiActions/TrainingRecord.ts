@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // 筋トレ実績一覧取得処理呼び出し
@@ -12,7 +11,7 @@ export const getTrainingRecord = async (options?: {
     params.append("exercise_id", String(options.exercise_id));
   if (options?.date) params.append("date", options.date);
 
-  const url = `${API_BASE_URL}/training-record/${
+  const url = `/api/training-record/${
     params.toString() ? "?" + params.toString() : ""
   }`;
   try {
@@ -38,7 +37,7 @@ export const getSelectExerciseId = async (filterExercise: number) => {
   if (filterExercise != 0) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/training-record/?exercise_id=${filterExercise}`,
+        `/api/training-record/?exercise_id=${filterExercise}`,
         {
           method: "GET",
           headers: getAuthHeaders(),
@@ -64,13 +63,10 @@ export const getSelectExerciseId = async (filterExercise: number) => {
 export const getSelectDate = async (filterDate: string) => {
   if (filterDate != "") {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/training-record/?date=${filterDate}`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
+      const response = await fetch(`/api/training-record/?date=${filterDate}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
@@ -94,7 +90,7 @@ export const getSelectDate = async (filterDate: string) => {
 export const getTrainingRecordById = async (id: number) => {
   if (id) {
     try {
-      const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+      const response = await fetch(`/api/training-record/${id}`, {
         method: "GET",
         headers: getAuthHeaders(),
       });
@@ -124,7 +120,7 @@ export const createTrainingRecord = async (params: {
 }) => {
   if (params.exercise_id && params.date && params.count) {
     try {
-      const response = await fetch(`${API_BASE_URL}/training-record/`, {
+      const response = await fetch(`/api/training-record/`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(params),
@@ -160,19 +156,16 @@ export const updateTrainingRecord = async (params: {
 }) => {
   if (params.exercise_id && params.date && params.weight && params.count) {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/training-record/${params.id}`,
-        {
-          method: "PATCH",
-          headers: getAuthHeaders(),
-          body: JSON.stringify({
-            exercise_id: +params.exercise_id!,
-            date: params.date,
-            weight: +params.weight!,
-            count: +params.count!,
-          }),
-        }
-      );
+      const response = await fetch(`/api/training-record/${params.id}`, {
+        method: "PATCH",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          exercise_id: +params.exercise_id!,
+          date: params.date,
+          weight: +params.weight!,
+          count: +params.count!,
+        }),
+      });
 
       if (response.status != 200) {
         const errorData = await response.json();
@@ -198,7 +191,7 @@ export const updateTrainingRecord = async (params: {
 // 筋トレ記録削除API呼び出し関数
 export const trainingRecordDelete = async (id: number) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/training-record/${id}`, {
+    const response = await fetch(`/api/training-record/${id}`, {
       method: `DELETE`,
       headers: getAuthHeaders(),
     });

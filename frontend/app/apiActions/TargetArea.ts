@@ -1,10 +1,9 @@
-import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // 部位リストを取得処理呼び出し関数
 export const getTargetAreaList = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/target-area`, {
+    const response = await fetch(`/api/target-area`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -25,15 +24,12 @@ export const getExerciseCategoryByTargetId = async (target_id: number) => {
   try {
     let response;
     if (target_id && target_id > 0) {
-      response = await fetch(
-        `${API_BASE_URL}/exercise-category/target/${target_id}`,
-        {
-          method: "GET",
-          headers: getAuthHeaders(),
-        }
-      );
+      response = await fetch(`/api/exercise-category/target/${target_id}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
     } else {
-      response = await fetch(`${API_BASE_URL}/exercise-category`, {
+      response = await fetch(`/api/exercise-category`, {
         method: "GET",
         headers: getAuthHeaders(),
       });
