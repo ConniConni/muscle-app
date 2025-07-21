@@ -1,0 +1,59 @@
+services:
+  # 1. PostgreSQL データベース
+  db:
+    # image: postgres:15-alpine
+    image: postgres:14-alpine
+    container_name: muscle_app_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # 2. NestJS バックエンド
+  backend:
+    # `build:` の `context` は、このymlファイルからの相対パス
+    build:
+      context: ./backend
+    container_name: muscle_app_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      # NestJSがDBに接続するための情報
+      DATABASE_HOST: db # サービス名 'db' をホスト名として指定
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_NAME: ${POSTGRES_DB}
+      # NestJSアプリがリッスンするポート
+      PORT: 3000
+    networks:
+      - app-network
+
+  # 3. React + Nginx フロントエンド
+  frontend:
+    # `build:` の `context` は、このymlファイルからの相対パス
+    build:
+      context: ./frontend
+    container_name: muscle_app_frontend
+    restart: always
+    ports:
+      - "80:80" # EC2の80番ポートをコンテナの80番ポートにマッピング
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# データの永続化とコンテナ間通信のための設定
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
