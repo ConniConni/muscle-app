@@ -1,9 +1,10 @@
+import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // 部位リストを取得処理呼び出し関数
 export const getTargetAreaList = async () => {
   try {
-    const response = await fetch(`/api/target-area`, {
+    const response = await fetch(`${API_BASE_URL}/target-area`, {
       method: "GET",
       headers: getAuthHeaders(),
     });

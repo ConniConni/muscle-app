@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // ユーザー認証api呼び出し関数
@@ -7,7 +8,7 @@ export const authLogIn = async (params: {
 }) => {
   if (params.userId && params.password) {
     try {
-      const response = await fetch(`/api/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

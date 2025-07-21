@@ -6,20 +6,20 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
-  resolve: {
-    alias: {
-      // '~' というエイリアスを、'./app' ディレクトリへの絶対パスとして設定する
-      "~": path.resolve(__dirname, "./app"),
-    },
-  },
-  server: {
-    proxy: {
-      // '/api' で始まるリクエストをAPI_BASE_URLに転送
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     // '~' というエイリアスを、'./app' ディレクトリへの絶対パスとして設定する
+  //     "~": path.resolve(__dirname, "./app"),
+  //   },
+  // },
+  // server: {
+  //   proxy: {
+  //     // '/api' で始まるリクエストをAPI_BASE_URLに転送
+  //     "/api": {
+  //       target: "http://localhost:3000",
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ""),
+  //     },
+  //   },
+  // },
 });

@@ -1,11 +1,15 @@
+import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 export const getExerciseCategory = async () => {
   try {
-    const response = await fetch(`/api/exercise-category/with-target`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/exercise-category/with-target`,
+      {
+        method: "GET",
+        headers: getAuthHeaders(),
+      }
+    );
     if (response.status != 200) {
       const errorData = await response.json();
       throw new Error(

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "~/config";
 import type { SignupFormType } from "~/type/signup";
 
 export const postUser = async (params: SignupFormType) => {
@@ -11,7 +12,7 @@ export const postUser = async (params: SignupFormType) => {
   ) {
     try {
       const { confirmPassword, confirmEmail, ...apiParams } = params;
-      const response = await fetch(`/api/user/sign-up`, {
+      const response = await fetch(`${API_BASE_URL}/user/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

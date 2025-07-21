@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "~/config";
 import { getAuthHeaders } from "./apiHelper";
 
 // 筋トレ実績一覧取得処理呼び出し
@@ -63,10 +64,13 @@ export const getSelectExerciseId = async (filterExercise: number) => {
 export const getSelectDate = async (filterDate: string) => {
   if (filterDate != "") {
     try {
-      const response = await fetch(`/api/training-record/?date=${filterDate}`, {
-        method: "GET",
-        headers: getAuthHeaders(),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/training-record/?date=${filterDate}`,
+        {
+          method: "GET",
+          headers: getAuthHeaders(),
+        }
+      );
       if (response.status != 200) {
         const errorData = await response.json();
         throw new Error(
