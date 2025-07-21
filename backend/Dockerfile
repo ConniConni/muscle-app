@@ -1,25 +1,36 @@
-# --- ビルドステージ ---
-FROM node:20-alpine AS builder
-
+# --- ステージ1: 依存関係のインストール (本番用) ---
+FROM node:20-alpine AS production-deps
 WORKDIR /usr/src/app
+# backend/package.json をコピー
+COPY backend/package.json backend/package-lock.json ./
+RUN npm install --omit=dev
 
-# 依存関係をインストール
-COPY package*.json ./
+
+# --- ステージ2: ビルドステージ ---
+FROM node:20-alpine AS builder
+WORKDIR /usr/src/app
+# backend/package.json をコピー
+COPY backend/package.json backend/package-lock.json ./
+# 開発依存関係も含めてインストール
 RUN npm install
-
-# ソースコードをコピー
-COPY . .
-
+# backend ディレクトリ全体をコピー
+COPY backend/ .
+# (もしあれば) ルートの tsconfig.json もコピー
+# NestJSではプロジェクトごとにtsconfigを持つことが多いですが、念のため
+COPY tsconfig.json ./
 # アプリケーションをビルド
 RUN npm run build
 
-# --- プロダクションステージ ---
-FROM node:20-alpine
 
+# --- ステージ3: プロダクションステージ (最終的な実行イメージ) ---
+FROM node:20-alpine
 WORKDIR /usr/src/app
 
-# ビルドステージからビルド済みファイルとnode_modulesをコピー
-COPY --from=builder /usr/src/app/node_modules ./node_modules
+ENV NODE_ENV=production
+
+# ステージ1 (production-deps) から本番用の node_modules をコピー
+COPY --from=production-deps /usr/src/app/node_modules ./node_modules
+# ステージ2 (builder) からビルド済みの dist ディレクトリをコピー
 COPY --from=builder /usr/src/app/dist ./dist
 
 # ポートを公開

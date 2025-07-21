@@ -16,9 +16,9 @@ services:
 
   # 2. NestJS バックエンド
   backend:
-    # `build:` の `context` は、このymlファイルからの相対パス
     build:
-      context: ./backend
+      context: .
+      dockerfile: ./frontend/Dockerfile
     container_name: muscle_app_backend
     restart: always
     depends_on:
@@ -37,9 +37,9 @@ services:
 
   # 3. React + Nginx フロントエンド
   frontend:
-    # `build:` の `context` は、このymlファイルからの相対パス
     build:
-      context: ./frontend
+      context: .
+      dockerfile: ./frontend/Dockerfile
     container_name: muscle_app_frontend
     restart: always
     ports:
