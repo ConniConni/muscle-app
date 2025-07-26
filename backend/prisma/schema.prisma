@@ -106,4 +106,6 @@ model ApprovalFriendStatus {
   name String
 
   friendships Friendship[]
+
+  @@map("approval_friend_statuses")
 }
