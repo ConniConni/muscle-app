@@ -88,10 +88,19 @@ model Friendship {
   // Userテーブルの中間テーブルとなるようにリレーションを定義
   approver             User                 @relation("Approver", fields: [approvalUserId], references: [id])
   status               Int
+  // ApprovalFriendStatusテーブルの中間テーブルとなるようにリレーションを定義
+  approvalFriendStatus ApprovalFriendStatus @relation(fields: [status], references: [id])
   createDate           DateTime             @default(now()) @map("create_date")
   updateDate           DateTime             @default(now()) @updatedAt @map("update_date")
 
   // 同じユーザー間の申請が重複しないようにユニーク制約を追加
   @@unique([requesterUserId, approvalUserId])
   @@map("friendships")
+}
+
+model ApprovalFriendStatus {
+  id   Int    @id
+  name String
+
+  friendships Friendship[]
 }
