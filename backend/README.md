@@ -121,13 +121,23 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 npx prisma format
 ```
 
-3. マイグレーションファイルを作成
+3. 生成されるSQLクエリを確認
+
+```cmd
+npx prisma migrate diff --from-migrations prisma --to-schema-datasource --script
+```
+
+`--from-migrations prisma` 現在のマイグレーション履歴を基に差分を計算  
+`--to-schema-datasource` Prismaスキーマを基に差分を計算  
+`--script` 生成されるSQLを標準出力に表示
+
+4. マイグレーションファイルを作成
 
 ```cmd
 npx prisma migrate dev --name <修正内容を記述>
 ```
 
-4. prisma client も再生成
+5. prisma client も再生成
 
 ```cmd
 npx prisma generate
