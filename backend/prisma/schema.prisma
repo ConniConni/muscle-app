@@ -74,5 +74,38 @@ model User {
   // UserからTrainingRecordへのリレーションを定義(１ 対 多： User 対 TrainingRecord)
   trainingRecords TrainingRecord[]
 
+  requesters Friendship[] @relation("Requester")
+  approvers  Friendship[] @relation("Approver")
+
   @@map("users")
+}
+
+model Friendship {
+  // requesterUserIdとapprovalUserIdが複合種キーとなるが、
+  // パフォーマンス性とシンプルさを保つためにサロゲートキーを用いる
+  id                   Int                  @id @default(autoincrement())
+  requesterUserId      Int                  @map("requester_user_id")
+  // Userテーブルの中間テーブルとなるようにリレーションを定義
+  requester            User                 @relation("Requester", fields: [requesterUserId], references: [id])
+  approvalUserId       Int                  @map("approval_user_id")
+  // Userテーブルの中間テーブルとなるようにリレーションを定義
+  approver             User                 @relation("Approver", fields: [approvalUserId], references: [id])
+  status               Int
+  // FriendshipテーブルからApprovalFriendStatusテーブルへのリレーションを定義(多 対 1： ApprovalFriendStatus 対 Friendship)
+  approvalFriendStatus ApprovalFriendStatus @relation(fields: [status], references: [id])
+  createDate           DateTime             @default(now()) @map("create_date")
+  updateDate           DateTime             @default(now()) @updatedAt @map("update_date")
+
+  // 同じユーザー間の申請が重複しないようにユニーク制約を追加
+  @@unique([requesterUserId, approvalUserId])
+  @@map("friendships")
+}
+
+model ApprovalFriendStatus {
+  id   Int    @id
+  name String
+
+  friendships Friendship[]
+
+  @@map("approval_friend_statuses")
 }
