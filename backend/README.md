@@ -124,11 +124,12 @@ npx prisma format
 3. 生成されるSQLクエリを確認
 
 ```cmd
-npx prisma migrate diff --from-migrations prisma --to-schema-datasource --script
+px prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --script
 ```
 
-`--from-migrations prisma` 現在のマイグレーション履歴を基に差分を計算  
-`--to-schema-datasource` Prismaスキーマを基に差分を計算  
+`--from-migrations ./prisma/migrations` 現在のマイグレーション履歴を基に差分を計算  
+`--to-schema-datamodel ./prisma/schema.prisma` Prismaスキーマを基に差分を計算  
+`--shadow-database-url "$DATABASE_URL"` --from-migrations を使用する際に、Prismaがマイグレーション履歴からデータベースの状態を一時的に再現するために使用するシャドウデータベースの接続URL。(**$DATABASE_URL**は.envを参照)  
 `--script` 生成されるSQLを標準出力に表示
 
 4. マイグレーションファイルを作成
