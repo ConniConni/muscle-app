@@ -124,7 +124,7 @@ npx prisma format
 3. 生成されるSQLクエリを確認
 
 ```cmd
-px prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --script
+npx prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --script
 ```
 
 `--from-migrations ./prisma/migrations` 現在のマイグレーション履歴を基に差分を計算  
