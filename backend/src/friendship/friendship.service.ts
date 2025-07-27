@@ -38,7 +38,6 @@ export class FriendshipService {
       data: {
         requesterUserId: requesterUserId,
         approvalUserId: approvalUserId,
-        status: 0,
       },
     });
     return friendRequest;
