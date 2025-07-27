@@ -4,8 +4,4 @@ export class CreateFriendshipDto {
   @IsNotEmpty()
   @IsPositive()
   approvalUserId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  status: number;
 }
