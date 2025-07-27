@@ -1,21 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('friendship')
+@UseGuards(AuthGuard)
 export class FriendshipController {
   constructor(private readonly friendshipService: FriendshipService) {}
 
-  @Post()
-  create(@Body() createFriendshipDto: CreateFriendshipDto) {
-    return this.friendshipService.create(createFriendshipDto);
+  @Post('requests')
+  create(@Body() createFriendshipDto: CreateFriendshipDto, @Req() req: any) {
+    return this.friendshipService.create(createFriendshipDto, req.user.id);
   }
 }
