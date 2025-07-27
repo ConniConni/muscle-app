@@ -7,9 +7,10 @@ import { ExerciseCategoryModule } from './exercise-category/exercise-category.mo
 import { TargetAreaModule } from './target-area/target-area.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { FriendshipModule } from './friendship/friendship.module';
 
 @Module({
-  imports: [TrainingRecordModule, ExerciseCategoryModule, TargetAreaModule, UserModule, AuthModule],
+  imports: [TrainingRecordModule, ExerciseCategoryModule, TargetAreaModule, UserModule, AuthModule, FriendshipModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

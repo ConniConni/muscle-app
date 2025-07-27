@@ -90,7 +90,7 @@ model Friendship {
   approvalUserId       Int                  @map("approval_user_id")
   // Userテーブルの中間テーブルとなるようにリレーションを定義
   approver             User                 @relation("Approver", fields: [approvalUserId], references: [id])
-  status               Int
+  status               Int                  @default(0)
   // FriendshipテーブルからApprovalFriendStatusテーブルへのリレーションを定義(多 対 1： ApprovalFriendStatus 対 Friendship)
   approvalFriendStatus ApprovalFriendStatus @relation(fields: [status], references: [id])
   createDate           DateTime             @default(now()) @map("create_date")
