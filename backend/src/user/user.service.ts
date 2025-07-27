@@ -50,6 +50,44 @@ export class UserService {
     return selectUser;
   }
 
+  async searchUsersByQuery(query: string, currentUserId: number) {
+    if (!query) {
+      return []; // クエリが未指定の場合、検索は行わない(空配列を返す)
+    }
+
+    const users = await this.prisma.user.findMany({
+      where: {
+        AND: [
+          // AND条件その１: 以下のOR条件
+          {
+            OR: [
+              // OR条件その１: ユーザーIDがクエリと完全一致する
+              {
+                userId: { equals: query },
+              },
+              // OR条件その２: ニックネームがクエリを部分一致で含む(ただし、大文字小文字の区別なし)
+              {
+                username: { contains: query, mode: 'insensitive' },
+              },
+            ],
+          },
+          // AND条件その２: ログインユーザーは検索結果から除外する
+          {
+            id: { not: currentUserId },
+          },
+        ],
+      },
+
+      select: {
+        id: true,
+        userId: true,
+        username: true,
+      },
+    });
+
+    return users;
+  }
+
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
       select: {
