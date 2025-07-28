@@ -14,7 +14,7 @@ export class FriendshipController {
   }
 
   @Get('requests/received')
-  async findByAllPendingUser(@Req() req: any) {
+  async findReceivedRequests(@Req() req: any) {
     return await this.friendshipService.findByAllPendingUser(req.user.id);
   }
 }
