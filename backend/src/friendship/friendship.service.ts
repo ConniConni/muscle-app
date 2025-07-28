@@ -42,4 +42,14 @@ export class FriendshipService {
     });
     return friendRequest;
   }
+
+  async findByAllPendingUser(userId: number) {
+    const requestUser = await this.prisma.friendship.findMany({
+      where: {
+        approvalUserId: userId,
+        status: 0,
+      },
+    });
+    return requestUser;
+  }
 }
