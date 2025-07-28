@@ -52,6 +52,13 @@ export class FriendshipService {
         },
       },
       include: {
+        // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
+        requester: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
         approvalFriendStatus: {
           select: {
             name: true,
