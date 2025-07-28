@@ -25,7 +25,7 @@ export class FriendshipService {
       where: {
         OR: [
           { requesterUserId: requesterUserId, approvalUserId: approvalUserId },
-          { requesterUserId: approvalUserId, approvalUserId: requesterUserId }, // 逆方向の申請もチェック
+          { status: 1 },
         ],
       },
     });
@@ -41,5 +41,34 @@ export class FriendshipService {
       },
     });
     return friendRequest;
+  }
+
+  async findReceivedRequests(userId: number) {
+    const requestUser = await this.prisma.friendship.findMany({
+      where: {
+        approvalUserId: userId,
+        approvalFriendStatus: {
+          name: 'PENDING',
+        },
+      },
+      include: {
+        // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
+        requester: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        approvalFriendStatus: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createDate: 'desc',
+      },
+    });
+    return requestUser;
   }
 }
