@@ -25,7 +25,7 @@ export class FriendshipService {
       where: {
         OR: [
           { requesterUserId: requesterUserId, approvalUserId: approvalUserId },
-          { requesterUserId: approvalUserId, approvalUserId: requesterUserId }, // 逆方向の申請もチェック
+          { status: 1 },
         ],
       },
     });
