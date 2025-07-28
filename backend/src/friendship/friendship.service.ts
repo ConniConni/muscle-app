@@ -47,7 +47,16 @@ export class FriendshipService {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
         approvalUserId: userId,
-        status: 0,
+        approvalFriendStatus: {
+          name: 'PENDING',
+        },
+      },
+      include: {
+        approvalFriendStatus: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     return requestUser;
