@@ -58,6 +58,9 @@ export class FriendshipService {
           },
         },
       },
+      orderBy: {
+        createDate: 'desc',
+      },
     });
     return requestUser;
   }
