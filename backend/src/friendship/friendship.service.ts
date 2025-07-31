@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
@@ -70,5 +71,38 @@ export class FriendshipService {
       },
     });
     return requestUser;
+  }
+
+  async updateRequestStatus(
+    friendshipId: number,
+    newStatus: number,
+    currentUserId: number,
+  ) {
+    // 1. まず、更新対象のFriendshipレコードを取得する
+    const friendship = await this.prisma.friendship.findUnique({
+      where: { id: friendshipId },
+    });
+
+    // 2. 権限チェック
+    //    - レコードが存在しない
+    //    - または、自分が申請された側(requesterUserId)ではない
+    //    - または、ステータスがすでにPENDINGではない
+    if (
+      !friendship ||
+      friendship.requesterUserId !== currentUserId ||
+      friendship.status !== 0
+    ) {
+      throw new ForbiddenException('この申請を操作する権限がありません。');
+    }
+
+    // 3. 権限があれば、ステータスを更新する
+    return this.prisma.friendship.update({
+      where: {
+        id: friendshipId,
+      },
+      data: {
+        status: newStatus,
+      },
+    });
   }
 }
