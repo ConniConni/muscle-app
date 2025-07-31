@@ -1,7 +1,18 @@
-import { Controller, Post, Body, UseGuards, Req, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Req,
+  Get,
+  Patch,
+  ParseIntPipe,
+  Param,
+} from '@nestjs/common';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UpdateFriendshipDto } from './dto/update-friendship.dto';
 
 @Controller('friendship')
 @UseGuards(AuthGuard)
@@ -16,5 +27,18 @@ export class FriendshipController {
   @Get('requests/received')
   async findReceivedRequests(@Req() req: any) {
     return await this.friendshipService.findReceivedRequests(req.user.id);
+  }
+
+  @Patch(':friendshipId')
+  async update(
+    @Param('friendshipId', ParseIntPipe) friendshipId: number,
+    @Body() updateFriendshipDto: UpdateFriendshipDto,
+    @Req() req: any,
+  ) {
+    return await this.friendshipService.updateRequestStatus(
+      friendshipId,
+      updateFriendshipDto.status,
+      req.user.id,
+    );
   }
 }
