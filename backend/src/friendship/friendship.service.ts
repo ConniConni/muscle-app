@@ -81,6 +81,10 @@ export class FriendshipService {
     // 更新対象のFriendshipレコードを取得
     const friendship = await this.prisma.friendship.findUnique({
       where: { id: friendshipId },
+      // approvalFriendStatusからステータスのマスタデータを取得
+      include: {
+        approvalFriendStatus: true,
+      },
     });
 
     // 以下を確認し更新対象でない場合はステータス更新（承認/拒否の操作）は行わない
@@ -90,7 +94,7 @@ export class FriendshipService {
     if (
       !friendship ||
       friendship.requesterUserId !== currentUserId ||
-      friendship.status !== 0
+      friendship.approvalFriendStatus.name !== 'PENDING'
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');
     }
