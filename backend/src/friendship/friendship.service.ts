@@ -47,10 +47,10 @@ export class FriendshipService {
   async findReceivedRequests(userId: number) {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
-        approvalUserId: userId,
-        approvalFriendStatus: {
-          name: 'PENDING',
-        },
+        OR: [
+          { approvalUserId: userId },
+          { approvalFriendStatus: { name: 'PENDING' } },
+        ],
       },
       include: {
         // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
