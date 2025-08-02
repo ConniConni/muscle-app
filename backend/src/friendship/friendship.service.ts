@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { PrismaService } from 'src/prisma.service';
-import RequestStatus from 'src/common/requestStatus';
+import FriendshipRequestStatus from 'src/common/FriendshipRequestStatus';
 
 @Injectable()
 export class FriendshipService {
@@ -46,7 +46,10 @@ export class FriendshipService {
   async findReceivedRequests(userId: number) {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
-        OR: [{ approvalUserId: userId }, { status: RequestStatus.PENDING }],
+        OR: [
+          { approvalUserId: userId },
+          { status: FriendshipRequestStatus.PENDING },
+        ],
       },
       include: {
         // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
@@ -85,7 +88,7 @@ export class FriendshipService {
     if (
       !friendship ||
       friendship.requesterUserId !== currentUserId ||
-      friendship.status !== RequestStatus.PENDING
+      friendship.status !== FriendshipRequestStatus.PENDING
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');
     }
