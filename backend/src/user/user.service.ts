@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -50,10 +54,26 @@ export class UserService {
     return selectUser;
   }
 
-  async searchUsersByQuery(query: string, currentUserId: number) {
-    if (!query) {
-      return []; // クエリが未指定の場合、検索は行わない(空配列を返す)
+  async searchUsersByQuery(
+    userId: string | undefined,
+    username: string | undefined,
+    currentUserId: number,
+  ) {
+    if (!userId && !username) {
+      throw new BadRequestException(
+        'ユーザーIDもしくはニックネームで検索してください。',
+      );
     }
+
+    let whereCondition: any = {};
+    if (userId) {
+      whereCondition.userId = userId;
+    }
+    if (username) {
+      whereCondition.username = username;
+    }
+
+    whereCondition.id = currentUserId;
 
     const users = await this.prisma.user.findMany({
       where: {
@@ -63,11 +83,11 @@ export class UserService {
             OR: [
               // OR条件その１: ユーザーIDがクエリと完全一致する
               {
-                userId: { equals: query },
+                userId: { equals: userId },
               },
               // OR条件その２: ニックネームがクエリを部分一致で含む(ただし、大文字小文字の区別なし)
               {
-                username: { contains: query, mode: 'insensitive' },
+                username: { contains: username, mode: 'insensitive' },
               },
             ],
           },
