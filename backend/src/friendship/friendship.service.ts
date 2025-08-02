@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { PrismaService } from 'src/prisma.service';
+import RequestStatus from 'src/common/requestStatus';
 
 @Injectable()
 export class FriendshipService {
@@ -24,10 +25,8 @@ export class FriendshipService {
     // フレンド申請済もしくはフレンド関係にある場合は例外処理を発生させる
     const existingRequest = await this.prisma.friendship.findFirst({
       where: {
-        OR: [
-          { requesterUserId: requesterUserId, approvalUserId: approvalUserId },
-          { status: 1 },
-        ],
+        requesterUserId: requesterUserId,
+        approvalUserId: approvalUserId,
       },
     });
     if (existingRequest) {
@@ -47,10 +46,7 @@ export class FriendshipService {
   async findReceivedRequests(userId: number) {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
-        OR: [
-          { approvalUserId: userId },
-          { approvalFriendStatus: { name: 'PENDING' } },
-        ],
+        OR: [{ approvalUserId: userId }, { status: RequestStatus.PENDING }],
       },
       include: {
         // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
@@ -58,11 +54,6 @@ export class FriendshipService {
           select: {
             id: true,
             username: true,
-          },
-        },
-        approvalFriendStatus: {
-          select: {
-            name: true,
           },
         },
       },
@@ -94,7 +85,7 @@ export class FriendshipService {
     if (
       !friendship ||
       friendship.requesterUserId !== currentUserId ||
-      friendship.approvalFriendStatus.name !== 'PENDING'
+      friendship.status !== RequestStatus.PENDING
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');
     }
