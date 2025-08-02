@@ -1,9 +1,10 @@
 import { IsInt, IsNotEmpty, IsIn } from 'class-validator';
+import FriendshipRequestStatus from 'src/common/FriendshipRequestStatus';
 
 export class UpdateFriendshipDto {
   @IsInt()
   @IsNotEmpty()
-  // statusに指定できる数値を、[1, 2] に限定する
-  @IsIn([1, 2])
+  // statusに指定できる値を、[承認, 拒否] に限定する
+  @IsIn([FriendshipRequestStatus.ACCEPTED, FriendshipRequestStatus.DECLINED])
   status: number;
 }
