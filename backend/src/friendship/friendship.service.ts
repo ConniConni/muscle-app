@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { PrismaService } from 'src/prisma.service';
-import FriendshipRequestStatus from 'src/common/FriendshipRequestStatus';
+import FriendshipRequestStatus from 'src/common/friendship-request-status';
 
 @Injectable()
 export class FriendshipService {
@@ -46,10 +46,8 @@ export class FriendshipService {
   async findReceivedRequests(userId: number) {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
-        OR: [
-          { approvalUserId: userId },
-          { status: FriendshipRequestStatus.PENDING },
-        ],
+        approvalUserId: userId,
+        status: FriendshipRequestStatus.PENDING,
       },
       include: {
         // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加

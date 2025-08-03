@@ -1,5 +1,5 @@
 import { IsInt, IsNotEmpty, IsIn } from 'class-validator';
-import FriendshipRequestStatus from 'src/common/FriendshipRequestStatus';
+import FriendshipRequestStatus from 'src/common/friendship-request-status';
 
 export class UpdateFriendshipDto {
   @IsInt()
