@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { PrismaService } from 'src/prisma.service';
+import FriendshipRequestStatus from 'src/common/friendship-request-status';
 
 @Injectable()
 export class FriendshipService {
@@ -24,10 +25,8 @@ export class FriendshipService {
     // フレンド申請済もしくはフレンド関係にある場合は例外処理を発生させる
     const existingRequest = await this.prisma.friendship.findFirst({
       where: {
-        OR: [
-          { requesterUserId: requesterUserId, approvalUserId: approvalUserId },
-          { status: 1 },
-        ],
+        requesterUserId: requesterUserId,
+        approvalUserId: approvalUserId,
       },
     });
     if (existingRequest) {
@@ -44,13 +43,11 @@ export class FriendshipService {
     return friendRequest;
   }
 
-  async findReceivedRequests(userId: number) {
-    const requestUser = await this.prisma.friendship.findMany({
+  async fiendFriendsAll(userId: number) {
+    const friendsList = await this.prisma.friendship.findMany({
       where: {
-        OR: [
-          { approvalUserId: userId },
-          { approvalFriendStatus: { name: 'PENDING' } },
-        ],
+        approvalUserId: userId,
+        status: FriendshipRequestStatus.ACCEPTED,
       },
       include: {
         // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
@@ -60,9 +57,26 @@ export class FriendshipService {
             username: true,
           },
         },
-        approvalFriendStatus: {
+      },
+      orderBy: {
+        updateDate: 'desc',
+      },
+    });
+    return friendsList;
+  }
+
+  async findReceivedRequests(userId: number) {
+    const requestUser = await this.prisma.friendship.findMany({
+      where: {
+        approvalUserId: userId,
+        status: FriendshipRequestStatus.PENDING,
+      },
+      include: {
+        // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
+        requester: {
           select: {
-            name: true,
+            id: true,
+            username: true,
           },
         },
       },
@@ -94,7 +108,7 @@ export class FriendshipService {
     if (
       !friendship ||
       friendship.requesterUserId !== currentUserId ||
-      friendship.approvalFriendStatus.name !== 'PENDING'
+      friendship.status !== FriendshipRequestStatus.PENDING
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');
     }
