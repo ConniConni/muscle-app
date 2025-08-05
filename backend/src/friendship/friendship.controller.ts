@@ -24,7 +24,7 @@ export class FriendshipController {
     return this.friendshipService.create(createFriendshipDto, req.user.id);
   }
 
-  @Get()
+  @Get('friends')
   async fiendFriendsAll(@Req() req: any) {
     return await this.friendshipService.fiendFriendsAll(req.user.id);
   }
