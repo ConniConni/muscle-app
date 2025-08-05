@@ -43,6 +43,28 @@ export class FriendshipService {
     return friendRequest;
   }
 
+  async fiendFriendsAll(userId: number) {
+    const friendsList = await this.prisma.friendship.findMany({
+      where: {
+        approvalUserId: userId,
+        status: FriendshipRequestStatus.ACCEPTED,
+      },
+      include: {
+        // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
+        requester: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+      orderBy: {
+        updateDate: 'desc',
+      },
+    });
+    return friendsList;
+  }
+
   async findReceivedRequests(userId: number) {
     const requestUser = await this.prisma.friendship.findMany({
       where: {
