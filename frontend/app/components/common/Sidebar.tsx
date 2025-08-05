@@ -20,6 +20,10 @@ const Sidebar = () => {
   const navigateToExerciseCategoryManagerPage = () => {
     navigate("/exercise-category");
   };
+  // フレンド一覧画面に遷移
+  const navigateToFriendListPage = () => {
+    navigate("/friendship/my-friends-list");
+  };
   return (
     <aside className="sidebar">
       <div className="sidebar-content">
@@ -42,6 +46,9 @@ const Sidebar = () => {
           onClick={navigateToExerciseCategoryManagerPage}
           buttonName="種目管理"
         />
+      </div>
+      <div className="sidebar-content">
+        <Button onClick={navigateToFriendListPage} buttonName="フレンド一覧" />
       </div>
     </aside>
   );
