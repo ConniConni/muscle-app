@@ -49,9 +49,10 @@ export class FriendshipService {
         approvalUserId: userId,
         status: FriendshipRequestStatus.ACCEPTED,
       },
-      include: {
-        // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
+      select: {
+        updateDate: true,
         requester: {
+          // requesterUserIdが参照するuserモデルにアクセスし、idとニックネームを結果に追加
           select: {
             id: true,
             username: true,
@@ -62,7 +63,10 @@ export class FriendshipService {
         updateDate: 'desc',
       },
     });
-    return friendsList;
+    const friends = friendsList.map((friendship) => {
+      return friendship.requester;
+    });
+    return friends;
   }
 
   async findReceivedRequests(userId: number) {
