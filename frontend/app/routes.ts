@@ -17,6 +17,7 @@ export default [
       route("create", "routes/TrainingRecordCreate.tsx"),
       route("update/:id", "routes/TrainingRecordEdit.tsx"),
       route("exercise-category", "routes/ExerciseCategoryManager.tsx"),
+      route("friendship/my-friends-list", "routes/MyFriendsList.tsx"),
     ]
   ),
 ] satisfies RouteConfig;
