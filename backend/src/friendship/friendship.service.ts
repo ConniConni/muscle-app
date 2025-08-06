@@ -43,7 +43,7 @@ export class FriendshipService {
     return friendRequest;
   }
 
-  async fiendFriendsAll(userId: number) {
+  async findFriendsAll(userId: number) {
     const friendsList = await this.prisma.friendship.findMany({
       where: {
         approvalUserId: userId,

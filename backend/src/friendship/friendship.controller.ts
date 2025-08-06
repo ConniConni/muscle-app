@@ -26,7 +26,7 @@ export class FriendshipController {
 
   @Get('friends')
   async fiendFriendsAll(@Req() req: any) {
-    return await this.friendshipService.fiendFriendsAll(req.user.id);
+    return await this.friendshipService.findFriendsAll(req.user.id);
   }
 
   @Get('requests/received')
