@@ -33,17 +33,21 @@ const MyFriendsListPage = () => {
               <p>フレンド申請してみましょう！</p>
             </div>
           ) : (
-            <table>
-              <tbody>
-                {friendsList.map((friend) => {
-                  return (
-                    <tr key={friend.id}>
-                      <th className="friend-name-record">{friend.username}</th>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="table-container">
+              <table>
+                <tbody>
+                  {friendsList.map((friend) => {
+                    return (
+                      <tr key={friend.id}>
+                        <th className="friend-name-record">
+                          {friend.username}
+                        </th>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

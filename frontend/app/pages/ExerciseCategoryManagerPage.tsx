@@ -114,28 +114,30 @@ const ExerciseCategoryManagerPage = () => {
             />
             <Button onClick={handleCreateNewTraining} buttonName="マスタ追加" />
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th className="training-name-header">部位名</th>
-                <th className="training-name-header">種目名</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((trainingName, index) => {
-                return (
-                  <tr key={index}>
-                    <th className="training-name-record">
-                      {trainingName.target_name}
-                    </th>
-                    <th className="training-name-record">
-                      {trainingName.exercise_name}
-                    </th>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th className="training-name-header">部位名</th>
+                  <th className="training-name-header">種目名</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentData.map((trainingName, index) => {
+                  return (
+                    <tr key={index}>
+                      <th className="training-name-record">
+                        {trainingName.target_name}
+                      </th>
+                      <th className="training-name-record">
+                        {trainingName.exercise_name}
+                      </th>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <div className="pagination">
             <Button
               onClick={handlePrev}
