@@ -2,7 +2,7 @@
 export const getHolidayList = async () => {
   try {
     const response = await fetch(
-      "https://holidays-jp.github.io${API_BASE_URL}/v1/date.json"
+      "https://holidays-jp.github.io/api/v1/date.json"
     );
     if (response.status != 200) {
       const errorData = await response.json();
