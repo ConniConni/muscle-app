@@ -51,7 +51,7 @@ const BaseTrainingRecordTable = ({
     navigate(`/update/${id}`);
   };
   return (
-    <div>
+    <div className="table-container">
       <table>
         <thead>
           <tr>
