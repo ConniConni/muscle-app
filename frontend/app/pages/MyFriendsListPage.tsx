@@ -19,7 +19,6 @@ const MyFriendsListPage = () => {
       }
     })();
   }, []);
-  console.log(friendsList);
   return (
     <div className="layout">
       <Header />

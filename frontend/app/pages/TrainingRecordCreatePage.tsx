@@ -63,7 +63,6 @@ const TrainingRecordCreatePage = () => {
   // カレンダーから登録ページに遷移した際は、選択した日をセットする
   useEffect(() => {
     if (date) {
-      console.log(date);
       setTrainingRecord((trainingRecord) => ({
         ...trainingRecord,
         date: new Date(date),
