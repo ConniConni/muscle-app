@@ -105,7 +105,6 @@ export const getTrainingRecordById = async (id: number) => {
         );
       }
       const result = await response.json();
-      console.log("個別データ取得api結果:", result);
       return { success: true, data: result };
     } catch (error: any) {
       return { success: false, error: error.message };
