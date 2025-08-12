@@ -19,6 +19,7 @@ import {
   getTargetAreaList,
 } from "~/apiActions/TargetArea";
 import TrainingRecordListTable from "~/components/parts/trainingRecordTable/TrainingRecordTable";
+import { format } from "date-fns-tz";
 
 // トップページを生成する関数コンポーネント
 const TrainingRecordListPage = () => {
@@ -39,7 +40,7 @@ const TrainingRecordListPage = () => {
       id: 0,
       target_id: 0,
       exercise_id: 0,
-      date: new Date(),
+      date: format(new Date(), "yyyy-MM-dd"),
       weight: 0,
       count: 0,
     });
