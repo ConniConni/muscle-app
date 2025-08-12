@@ -13,6 +13,7 @@ import {
   getExerciseCategoryByTargetId,
   getTargetAreaList,
 } from "~/apiActions/TargetArea";
+import { format } from "date-fns-tz";
 
 // 筋トレ記録更新画面を生成する関数コンポーネント
 const TrainingRecordEditPage = () => {
@@ -36,7 +37,7 @@ const TrainingRecordEditPage = () => {
       id: 0,
       target_id: 0,
       exercise_id: 0,
-      date: new Date(),
+      date: format(new Date(), "yyyy-MM-dd"),
       weight: 0,
       count: 0,
     });
