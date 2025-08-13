@@ -3,6 +3,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TooltipIconButton from "../parts/TooltipIconButton";
 import { useNavigate } from "react-router";
+import SearchBox from "../parts/searchbox/Searchbox";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -60,6 +61,9 @@ const Header = () => {
         {/* サインイン状態時にログインユーザーのニックネームとサインアウトボタンを表示 */}
         {user && (
           <>
+            <div>
+              <SearchBox />
+            </div>
             <div>
               <span>ログインユーザー：{user.username}</span>
             </div>
