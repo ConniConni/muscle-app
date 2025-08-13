@@ -54,37 +54,16 @@ export class UserService {
     return selectUser;
   }
 
-  async searchUsersByQuery(
-    userId: string | undefined,
-    username: string | undefined,
-    currentId: number,
-  ) {
-    if (!userId && !username) {
-      throw new BadRequestException(
-        'ユーザーIDもしくはニックネームで検索してください。',
-      );
+  async searchUsersByQuery(userId: string, currentId: number) {
+    if (!userId || userId.trim() === '') {
+      throw new BadRequestException('検索するユーザーIDを入力してください。');
     }
-
-    let whereCondition: any = {};
-    if (userId) {
-      whereCondition.userId = {
-        contains: userId,
-        mode: 'insensitive',
-      };
-    }
-    if (username) {
-      whereCondition.username = {
-        contains: username,
-        mode: 'insensitive',
-      };
-    }
-
-    whereCondition.id = {
-      not: currentId,
-    };
 
     const users = await this.prisma.user.findMany({
-      where: whereCondition,
+      where: {
+        userId: { equals: userId },
+        id: { not: currentId },
+      },
       select: {
         id: true,
         userId: true,
