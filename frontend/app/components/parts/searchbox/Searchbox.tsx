@@ -11,7 +11,7 @@ const SearchBox = (prop: Props) => {
     <div className={styles.search_box}>
       <input
         type="text"
-        placeholder="ユーザーを検索"
+        placeholder="ユーザーIDで検索"
         className={styles.search_input}
         value={prop.userKeyword}
         onChange={(e) => prop.setUserKeyword(e.target.value)}
