@@ -6,13 +6,42 @@ import Sidebar from "~/components/common/Sidebar";
 import Box from "@mui/material/Box";
 import TooltipIconButton from "~/components/parts/TooltipIconButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import type { Users } from "~/type/friendship";
+import type { UserWithFriendshipStatus } from "~/type/friendship";
 import { createFriendRequest } from "~/apiActions/Friendship";
 import AlertDialog from "~/components/common/AlertDialog";
 
+const getStatusComponent = (
+  friendshipStatus: number | null,
+  userId: number,
+  callback: (addresseeId: number) => Promise<void>
+) => {
+  if (friendshipStatus == null) {
+    return (
+      <Box display="flex" gap={0.5}>
+        <TooltipIconButton
+          tooltipTitle="フレンド申請"
+          iconButtonBackgroundColor="royalblue"
+          iconButtonColor="white"
+          iconButtonHoverBackgroundColor="white"
+          iconButtonHoverColor="royalblue"
+          id={userId}
+          onClick={() => callback(userId)}
+          IconComponent={PersonAddIcon}
+        />
+      </Box>
+    );
+  } else if (friendshipStatus == 0) {
+    return <p>申請中</p>;
+  } else if (friendshipStatus == 1) {
+    return <p>フレンド</p>;
+  }
+};
+
 const UserSearchPage = () => {
   // フレンド一覧保持するuseState
-  const [usersList, setUsersList] = useState<Users[]>([]);
+  const [foundUser, setFoundUser] = useState<UserWithFriendshipStatus | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   // ダイアログの状態を管理
   const [dialog, setDialog] = useState({
@@ -33,9 +62,8 @@ const UserSearchPage = () => {
       setDialog({
         open: true,
         title: "成功",
-        message: `ユーザーID: ${usersList.map((user) => {
-          return user.username;
-        })} にフレンド申請を送りました。`,
+        message: `ユーザーID:
+        にフレンド申請を送りました。`,
       });
     } else {
       // エラーダイアログを表示するstateを更新
@@ -62,7 +90,8 @@ const UserSearchPage = () => {
           userId: query,
         });
         if (result.success) {
-          setUsersList(result.data);
+          const userObject = result.data[0];
+          setFoundUser(userObject);
         } else {
           console.error(result.error);
           alert("検索結果の取得に失敗しました。");
@@ -72,7 +101,7 @@ const UserSearchPage = () => {
       fetchUsers();
     } else {
       // クエリがない場合は、何も表示しない
-      setUsersList([]);
+      setFoundUser(null);
       setLoading(false);
     }
     // ★ searchParamsが変更されるたびに、このeffectを再実行する
@@ -87,7 +116,7 @@ const UserSearchPage = () => {
         <Sidebar />
         <div className="content">
           <h1 className="page-title">ユーザー検索結果</h1>
-          {usersList.length === 0 ? (
+          {foundUser == null ? (
             <div>
               <p>検索条件に一致するユーザーがいませんでした。</p>
             </div>
@@ -95,27 +124,16 @@ const UserSearchPage = () => {
             <div className="table-container">
               <table>
                 <tbody>
-                  {usersList.map((user) => {
-                    return (
-                      <tr key={user.id}>
-                        <th className="user-name-record">{user.username}</th>
-                        <th className="user-name-record">
-                          <Box display="flex" gap={0.5}>
-                            <TooltipIconButton
-                              tooltipTitle="フレンド申請"
-                              iconButtonBackgroundColor="royalblue"
-                              iconButtonColor="white"
-                              iconButtonHoverBackgroundColor="white"
-                              iconButtonHoverColor="royalblue"
-                              id={user.id}
-                              onClick={() => handlerFriendRequest(user.id)}
-                              IconComponent={PersonAddIcon}
-                            />
-                          </Box>
-                        </th>
-                      </tr>
-                    );
-                  })}
+                  <tr key={foundUser.id}>
+                    <th className="user-name-record">{foundUser.username}</th>
+                    <th className="user-name-record">
+                      {getStatusComponent(
+                        null,
+                        foundUser.id,
+                        handlerFriendRequest
+                      )}
+                    </th>
+                  </tr>
                 </tbody>
               </table>
             </div>
