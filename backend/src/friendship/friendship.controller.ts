@@ -8,6 +8,7 @@ import {
   Patch,
   ParseIntPipe,
   Param,
+  Query,
 } from '@nestjs/common';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
@@ -32,6 +33,18 @@ export class FriendshipController {
   @Get('requests/received')
   async findReceivedRequests(@Req() req: any) {
     return await this.friendshipService.findReceivedRequests(req.user.id);
+  }
+
+  @Get(':approvalUserId')
+  async findFriendshipStatus(
+    @Param('approvalUserId', ParseIntPipe) approvalUserId: number,
+    @Req() req: any,
+  ) {
+    const requesterUserId = req.user.id;
+    return await this.friendshipService.findFriendshipStatus(
+      approvalUserId,
+      requesterUserId,
+    );
   }
 
   @Patch(':friendshipId')
