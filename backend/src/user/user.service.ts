@@ -59,7 +59,7 @@ export class UserService {
       throw new BadRequestException('検索するユーザーIDを入力してください。');
     }
 
-    const users = await this.prisma.user.findMany({
+    const user = await this.prisma.user.findFirst({
       where: {
         userId: { equals: userId },
         id: { not: currentId },
@@ -68,10 +68,39 @@ export class UserService {
         id: true,
         userId: true,
         username: true,
+
+        requesters: {
+          where: {
+            requesterUserId: currentId,
+          },
+          select: {
+            approvalFriendStatus: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return users;
+    if (!user) {
+      return null;
+    }
+    // 取得したデータからステータスを取り出す
+    // receivedRequestsは配列なので、最初の要素を見る
+    const friendshipStatusName =
+      user.requesters[0]?.approvalFriendStatus?.name || null;
+
+    // 不要なリレーションデータを除外した、きれいなオブジェクトを返す
+    const result = {
+      id: user.id,
+      userId: user.userId,
+      username: user.username,
+      friendshipStatus: friendshipStatusName,
+    };
+
+    return result;
   }
 
   async findOne(id: number) {

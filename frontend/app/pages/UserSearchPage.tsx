@@ -11,7 +11,7 @@ import { createFriendRequest } from "~/apiActions/Friendship";
 import AlertDialog from "~/components/common/AlertDialog";
 
 const getStatusComponent = (
-  friendshipStatus: number | null,
+  friendshipStatus: string | null,
   userId: number,
   callback: (addresseeId: number) => Promise<void>
 ) => {
@@ -30,9 +30,9 @@ const getStatusComponent = (
         />
       </Box>
     );
-  } else if (friendshipStatus == 0) {
+  } else if (friendshipStatus == "PENDING") {
     return <p>申請中</p>;
-  } else if (friendshipStatus == 1) {
+  } else if (friendshipStatus == "ACCEPTED") {
     return <p>フレンド</p>;
   }
 };
@@ -92,6 +92,7 @@ const UserSearchPage = () => {
         if (result.success) {
           const userObject = result.data[0];
           setFoundUser(userObject);
+          console.log("foundUser1", foundUser);
         } else {
           console.error(result.error);
           alert("検索結果の取得に失敗しました。");
@@ -106,6 +107,7 @@ const UserSearchPage = () => {
     }
     // ★ searchParamsが変更されるたびに、このeffectを再実行する
   }, [searchParams]);
+  console.log("foundUser2", foundUser);
   if (loading) {
     return <div>Loading...</div>; // ローディング表示
   }
@@ -128,7 +130,7 @@ const UserSearchPage = () => {
                     <th className="user-name-record">{foundUser.username}</th>
                     <th className="user-name-record">
                       {getStatusComponent(
-                        null,
+                        foundUser.friendshipStatus,
                         foundUser.id,
                         handlerFriendRequest
                       )}
