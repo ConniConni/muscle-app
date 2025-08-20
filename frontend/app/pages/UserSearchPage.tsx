@@ -11,11 +11,11 @@ import { createFriendRequest } from "~/apiActions/Friendship";
 import AlertDialog from "~/components/common/AlertDialog";
 
 const getStatusComponent = (
-  friendshipStatus: string | null,
+  friendshipStatus: string,
   userId: number,
   callback: (addresseeId: number) => Promise<void>
 ) => {
-  if (friendshipStatus == null) {
+  if (friendshipStatus == "NONE") {
     return (
       <Box display="flex" gap={0.5}>
         <TooltipIconButton
@@ -38,10 +38,18 @@ const getStatusComponent = (
 };
 
 const UserSearchPage = () => {
+  const dummyUser = {
+    id: 0,
+    username: "dummy-user",
+    friendshipStatus: "NONE",
+  };
   // フレンド一覧保持するuseState
-  const [foundUser, setFoundUser] = useState<UserWithFriendshipStatus | null>(
-    null
-  );
+  const [foundUser, setFoundUser] = useState<UserWithFriendshipStatus>({
+    id: 0,
+    username: "dummy-user",
+    friendshipStatus: "NONE",
+  });
+  console.log("foundUser0", foundUser);
   const [loading, setLoading] = useState(true);
   // ダイアログの状態を管理
   const [dialog, setDialog] = useState({
@@ -90,7 +98,8 @@ const UserSearchPage = () => {
           userId: query,
         });
         if (result.success) {
-          const userObject = result.data[0];
+          const userObject = result.data;
+          console.log("userObject", userObject);
           setFoundUser(userObject);
           console.log("foundUser1", foundUser);
         } else {
@@ -102,7 +111,6 @@ const UserSearchPage = () => {
       fetchUsers();
     } else {
       // クエリがない場合は、何も表示しない
-      setFoundUser(null);
       setLoading(false);
     }
     // ★ searchParamsが変更されるたびに、このeffectを再実行する
@@ -118,7 +126,7 @@ const UserSearchPage = () => {
         <Sidebar />
         <div className="content">
           <h1 className="page-title">ユーザー検索結果</h1>
-          {foundUser == null ? (
+          {foundUser == dummyUser ? (
             <div>
               <p>検索条件に一致するユーザーがいませんでした。</p>
             </div>
