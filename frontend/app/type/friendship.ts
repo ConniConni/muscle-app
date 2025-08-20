@@ -8,7 +8,7 @@ export type Friend = {
   username: string;
 };
 
-export type FriendshipStatus = "PENDING" | "ACCEPTED" | null;
+export type FriendshipStatus = "PENDING" | "ACCEPTED" | "NONE";
 
 export type UserWithFriendshipStatus = User & {
   friendshipStatus: FriendshipStatus;
