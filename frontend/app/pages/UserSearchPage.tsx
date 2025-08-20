@@ -27,7 +27,7 @@ const getStatusComponent = (
           iconButtonHoverBackgroundColor="white"
           iconButtonHoverColor="royalblue"
           id={userId}
-          onClick={() => {}}
+          onClick={() => callback(userId)}
           IconComponent={PersonAddIcon}
         />
       </Box>
@@ -68,16 +68,17 @@ const getStatusComponent = (
 const UserSearchPage = () => {
   const dummyUser = {
     id: 0,
+    userId: "xxxxxxxx",
     username: "dummy-user",
     friendshipStatus: "NONE",
   };
   // フレンド一覧保持するuseState
   const [foundUser, setFoundUser] = useState<UserWithFriendshipStatus>({
     id: 0,
+    userId: "xxxxxxxx",
     username: "dummy-user",
     friendshipStatus: "NONE",
   });
-  console.log("foundUser0", foundUser);
   const [loading, setLoading] = useState(true);
   // ダイアログの状態を管理
   const [dialog, setDialog] = useState({
@@ -118,7 +119,6 @@ const UserSearchPage = () => {
     // ★ URLからクエリパラメータ 'q' の値を取得
     const query = searchParams.get("q");
     // クエリが存在する場合のみAPIを呼び出す
-    console.log(query);
     if (query) {
       const fetchUsers = async () => {
         setLoading(true);
@@ -127,9 +127,7 @@ const UserSearchPage = () => {
         });
         if (result.success) {
           const userObject = result.data;
-          console.log("userObject", userObject);
           setFoundUser(userObject);
-          console.log("foundUser1", foundUser);
         } else {
           console.error(result.error);
           alert("検索結果の取得に失敗しました。");
@@ -143,7 +141,6 @@ const UserSearchPage = () => {
     }
     // ★ searchParamsが変更されるたびに、このeffectを再実行する
   }, [searchParams]);
-  console.log("foundUser2", foundUser);
   if (loading) {
     return <div>Loading...</div>; // ローディング表示
   }
