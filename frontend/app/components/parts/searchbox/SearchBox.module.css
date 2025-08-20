@@ -1,0 +1,89 @@
+/* 親のラッパーを位置指定の基準点にする */
+.search_box_wrapper {
+  position: relative;
+  width: 300px; /* 例として幅を指定 */
+}
+
+/* 検索ボックス全体を、位置指定の基準点にする */
+.search_box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content; /* 幅をコンテンツに合わせる */
+}
+
+.magnifying_glass {
+  display: inline-block;
+  position: absolute; /* ★ 絶対位置指定*/
+  top: 50%; /* 親要素の上から50%の位置 */
+  transform: translateY(-50%); /* 垂直方向中央揃え */
+  right: 1em;
+  width: 1em;
+  height: 1em;
+  color: inherit; /* ボタンのcolor(white)を継承 */
+  font-size: 16px;
+  z-index: 1; /* ★ アイコンを手前に持ってくる */
+  pointer-events: none; /* ★ アイコンがクリックを邪魔しないように */
+}
+.magnifying_glass::before {
+  content: ""; /* ★ 疑似要素を表示させるには必須 */
+  position: absolute; /* 親(span)を基準に絶対位置指定 */
+  top: 0px;
+  left: 0px;
+  width: 0.7em; /* 親の70%の幅 */
+  height: 0.7em; /* 親の70%の高さ */
+  border: 0.15em solid currentColor; /* 親と同じ色の線 */
+  border-radius: 50%; /* 正円にする */
+}
+.magnifying_glass::after {
+  content: ""; /* こちらも必須 */
+  position: absolute;
+  top: 9px;
+  left: 45%;
+  transform: rotate(-45deg); /* 45度回転させて斜めにする */
+  transform-origin: top left; /* 回転の軸を、要素の「左上」の角にする */
+  width: 0.15em; /* 細い棒 */
+  height: 0.5em; /* 親と同じ高さの棒 */
+  background-color: currentColor; /* 親と同じ色で塗りつぶす */
+}
+
+.search_input {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  width: 100%; /* 親要素の幅いっぱいに広がる */
+  height: 40px;
+  padding: 8px 16px;
+  padding-right: 50px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* input要素のplaceholderのスタイルを変更する */
+input::placeholder {
+  color: #aaa;
+  font-size: 14px; /* 文字サイズを14pxに */
+  font-style: italic; /* 文字をイタリック体（斜体）に */
+}
+
+/* 3. ボタンを絶対位置で、入力欄の右端に配置する */
+.search_button {
+  position: absolute;
+  top: 5;
+  right: 0;
+
+  /* ボタンのサイズと形 */
+  width: 45px; /* padding-rightより少し小さい値 */
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 0 20px 20px 0; /* 右側だけ角丸にする */
+
+  /* ★ ボタンの色を設定 */
+  background-color: #4a90e2;
+
+  cursor: pointer;
+  transition: background-color 0.2s; /* ホバー時の色の変化を滑らかに */
+}
+
+.search_button:hover {
+  background-color: #357abd; /* ホバー時の色 */
+}

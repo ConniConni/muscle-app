@@ -91,6 +91,26 @@ export class FriendshipService {
     return requestUser;
   }
 
+  async findFriendshipStatus(approvalUserId: number, requesterUserId: number) {
+    const friendship = await this.prisma.friendship.findFirst({
+      where: {
+        requesterUserId: requesterUserId,
+        approvalUserId: approvalUserId,
+      },
+      select: {
+        approvalFriendStatus: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    if (!friendship) {
+      return null;
+    }
+    return friendship.approvalFriendStatus.name;
+  }
+
   async updateRequestStatus(
     friendshipId: number,
     newStatus: number,

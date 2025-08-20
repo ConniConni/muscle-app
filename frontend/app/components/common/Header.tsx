@@ -3,8 +3,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TooltipIconButton from "../parts/TooltipIconButton";
 import { useNavigate } from "react-router";
+import SearchBox from "../parts/searchbox/Searchbox";
+import { useState } from "react";
 
 const Header = () => {
+  const [userKeyword, setUserKeyword] = useState<string>("");
   const navigate = useNavigate();
   // ログアウトするとログイン画面へ遷移
   const handleLogout = () => {
@@ -15,6 +18,18 @@ const Header = () => {
   const handleSingUp = () => {
     navigate("/sign-up");
   };
+
+  // ユーザー検索APIを呼び出す
+  const handleSearchUser = async (searchText: string) => {
+    // searchTextが空の場合は、APIを叩かずに結果を空にする
+    if (!searchText.trim()) {
+      setUserKeyword("");
+      return;
+    }
+    // ユーザー検索結果画面へ遷移
+    navigate(`/user/search?q=${encodeURIComponent(searchText)}`);
+  };
+
   const { user, logout, loading } = useAuth();
   if (loading) return null; // ローディング中は何も表示しない
   return (
@@ -60,6 +75,13 @@ const Header = () => {
         {/* サインイン状態時にログインユーザーのニックネームとサインアウトボタンを表示 */}
         {user && (
           <>
+            <div>
+              <SearchBox
+                userKeyword={userKeyword}
+                setUserKeyword={setUserKeyword}
+                handleSearchUser={handleSearchUser}
+              />
+            </div>
             <div>
               <span>ログインユーザー：{user.username}</span>
             </div>

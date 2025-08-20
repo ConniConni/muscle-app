@@ -31,13 +31,9 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Get('search')
-  async searchUsers(
-    @Query('user_id') userId: string,
-    @Query('username') username: string,
-    @Req() req: any,
-  ) {
+  async searchUsers(@Query('user_id') userId: string, @Req() req: any) {
     const currentUserId = req.user.id;
-    return this.userService.searchUsersByQuery(userId, username, currentUserId);
+    return this.userService.searchUsersByQuery(userId, currentUserId);
   }
 
   @Get(':id')

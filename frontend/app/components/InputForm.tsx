@@ -3,6 +3,7 @@ import Button from "./parts/Button";
 import ExerciseSelectionPulldown from "./parts/pulldown/ExerciseSelectionPulldown";
 import TargetSelectionPulldown from "./parts/pulldown/TargetSelectionPulldown";
 import type { PulldownSelectedValue } from "~/type/common";
+import { format } from "date-fns-tz";
 
 type Props = {
   exerciseOptions: PulldownSelectedValue[];
@@ -27,7 +28,7 @@ const InputForm = (props: Props) => {
     const newDate = new Date(newDateStr);
     props.setTrainingRecord({
       ...props.trainingRecord,
-      date: newDate,
+      date: format(newDate, "yyyy-MM-dd"),
     });
   };
 
@@ -97,7 +98,7 @@ const InputForm = (props: Props) => {
           <input
             type="date"
             name="date"
-            value={props.trainingRecord.date.toISOString().split("T")[0]}
+            value={props.trainingRecord.date.toString().split("T")[0]}
             onChange={handleDateChange}
           />
         </div>
