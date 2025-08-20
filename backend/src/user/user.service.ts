@@ -68,35 +68,28 @@ export class UserService {
         id: true,
         userId: true,
         username: true,
-
-        requesters: {
-          where: {
-            requesterUserId: currentId,
-          },
-          select: {
-            approvalFriendStatus: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
       },
     });
 
     if (!user) {
       return null;
     }
-    // 取得したデータからステータスを取り出す
-    // receivedRequestsは配列なので、最初の要素を見る
-    const friendshipStatusName =
-      user.requesters[0]?.approvalFriendStatus?.name || null;
+    const friendship = await this.prisma.friendship.findFirst({
+      where: {
+        requesterUserId: currentId,
+        approvalUserId: user.id,
+      },
+      include: {
+        approvalFriendStatus: { select: { name: true } },
+      },
+    });
 
-    // 不要なリレーションデータを除外した、きれいなオブジェクトを返す
+    // 3. データをマージして返す
+    const friendshipStatusName =
+      friendship?.approvalFriendStatus?.name || 'NONE';
+
     const result = {
-      id: user.id,
-      userId: user.userId,
-      username: user.username,
+      ...user,
       friendshipStatus: friendshipStatusName,
     };
 
