@@ -6,6 +6,8 @@ import Sidebar from "~/components/common/Sidebar";
 import Box from "@mui/material/Box";
 import TooltipIconButton from "~/components/parts/TooltipIconButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import type { UserWithFriendshipStatus } from "~/type/friendship";
 import { createFriendRequest } from "~/apiActions/Friendship";
 import AlertDialog from "~/components/common/AlertDialog";
@@ -25,15 +27,41 @@ const getStatusComponent = (
           iconButtonHoverBackgroundColor="white"
           iconButtonHoverColor="royalblue"
           id={userId}
-          onClick={() => callback(userId)}
+          onClick={() => {}}
           IconComponent={PersonAddIcon}
         />
       </Box>
     );
   } else if (friendshipStatus == "PENDING") {
-    return <p>申請中</p>;
+    return (
+      <Box display="flex" gap={0.5}>
+        <TooltipIconButton
+          tooltipTitle="申請中"
+          iconButtonBackgroundColor="sandybrown"
+          iconButtonColor="white"
+          iconButtonHoverBackgroundColor="white"
+          iconButtonHoverColor="sandybrown"
+          id={userId}
+          onClick={() => {}}
+          IconComponent={PendingActionsIcon}
+        />
+      </Box>
+    );
   } else if (friendshipStatus == "ACCEPTED") {
-    return <p>フレンド</p>;
+    return (
+      <Box display="flex" gap={0.5}>
+        <TooltipIconButton
+          tooltipTitle="フレンド"
+          iconButtonBackgroundColor="seagreen"
+          iconButtonColor="white"
+          iconButtonHoverBackgroundColor="white"
+          iconButtonHoverColor="seagreen"
+          id={userId}
+          onClick={() => {}}
+          IconComponent={VerifiedIcon}
+        />
+      </Box>
+    );
   }
 };
 
