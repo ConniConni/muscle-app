@@ -19,6 +19,7 @@ export default [
       route("exercise-category", "routes/ExerciseCategoryManager.tsx"),
       route("friendship/my-friends-list", "routes/MyFriendsList.tsx"),
       route("user/search", "routes/UserSearch.tsx"),
+      route("friendship/accepted", "routes/FriendshipAccepted.tsx"),
     ]
   ),
 ] satisfies RouteConfig;
