@@ -78,7 +78,7 @@ export const updateFriendshipStatus = async (params: {
       headers: getAuthHeaders(),
       body: JSON.stringify(params),
     });
-    if (response.status != 201) {
+    if (response.status != 200) {
       const errorData = await response.json();
       throw new Error(
         `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
