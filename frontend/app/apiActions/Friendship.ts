@@ -68,12 +68,14 @@ export const getFriendshipStatus = async (approvalUserId: number) => {
 };
 
 // フレンドシップ状態更新（フレンド申請承認/拒否）処理呼び出し関数
-export const updateFriendshipStatus = async (params: {
-  friendshipId: number;
-  status: number;
-}) => {
+export const updateFriendshipStatus = async (
+  friendshipId: number,
+  params: {
+    status: number;
+  }
+) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/friendship/:friendshipId`, {
+    const response = await fetch(`${API_BASE_URL}/friendship/${friendshipId}`, {
       method: "PATCH",
       headers: getAuthHeaders(),
       body: JSON.stringify(params),
