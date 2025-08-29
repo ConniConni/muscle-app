@@ -70,7 +70,7 @@ export class FriendshipService {
   }
 
   async findReceivedRequests(userId: number) {
-    const requestUser = await this.prisma.friendship.findMany({
+    const friendships = await this.prisma.friendship.findMany({
       where: {
         approvalUserId: userId,
         status: FriendshipRequestStatus.PENDING,
@@ -88,6 +88,10 @@ export class FriendshipService {
         createDate: 'desc',
       },
     });
+
+    // 2. 取得したfriendships配列をmapでループし、
+    //    各要素からrequesterオブジェクトだけを取り出して新しい配列を作成する
+    const requestUser = friendships.map((friendship) => friendship.requester);
     return requestUser;
   }
 
