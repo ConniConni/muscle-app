@@ -68,7 +68,7 @@ export const getFriendshipStatus = async (approvalUserId: number) => {
 };
 
 // フレンド申請一覧取得処理呼び出し関数
-export const findReceivedRequests = async (userId: number) => {
+export const getReceivedRequests = async (userId: number) => {
   try {
     const response = await fetch(
       `${API_BASE_URL}/friendship/requests/received`,
