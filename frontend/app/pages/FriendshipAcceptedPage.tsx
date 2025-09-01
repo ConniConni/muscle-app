@@ -1,8 +1,12 @@
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getReceivedRequests } from "~/apiActions/Friendship";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
+import TooltipIconButton from "~/components/parts/TooltipIconButton";
 import type { Friend } from "~/type/friendship";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const FriendshipAcceptedPage = () => {
   // 申請者一覧保持するuseState
@@ -47,6 +51,30 @@ const FriendshipAcceptedPage = () => {
                       <tr key={requestUser.id}>
                         <th className="requestUser-name-record">
                           {requestUser.username}
+                        </th>
+                        <th className="requestUser-name-record">
+                          <Box display="flex" gap={0.5}>
+                            <TooltipIconButton
+                              tooltipTitle="承認"
+                              iconButtonBackgroundColor="royalblue"
+                              iconButtonColor="white"
+                              iconButtonHoverBackgroundColor="white"
+                              iconButtonHoverColor="royalblue"
+                              id={requestUser.id}
+                              onClick={() => {}}
+                              IconComponent={CheckIcon}
+                            />
+                            <TooltipIconButton
+                              tooltipTitle="拒否"
+                              iconButtonBackgroundColor="tomato"
+                              iconButtonColor="white"
+                              iconButtonHoverBackgroundColor="white"
+                              iconButtonHoverColor="tomato"
+                              id={requestUser.id}
+                              onClick={() => {}}
+                              IconComponent={ClearIcon}
+                            />
+                          </Box>
                         </th>
                       </tr>
                     );
