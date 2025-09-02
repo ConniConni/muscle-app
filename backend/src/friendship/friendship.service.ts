@@ -115,6 +115,23 @@ export class FriendshipService {
     return friendship.approvalFriendStatus.name;
   }
 
+  // フロントでフレンドシップ状態更新関数を呼び出す際に使用するフレンドシップテーブルidを返すapi
+  async findFriendshipStatusPK(
+    approvalUserId: number,
+    requesterUserId: number,
+  ) {
+    const friendship = await this.prisma.friendship.findFirst({
+      where: {
+        requesterUserId: requesterUserId,
+        approvalUserId: approvalUserId,
+      },
+    });
+    if (!friendship) {
+      return null;
+    }
+    return friendship.id;
+  }
+
   async updateRequestStatus(
     friendshipId: number,
     newStatus: number,
