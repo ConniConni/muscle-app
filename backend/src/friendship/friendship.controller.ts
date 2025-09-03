@@ -47,15 +47,15 @@ export class FriendshipController {
     );
   }
 
-  @Get('id/:approvalUserId')
+  @Get('id/:requestUserId')
   async findFriendshipStatusPK(
-    @Param('approvalUserId', ParseIntPipe) approvalUserId: number,
+    @Param('requestUserId', ParseIntPipe) requestUserId: number,
     @Req() req: any,
   ) {
-    const requesterUserId = req.user.id;
+    const approvalUserId = req.user.id;
     return await this.friendshipService.findFriendshipStatusPK(
+      requestUserId,
       approvalUserId,
-      requesterUserId,
     );
   }
 
