@@ -5,7 +5,8 @@ export type User = {
 };
 
 export type Friend = {
-  id: number;
+  friendshipId: number;
+  userId: number;
   username: string;
 };
 
