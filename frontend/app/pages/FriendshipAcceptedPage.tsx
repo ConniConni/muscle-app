@@ -1,17 +1,49 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getReceivedRequests } from "~/apiActions/Friendship";
+import {
+  getFriendshipIdByKeyOfAccepted,
+  getReceivedRequests,
+  updateFriendshipStatus,
+} from "~/apiActions/Friendship";
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import TooltipIconButton from "~/components/parts/TooltipIconButton";
 import type { Friend } from "~/type/friendship";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import AlertDialog from "~/components/common/AlertDialog";
 
 const FriendshipAcceptedPage = () => {
   // 申請者一覧保持するuseState
   const [requestUsers, setRequestUsers] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
+  // ダイアログの状態を管理
+  const [dialog, setDialog] = useState({
+    open: false,
+    title: "",
+    message: "",
+  });
+  // フレンド承認の引数となるフレンドシップテーブルの対象idを保持するuseState
+  const [friendshipIdsByUserId, setFriendshipIdsByUserId] = useState<{
+    [userId: number]: number;
+  }>({});
+
+  // 例えば、ユーザー一覧取得時や別API呼び出しで、申請者ごとのfriendshipIdを取得してstateにセット
+  useEffect(() => {
+    const fetchAllFriendshipIds = async () => {
+      const newMap: { [key: number]: number } = {};
+      for (const user of requestUsers) {
+        const res = await getFriendshipIdByKeyOfAccepted(user.id);
+        console.log(`userId: ${user.id}`, res);
+        if (res?.data?.id) {
+          newMap[user.id] = res.data.id;
+        }
+      }
+      setFriendshipIdsByUserId(newMap);
+    };
+    if (requestUsers.length > 0) fetchAllFriendshipIds();
+  }, [requestUsers]);
+
   // ページにアクセスした時点で申請者一覧を読み込む
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,6 +63,32 @@ const FriendshipAcceptedPage = () => {
   if (loading) {
     return <div>Loading...</div>; // ローディング表示
   }
+
+  // ボタン押下時に対応するfriendshipIdを渡す
+  const handleAccepted = async (userId: number) => {
+    const friendshipId = friendshipIdsByUserId[userId];
+    console.log(friendshipId);
+    const result = await updateFriendshipStatus(friendshipId, { status: 1 });
+    if (result.success) {
+      // 成功ダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "成功",
+        message: `ユーザーID:
+          のフレンド申請を承認しました。`,
+      });
+    } else {
+      // エラーダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "エラー",
+        message: `フレンド承認に失敗しました。\n\n${result.error}`,
+      });
+    }
+  };
+  const handleCloseDialog = async () => {
+    setDialog({ ...dialog, open: false });
+  };
   return (
     <div className="layout">
       <Header />
@@ -61,7 +119,7 @@ const FriendshipAcceptedPage = () => {
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="royalblue"
                               id={requestUser.id}
-                              onClick={() => {}}
+                              onClick={() => handleAccepted(requestUser.id)}
                               IconComponent={CheckIcon}
                             />
                             <TooltipIconButton
@@ -84,6 +142,7 @@ const FriendshipAcceptedPage = () => {
             </div>
           )}
         </div>
+        <AlertDialog dialog={dialog} handleCloseDialog={handleCloseDialog} />
       </div>
     </div>
   );
