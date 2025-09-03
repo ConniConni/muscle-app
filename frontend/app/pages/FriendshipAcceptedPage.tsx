@@ -23,32 +23,32 @@ const FriendshipAcceptedPage = () => {
     title: "",
     message: "",
   });
-  // フレンド承認の引数となるフレンドシップテーブルの対象idを保持するuseState
-  const [friendshipIdsByUserId, setFriendshipIdsByUserId] = useState<{
-    [userId: number]: number;
-  }>({});
+  // // フレンド承認の引数となるフレンドシップテーブルの対象idを保持するuseState
+  // const [friendshipIdsByUserId, setFriendshipIdsByUserId] = useState<{
+  //   [userId: number]: number;
+  // }>({});
 
-  // 例えば、ユーザー一覧取得時や別API呼び出しで、申請者ごとのfriendshipIdを取得してstateにセット
-  useEffect(() => {
-    const fetchAllFriendshipIds = async () => {
-      const newMap: { [key: number]: number } = {};
-      for (const user of requestUsers) {
-        const res = await getFriendshipIdByKeyOfAccepted(user.id);
-        console.log(`userId: ${user.id}`, res);
-        if (res?.data?.id) {
-          newMap[user.id] = res.data.id;
-        }
-      }
-      setFriendshipIdsByUserId(newMap);
-    };
-    if (requestUsers.length > 0) fetchAllFriendshipIds();
-  }, [requestUsers]);
+  // // 例えば、ユーザー一覧取得時や別API呼び出しで、申請者ごとのfriendshipIdを取得してstateにセット
+  // useEffect(() => {
+  //   const fetchAllFriendshipIds = async () => {
+  //     const newMap: { [key: number]: number } = {};
+  //     for (const user of requestUsers) {
+  //       const res = await getFriendshipIdByKeyOfAccepted(user.id);
+  //       console.log(`userId: ${user.id}`, res);
+  //       if (res?.data?.id) {
+  //         newMap[user.id] = res.data.id;
+  //       }
+  //     }
+  //     setFriendshipIdsByUserId(newMap);
+  //   };
+  //   if (requestUsers.length > 0) fetchAllFriendshipIds();
+  // }, [requestUsers]);
 
   // ページにアクセスした時点で申請者一覧を読み込む
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
-      const result = await getReceivedRequests(1);
+      const result = await getReceivedRequests();
       if (result.success) {
         const userObject = result.data;
         setRequestUsers(userObject);
@@ -63,10 +63,11 @@ const FriendshipAcceptedPage = () => {
   if (loading) {
     return <div>Loading...</div>; // ローディング表示
   }
+  console.log("requestUsers:" + requestUsers[0].friendshipId);
 
   // ボタン押下時に対応するfriendshipIdを渡す
-  const handleAccepted = async (userId: number) => {
-    const friendshipId = friendshipIdsByUserId[userId];
+  const handleAccepted = async () => {
+    const friendshipId = requestUsers[0].friendshipId;
     console.log(friendshipId);
     const result = await updateFriendshipStatus(friendshipId, { status: 1 });
     if (result.success) {
@@ -106,7 +107,7 @@ const FriendshipAcceptedPage = () => {
                 <tbody>
                   {requestUsers.map((requestUser) => {
                     return (
-                      <tr key={requestUser.id}>
+                      <tr key={requestUser.friendshipId}>
                         <th className="requestUser-name-record">
                           {requestUser.username}
                         </th>
@@ -118,8 +119,8 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="royalblue"
-                              id={requestUser.id}
-                              onClick={() => handleAccepted(requestUser.id)}
+                              id={requestUser.friendshipId}
+                              onClick={() => handleAccepted()}
                               IconComponent={CheckIcon}
                             />
                             <TooltipIconButton
@@ -128,7 +129,7 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="tomato"
-                              id={requestUser.id}
+                              id={requestUser.friendshipId}
                               onClick={() => {}}
                               IconComponent={ClearIcon}
                             />
