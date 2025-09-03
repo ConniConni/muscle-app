@@ -115,3 +115,26 @@ export const updateFriendshipStatus = async (
     return { success: false, error: error.message };
   }
 };
+
+// フレンドシップ状態更新関数を呼び出す際に使用するフレンドシップテーブルidを返すapi呼び出し関数
+export const getFriendshipIdByKeyOfAccepted = async (requestUserId: number) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/friendship/id/${requestUserId}`,
+      {
+        method: "get",
+        headers: getAuthHeaders(),
+      }
+    );
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
