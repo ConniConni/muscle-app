@@ -91,7 +91,11 @@ export class FriendshipService {
 
     // 2. 取得したfriendships配列をmapでループし、
     //    各要素からrequesterオブジェクトだけを取り出して新しい配列を作成する
-    const requestUser = friendships.map((friendship) => friendship.requester);
+    const requestUser = friendships.map((friendship) => ({
+      friendshipId: friendship.id,
+      requesterId: friendship.requester.id,
+      username: friendship.requester.username,
+    }));
     return requestUser;
   }
 
@@ -148,11 +152,12 @@ export class FriendshipService {
 
     // 以下を確認し更新対象でない場合はステータス更新（承認/拒否の操作）は行わない
     //  - レコードが存在しない
-    //  - または、自分が申請された側(requesterUserId)ではない
+    //  - または、自分が申請された側(approvalUserId)ではない
     //  - または、ステータスがすでにPENDINGではない
+    console.log(friendship);
     if (
       !friendship ||
-      friendship.requesterUserId !== currentUserId ||
+      friendship.approvalUserId !== currentUserId ||
       friendship.status !== FriendshipRequestStatus.PENDING
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');
