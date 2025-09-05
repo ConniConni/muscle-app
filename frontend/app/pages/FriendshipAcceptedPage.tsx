@@ -24,13 +24,22 @@ const FriendshipAcceptedPage = () => {
   });
 
   const fetchRequestUsers = async () => {
-    const result = await getReceivedRequests();
-    if (result.success) {
-      const userObject = result.data;
-      setRequestUsers(userObject);
-    } else {
-      console.error(result.error);
-      alert("検索結果の取得に失敗しました。");
+    try {
+      setLoading(true);
+      const result = await getReceivedRequests();
+      if (result.success) {
+        const userObject = result.data;
+        setRequestUsers(userObject);
+      } else {
+        console.error(result.error);
+        alert("検索結果の取得に失敗しました。");
+      }
+    } catch (error) {
+      // 予期せぬエラーのハンドリング
+      console.error("An unexpected error occurred:", error);
+      alert("予期せぬエラーが発生しました。");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,11 +93,11 @@ const FriendshipAcceptedPage = () => {
             <div className="table-container">
               <table>
                 <tbody>
-                  {requestUsers.map((requestUser) => {
+                  {requestUsers.map((request) => {
                     return (
-                      <tr key={requestUser.id}>
+                      <tr key={request.id}>
                         <th className="requestUser-name-record">
-                          {requestUser.requester.username}
+                          {request.requester.username}
                         </th>
                         <th className="requestUser-name-record">
                           <Box display="flex" gap={0.5}>
@@ -98,8 +107,8 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="royalblue"
-                              id={requestUser.id}
-                              onClick={() => handleAccepted(id)}
+                              id={request.id}
+                              onClick={() => handleAccepted(request.id)}
                               IconComponent={CheckIcon}
                             />
                             <TooltipIconButton
@@ -108,7 +117,7 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="tomato"
-                              id={requestUser.id}
+                              id={request.id}
                               onClick={() => {}}
                               IconComponent={ClearIcon}
                             />
