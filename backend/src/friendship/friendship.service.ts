@@ -70,7 +70,7 @@ export class FriendshipService {
   }
 
   async findReceivedRequests(userId: number) {
-    const requestUser = await this.prisma.friendship.findMany({
+    const friendships = await this.prisma.friendship.findMany({
       where: {
         approvalUserId: userId,
         status: FriendshipRequestStatus.PENDING,
@@ -88,6 +88,16 @@ export class FriendshipService {
         createDate: 'desc',
       },
     });
+
+    // 2. 取得したfriendships配列をmapでループし、
+    //    各要素からrequesterオブジェクトだけを取り出して新しい配列を作成する
+    const requestUser = friendships.map((friendship) => ({
+      id: friendship.id,
+      requester: {
+        id: friendship.requester.id,
+        username: friendship.requester.username,
+      },
+    }));
     return requestUser;
   }
 
@@ -111,6 +121,23 @@ export class FriendshipService {
     return friendship.approvalFriendStatus.name;
   }
 
+  // フロントでフレンドシップ状態更新関数を呼び出す際に使用するフレンドシップテーブルidを返すapi
+  async findFriendshipStatusPK(
+    approvalUserId: number,
+    requesterUserId: number,
+  ) {
+    const friendship = await this.prisma.friendship.findFirst({
+      where: {
+        requesterUserId: requesterUserId,
+        approvalUserId: approvalUserId,
+      },
+    });
+    if (!friendship) {
+      return null;
+    }
+    return friendship.id;
+  }
+
   async updateRequestStatus(
     friendshipId: number,
     newStatus: number,
@@ -127,11 +154,12 @@ export class FriendshipService {
 
     // 以下を確認し更新対象でない場合はステータス更新（承認/拒否の操作）は行わない
     //  - レコードが存在しない
-    //  - または、自分が申請された側(requesterUserId)ではない
+    //  - または、自分が申請された側(approvalUserId)ではない
     //  - または、ステータスがすでにPENDINGではない
+    console.log(friendship);
     if (
       !friendship ||
-      friendship.requesterUserId !== currentUserId ||
+      friendship.approvalUserId !== currentUserId ||
       friendship.status !== FriendshipRequestStatus.PENDING
     ) {
       throw new ForbiddenException('この申請を操作する権限がありません。');

@@ -66,3 +66,76 @@ export const getFriendshipStatus = async (approvalUserId: number) => {
     return { success: false, error: error.message };
   }
 };
+
+// フレンド申請一覧取得処理呼び出し関数
+export const getReceivedRequests = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/friendship/requests/received`,
+      {
+        method: "GET",
+        headers: getAuthHeaders(),
+      }
+    );
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
+
+// フレンドシップ状態更新（フレンド申請承認/拒否）処理呼び出し関数
+export const updateFriendshipStatus = async (
+  friendshipId: number,
+  params: {
+    status: number;
+  }
+) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/friendship/${friendshipId}`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(params),
+    });
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    console.log(result);
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
+
+// フレンドシップ状態更新関数を呼び出す際に使用するフレンドシップテーブルidを返すapi呼び出し関数
+export const getFriendshipIdByKeyOfAccepted = async (requestUserId: number) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/friendship/id/${requestUserId}`,
+      {
+        method: "get",
+        headers: getAuthHeaders(),
+      }
+    );
+    if (response.status != 200) {
+      const errorData = await response.json();
+      throw new Error(
+        `HTTP ${errorData.statusCode} エラー\n${errorData.message}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
