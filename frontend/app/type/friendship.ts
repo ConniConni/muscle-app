@@ -4,10 +4,12 @@ export type User = {
   username: string;
 };
 
-export type Friend = {
-  friendshipId: number;
-  userId: number;
-  username: string;
+export type FriendRequest = {
+  id: number;
+  requester: {
+    id: number;
+    username: string;
+  };
 };
 
 export type FriendshipStatus = "PENDING" | "ACCEPTED" | "NONE";
