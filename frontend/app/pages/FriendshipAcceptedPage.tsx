@@ -23,26 +23,24 @@ const FriendshipAcceptedPage = () => {
     message: "",
   });
 
+  const fetchRequestUsers = async () => {
+    const result = await getReceivedRequests();
+    if (result.success) {
+      const userObject = result.data;
+      setRequestUsers(userObject);
+    } else {
+      console.error(result.error);
+      alert("検索結果の取得に失敗しました。");
+    }
+  };
+
   // ページにアクセスした時点で申請者一覧を読み込む
   useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      const result = await getReceivedRequests();
-      if (result.success) {
-        const userObject = result.data;
-        setRequestUsers(userObject);
-      } else {
-        console.error(result.error);
-        alert("検索結果の取得に失敗しました。");
-      }
-      setLoading(false);
-    };
-    fetchUsers();
+    fetchRequestUsers();
   }, []);
   if (loading) {
     return <div>Loading...</div>; // ローディング表示
   }
-  console.log("requestUsers:" + requestUsers[0].friendshipId);
 
   // ボタン押下時に対応するfriendshipIdを渡す
   const handleAccepted = async () => {
