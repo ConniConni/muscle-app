@@ -51,7 +51,7 @@ const FriendshipAcceptedPage = () => {
     return <div>Loading...</div>; // ローディング表示
   }
 
-  // ボタン押下時に対応するfriendshipIdを渡す
+  // フレンド承認
   const handleAccepted = async (friendshipId: number) => {
     const result = await updateFriendshipStatus(friendshipId, { status: 1 });
     if (result.success) {
