@@ -109,7 +109,7 @@ const FriendshipAcceptedPage = () => {
           <h1 className="page-title">フレンド承認画面</h1>
           {requestUsers.length === 0 ? (
             <div>
-              <p>検索条件に一致するユーザーがいませんでした。</p>
+              <p>現在フレンド申請は０件です。。</p>
             </div>
           ) : (
             <div className="table-container">
