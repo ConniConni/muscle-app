@@ -92,9 +92,11 @@ export class FriendshipService {
     // 2. 取得したfriendships配列をmapでループし、
     //    各要素からrequesterオブジェクトだけを取り出して新しい配列を作成する
     const requestUser = friendships.map((friendship) => ({
-      friendshipId: friendship.id,
-      requesterId: friendship.requester.id,
-      username: friendship.requester.username,
+      id: friendship.id,
+      requester: {
+        id: friendship.requester.id,
+        username: friendship.requester.username,
+      },
     }));
     return requestUser;
   }
