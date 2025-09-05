@@ -52,15 +52,14 @@ const FriendshipAcceptedPage = () => {
   }
 
   // フレンド承認
-  const handleAccepted = async (friendshipId: number) => {
+  const handleAccepted = async (friendshipId: number, username: string) => {
     const result = await updateFriendshipStatus(friendshipId, { status: 1 });
     if (result.success) {
       // 成功ダイアログを表示するstateを更新
       setDialog({
         open: true,
         title: "成功",
-        message: `ユーザーID:
-          のフレンド申請を承認しました。`,
+        message: `ユーザーID:${username}のフレンド申請を承認しました。`,
       });
       // 承認に成功したらリストから該当の申請を削除する
       setRequestUsers((prevRequests) =>
@@ -72,6 +71,29 @@ const FriendshipAcceptedPage = () => {
         open: true,
         title: "エラー",
         message: `フレンド承認に失敗しました。\n\n${result.error}`,
+      });
+    }
+  };
+  // フレンド承認
+  const handleDeclined = async (friendshipId: number, username: string) => {
+    const result = await updateFriendshipStatus(friendshipId, { status: 2 });
+    if (result.success) {
+      // 成功ダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "成功",
+        message: `ユーザーID: ${username}のフレンド申請を拒否しました。`,
+      });
+      // 承認に成功したらリストから該当の申請を削除する
+      setRequestUsers((prevRequests) =>
+        prevRequests.filter((request) => request.id !== friendshipId)
+      );
+    } else {
+      // エラーダイアログを表示するstateを更新
+      setDialog({
+        open: true,
+        title: "エラー",
+        message: `フレンド申請拒否に失敗しました。\n\n${result.error}`,
       });
     }
   };
@@ -108,7 +130,12 @@ const FriendshipAcceptedPage = () => {
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="royalblue"
                               id={request.id}
-                              onClick={() => handleAccepted(request.id)}
+                              onClick={() =>
+                                handleAccepted(
+                                  request.id,
+                                  request.requester.username
+                                )
+                              }
                               IconComponent={CheckIcon}
                             />
                             <TooltipIconButton
@@ -118,7 +145,12 @@ const FriendshipAcceptedPage = () => {
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="tomato"
                               id={request.id}
-                              onClick={() => {}}
+                              onClick={() =>
+                                handleDeclined(
+                                  request.id,
+                                  request.requester.username
+                                )
+                              }
                               IconComponent={ClearIcon}
                             />
                           </Box>
