@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
-  getFriendshipIdByKeyOfAccepted,
   getReceivedRequests,
   updateFriendshipStatus,
 } from "~/apiActions/Friendship";
@@ -23,26 +22,6 @@ const FriendshipAcceptedPage = () => {
     title: "",
     message: "",
   });
-  // // フレンド承認の引数となるフレンドシップテーブルの対象idを保持するuseState
-  // const [friendshipIdsByUserId, setFriendshipIdsByUserId] = useState<{
-  //   [userId: number]: number;
-  // }>({});
-
-  // // 例えば、ユーザー一覧取得時や別API呼び出しで、申請者ごとのfriendshipIdを取得してstateにセット
-  // useEffect(() => {
-  //   const fetchAllFriendshipIds = async () => {
-  //     const newMap: { [key: number]: number } = {};
-  //     for (const user of requestUsers) {
-  //       const res = await getFriendshipIdByKeyOfAccepted(user.id);
-  //       console.log(`userId: ${user.id}`, res);
-  //       if (res?.data?.id) {
-  //         newMap[user.id] = res.data.id;
-  //       }
-  //     }
-  //     setFriendshipIdsByUserId(newMap);
-  //   };
-  //   if (requestUsers.length > 0) fetchAllFriendshipIds();
-  // }, [requestUsers]);
 
   // ページにアクセスした時点で申請者一覧を読み込む
   useEffect(() => {
