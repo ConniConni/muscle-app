@@ -7,14 +7,14 @@ import {
 import Header from "~/components/common/Header";
 import Sidebar from "~/components/common/Sidebar";
 import TooltipIconButton from "~/components/parts/TooltipIconButton";
-import type { Friend } from "~/type/friendship";
+import type { FriendRequest } from "~/type/friendship";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import AlertDialog from "~/components/common/AlertDialog";
 
 const FriendshipAcceptedPage = () => {
   // 申請者一覧保持するuseState
-  const [requestUsers, setRequestUsers] = useState<Friend[]>([]);
+  const [requestUsers, setRequestUsers] = useState<FriendRequest[]>([]);
   const [loading, setLoading] = useState(true);
   // ダイアログの状態を管理
   const [dialog, setDialog] = useState({
@@ -43,9 +43,7 @@ const FriendshipAcceptedPage = () => {
   }
 
   // ボタン押下時に対応するfriendshipIdを渡す
-  const handleAccepted = async () => {
-    const friendshipId = requestUsers[0].friendshipId;
-    console.log(friendshipId);
+  const handleAccepted = async (friendshipId: number) => {
     const result = await updateFriendshipStatus(friendshipId, { status: 1 });
     if (result.success) {
       // 成功ダイアログを表示するstateを更新
@@ -55,6 +53,10 @@ const FriendshipAcceptedPage = () => {
         message: `ユーザーID:
           のフレンド申請を承認しました。`,
       });
+      // 承認に成功したらリストから該当の申請を削除する
+      setRequestUsers((prevRequests) =>
+        prevRequests.filter((request) => request.id !== friendshipId)
+      );
     } else {
       // エラーダイアログを表示するstateを更新
       setDialog({
@@ -84,9 +86,9 @@ const FriendshipAcceptedPage = () => {
                 <tbody>
                   {requestUsers.map((requestUser) => {
                     return (
-                      <tr key={requestUser.friendshipId}>
+                      <tr key={requestUser.id}>
                         <th className="requestUser-name-record">
-                          {requestUser.username}
+                          {requestUser.requester.username}
                         </th>
                         <th className="requestUser-name-record">
                           <Box display="flex" gap={0.5}>
@@ -96,8 +98,8 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="royalblue"
-                              id={requestUser.friendshipId}
-                              onClick={() => handleAccepted()}
+                              id={requestUser.id}
+                              onClick={() => handleAccepted(id)}
                               IconComponent={CheckIcon}
                             />
                             <TooltipIconButton
@@ -106,7 +108,7 @@ const FriendshipAcceptedPage = () => {
                               iconButtonColor="white"
                               iconButtonHoverBackgroundColor="white"
                               iconButtonHoverColor="tomato"
-                              id={requestUser.friendshipId}
+                              id={requestUser.id}
                               onClick={() => {}}
                               IconComponent={ClearIcon}
                             />
