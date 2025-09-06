@@ -5,6 +5,7 @@ import TooltipIconButton from "../parts/TooltipIconButton";
 import { useNavigate } from "react-router";
 import SearchBox from "../parts/searchbox/Searchbox";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [userKeyword, setUserKeyword] = useState<string>("");
@@ -83,7 +84,10 @@ const Header = () => {
               />
             </div>
             <div>
-              <span>ログインユーザー：{user.username}</span>
+              <span>ログインユーザー：</span>
+              <Link to={`/friendship/accepted`} className="username-link">
+                {user.username}
+              </Link>
             </div>
             <div>
               <TooltipIconButton
