@@ -41,12 +41,12 @@ const Sidebar = () => {
           buttonName="新規登録"
         />
       </div>
-      <div className="sidebar-content">
+      {/* <div className="sidebar-content">
         <Button
           onClick={navigateToExerciseCategoryManagerPage}
           buttonName="種目管理"
         />
-      </div>
+      </div> */}
       <div className="sidebar-content">
         <Button onClick={navigateToFriendListPage} buttonName="フレンド一覧" />
       </div>
