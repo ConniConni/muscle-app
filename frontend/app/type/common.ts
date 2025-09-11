@@ -17,3 +17,16 @@ export type InputFieldProps = {
   className?: string;
   disabled?: boolean;
 };
+
+// ダイアログの状態を表す際に利用する型
+export type DialogState = {
+  open: boolean;
+  title: string;
+  message: string;
+};
+
+// AlertDialogコンポーネントのprops
+export type AlertDialogProps = {
+  dialog: DialogState;
+  onClose: () => void;
+};
