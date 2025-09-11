@@ -6,6 +6,7 @@ import AlertDialog from "~/components/common/AlertDialog";
 import Header from "~/components/common/Header";
 import Button from "~/components/parts/Button";
 import InputField from "~/components/parts/form/InputField";
+import PasswordInputField from "~/components/parts/form/PasswordInputField";
 import type { LoginForm } from "~/type/login";
 
 const LoginPage = () => {
@@ -72,18 +73,19 @@ const LoginPage = () => {
       <div className="main-content">
         <div className="content content--centered">
           <h1 className="page-title">ログイン</h1>
-          <form onSubmit={handleSubmit}>
+          <form className="signup-form-grid" onSubmit={handleSubmit}>
             <InputField
+              className="form-row"
               label="ユーザーID"
               name="userId"
               type="text"
               value={loginFormData.userId}
               onChange={handleChange}
             />
-            <InputField
+            <PasswordInputField
+              className="form-row"
               label="パスワード"
               name="password"
-              type="password"
               value={loginFormData.password}
               onChange={handleChange}
             />
